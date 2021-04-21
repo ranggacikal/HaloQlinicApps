@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green"
+    tools:context=".DetailProdukActivity">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/img_detail_produk"
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/img_back_detail_Produk"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_arrow_left" />
+
+            <ImageView
+                android:id="@+id/img_keranjang_detail_Produk"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_keranjang"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="250dp"
+                android:background="@drawable/background_white_30">
+
+                <TextView
+                    android:id="@+id/text_nama__produk_detail_dokter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Produk"
+                    android:textColor="@color/black"
+                    android:textSize="27sp"
+                    android:fontFamily="@font/robotobold"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="15dp"/>
+
+                <TextView
+                    android:id="@+id/text_harga_detail_produk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rp0.000"
+                    android:textColor="@color/red"
+                    android:textSize="24sp"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/robotobold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deskripsi Produk"
+                    android:textColor="@color/red"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/robotoblack"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="40dp"/>
+
+                <TextView
+                    android:id="@+id/text_deskripsi_produk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/red"
+                    android:textSize="11sp"
+                    android:text="@string/lorem_ipsum"
+                    android:fontFamily="@font/robotoreguler"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp">
+
+                    <Button
+                        android:id="@+id/btn_tambah_keranjang"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/background_button_red"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="Tambah Keranjang"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/robotobold"/>
+
+                    <Button
+                        android:id="@+id/btn_checkout_detail_produk"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/background_button_red"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="15dp"
+                        android:text="Checkout"
+                        android:layout_toRightOf="@+id/btn_tambah_keranjang"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/robotobold"/>
+
+                </RelativeLayout>
+
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

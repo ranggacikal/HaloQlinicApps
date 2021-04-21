@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_profile_user"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/ic_launcher"
+            app:civ_border_color="@color/red"
+            app:civ_border_width="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nama User"
+            android:textSize="24sp"
+            android:textColor="@color/red"
+            android:fontFamily="@font/robotobold"
+            android:gravity="center"
+            android:layout_marginTop="25dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9BBB6"
+            android:layout_marginTop="30dp"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/icon_edit_akun"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_edit_akun"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Akun"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/icon_edit_akun"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/robotobold"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9BBB6"
+            android:layout_marginTop="20dp"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_keranjang_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/icon_keranjang_anda"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_keranjang"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Keranjang Anda"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/icon_keranjang_anda"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/robotobold"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9BBB6"
+            android:layout_marginTop="20dp"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_history_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/icon_history"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_history"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="History"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/icon_history"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/robotobold"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9BBB6"
+            android:layout_marginTop="20dp"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_bantuan_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/icon_bantuan"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_bantuan"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bantuan"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/icon_bantuan"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/robotobold"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9BBB6"
+            android:layout_marginTop="20dp"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_nilai_kami_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/icon_nilai_kami"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_ratings"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nilai kami"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/icon_nilai_kami"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/robotobold"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9BBB6"
+            android:layout_marginTop="20dp"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_keluar_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/icon_keluar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_logout"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Keluar Akun"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/icon_keluar"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/robotobold"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9BBB6"
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

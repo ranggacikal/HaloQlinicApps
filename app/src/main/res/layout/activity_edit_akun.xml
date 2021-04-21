@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditAkunActivity">
+    
+    <RelativeLayout
+        android:id="@+id/relative_header_edit_akun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_arrow_left"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Akun"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textSize="18sp"
+            android:fontFamily="@font/robotobold"
+            android:textColor="@color/red"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_edit_akun"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/relative_header_edit_akun">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_edit_akun"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/ic_launcher"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/red"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_nama_edit_akun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/edt_nama_edit_akun"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_daftar"
+                    android:ems="10"
+                    android:fontFamily="@font/robotobold"
+                    android:layout_marginTop="5dp"
+                    android:hint="Nama Lengkap"
+                    android:paddingStart="15dp"
+                    android:inputType="text"
+                    android:padding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative_edit_password"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/bg_daftar">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_edit_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edt_password_edit_akun"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_daftar"
+                        android:ems="10"
+                        android:fontFamily="@font/robotobold"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:padding="8dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/img_hide_password_login"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/icon_awesome_eye_slash" />
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_no_telepon_edit_akun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/edt_no_telepon_edit_akun"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_daftar"
+                    android:ems="10"
+                    android:fontFamily="@font/robotobold"
+                    android:layout_marginTop="5dp"
+                    android:hint="No. Telepon"
+                    android:paddingStart="15dp"
+                    android:inputType="number"
+                    android:padding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_input_jenis_kelamin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/text_jenis_kelamin_place_holder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="15dp"
+                    android:text="Jenis Kelamin"
+                    android:textSize="12sp"
+                    android:paddingStart="8dp"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:id="@+id/linear_jenis_kelamin"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_daftar">
+
+                        <TextView
+                            android:id="@+id/text_jenis_kelamin_edit_akun"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:text="Jenis Kelamin"
+                            android:textSize="17sp"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/spinner_jk_edit_akun"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_daftar"
+                    android:entries="@array/jenisKelamin"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/text_tanggal_lahir_place_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                android:paddingStart="8dp"
+                android:text="Tanggal Lahir"
+                android:textSize="12sp"/>
+
+            <LinearLayout
+                android:id="@+id/linear_tgl_lahir_edit_akun"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_daftar">
+
+                    <TextView
+                        android:id="@+id/text_tgl_lahir_edit_akun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:text="Tanggal Lahir"
+                        android:textSize="17sp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:text="Provinsi"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginTop="20dp"/>
+
+            <RelativeLayout
+                android:id="@+id/relative_provinsi_edit_akun"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar">
+
+                <TextView
+                    android:id="@+id/text_provinsi_edit_akun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:text="Provinsi"
+                    android:textSize="17sp"/>
+
+            </RelativeLayout>
+
+            <Spinner
+                android:id="@+id/spinner_provinsi_edit_akun"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:text="Kota"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginTop="20dp"/>
+
+            <RelativeLayout
+                android:id="@+id/relative_kota_edit_akun"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar">
+
+                <TextView
+                    android:id="@+id/text_kota_edit_akun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:text="Kota"
+                    android:textSize="17sp"/>
+
+            </RelativeLayout>
+
+            <Spinner
+                android:id="@+id/spinner_kota_edit_akun"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:text="Kecamatan"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginTop="20dp"/>
+
+            <RelativeLayout
+                android:id="@+id/relative_kecamatan_edit_akun"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar">
+
+                <TextView
+                    android:id="@+id/text_kecamatan_edit_akun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:text="Kecamatan"
+                    android:textSize="17sp"/>
+
+            </RelativeLayout>
+
+            <Spinner
+                android:id="@+id/spinner_kecamatan_edit_akun"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_edit_alamat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp">
+
+                <EditText
+                    android:id="@+id/edt_alamat_edit_akun"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_daftar"
+                    android:gravity="top|left"
+                    android:hint="Alamat"
+                    android:inputType="textMultiLine"
+                    android:lines="12"
+                    android:maxLines="11"
+                    android:minLines="4"
+                    android:padding="8dp"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+    
+    <Button
+        android:id="@+id/btn_edit_akun"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/background_button_green"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="Simpan Perubahan"
+        android:textColor="@color/white"
+        android:fontFamily="@font/robotobold"/>
+
+</RelativeLayout>

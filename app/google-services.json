@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "290553239417",
+    "project_id": "haloclinic-a72a4",
+    "storage_bucket": "haloclinic-a72a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290553239417:android:3627d699fcd77baba541a8",
+        "android_client_info": {
+          "package_name": "com.haloqlinic.haloqlinicapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290553239417-pjq5nv41tllem25kos068blrckn1hnqg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haloqlinic.haloqlinicapps",
+            "certificate_hash": "bad21c8c7de588bdc54a0bde89c83983155739ec"
+          }
+        },
+        {
+          "client_id": "290553239417-afpbju37eitq6dquf5tuh7u98k47f30t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt5ZMJY54rD8HnxEGC-XyeOqlIqRk5XFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290553239417-afpbju37eitq6dquf5tuh7u98k47f30t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
