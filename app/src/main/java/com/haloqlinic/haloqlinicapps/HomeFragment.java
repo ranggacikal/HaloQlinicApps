@@ -13,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.haloqlinic.haloqlinicapps.adapter.DokterAktifAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.UserAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.User;
+import com.haloqlinic.haloqlinicapps.model.listDokterAktif.DataItem;
+import com.haloqlinic.haloqlinicapps.model.listDokterAktif.ResponseDataDokterAktif;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.ResponseGetUserMesibo;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.UsersItem;
 
@@ -57,45 +60,25 @@ public class HomeFragment extends Fragment {
 
     private void loadDokterOnline() {
 
-        String op = "usersget";
-        String token = getString(R.string.token);
-
-        ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Memuat Data");
-        progressDialog.show();
-
-        ConfigRetrofit.service.getUser(op, token).enqueue(new Callback<ResponseGetUserMesibo>() {
+        ConfigRetrofit.service.dataDokterAktif().enqueue(new Callback<ResponseDataDokterAktif>() {
             @Override
-            public void onResponse(Call<ResponseGetUserMesibo> call, Response<ResponseGetUserMesibo> response) {
+            public void onResponse(Call<ResponseDataDokterAktif> call, Response<ResponseDataDokterAktif> response) {
                 if (response.isSuccessful()){
-                    progressDialog.dismiss();
 
-                    boolean result = response.body().isResult();
-
-                    Log.d("logResult", "onResponse: "+result);
-
-                    if (result==true){
-
-                        List<UsersItem> userList = response.body().getUsers();
-                        UserAdapter adapter = new UserAdapter(userList, getActivity());
-                        Log.d("logDataUser", "onResponse: "+userList);
-                        rvDokterOnline.setAdapter(adapter);
-
-                    }else{
-                        Toast.makeText(getActivity(), "Data Kosong", Toast.LENGTH_SHORT).show();
-                    }
-
+                    List<DataItem> dokterAktifItems = response.body().getData();
+                    DokterAktifAdapter adapter = new DokterAktifAdapter(getActivity(), dokterAktifItems);
+                    rvDokterOnline.setAdapter(adapter);
 
                 }else{
-                    progressDialog.dismiss();
-                    Toast.makeText(getActivity(), "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Gagal Load Data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseGetUserMesibo> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ResponseDataDokterAktif> call, Throwable t) {
+
+                Toast.makeText(getActivity(), "Terjadi Kesalahan di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 

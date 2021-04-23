@@ -15,24 +15,34 @@
         <activity android:name=".ChatActivity">
 
         </activity>
-        <activity android:name=".HistoryActivity" />
-        <activity android:name=".KeranjangActivity" />
-        <activity android:name=".EditAkunActivity"></activity>
-        <activity android:name=".DetailProdukActivity" />
-        <activity android:name=".DetailDokterActivity" />
-        <activity android:name=".JadwalKonsultasiActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".HistoryActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".KeranjangActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".EditAkunActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
+        <activity android:name=".DetailProdukActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+        <activity android:name=".DetailDokterActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".JadwalKonsultasiActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+        <activity android:name=".SignUpActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
 
         </activity>
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
 
         </activity>
     </application>

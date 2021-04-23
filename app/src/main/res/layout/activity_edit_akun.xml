@@ -13,6 +13,7 @@
         android:layout_marginBottom="15dp">
 
         <ImageView
+            android:id="@+id/img_back_edit_akun"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_arrow_left"
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
+                android:hint="Nama Lengkap"
                 android:layout_marginTop="20dp">
 
                 <EditText
@@ -68,9 +70,10 @@
                     android:layout_height="40dp"
                     android:background="@drawable/bg_daftar"
                     android:ems="10"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/robotobold"
                     android:layout_marginTop="5dp"
-                    android:hint="Nama Lengkap"
                     android:paddingStart="15dp"
                     android:inputType="text"
                     android:padding="8dp" />
@@ -128,6 +131,8 @@
                     android:layout_height="40dp"
                     android:background="@drawable/bg_daftar"
                     android:ems="10"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/robotobold"
                     android:layout_marginTop="5dp"
                     android:hint="No. Telepon"
@@ -136,21 +141,15 @@
                     android:padding="8dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_input_jenis_kelamin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginTop="20dp">
-
                 <TextView
                     android:id="@+id/text_jenis_kelamin_place_holder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
                     android:text="Jenis Kelamin"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
                     android:textSize="12sp"
                     android:paddingStart="8dp"
                     android:textStyle="bold"/>
@@ -159,6 +158,9 @@
                     android:id="@+id/linear_jenis_kelamin"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="5dp">
 
                     <RelativeLayout
@@ -185,10 +187,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
                     android:background="@drawable/bg_daftar"
                     android:entries="@array/jenisKelamin"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/text_tanggal_lahir_place_holder"
@@ -365,6 +367,9 @@
                     android:gravity="top|left"
                     android:hint="Alamat"
                     android:inputType="textMultiLine"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
                     android:lines="12"
                     android:maxLines="11"
                     android:minLines="4"

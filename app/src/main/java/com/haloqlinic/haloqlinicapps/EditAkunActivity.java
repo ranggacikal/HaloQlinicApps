@@ -1,9 +1,12 @@
 package com.haloqlinic.haloqlinicapps;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
+import com.haloqlinic.haloqlinicapps.model.editAkun.ResponseEditAkun;
 import com.haloqlinic.haloqlinicapps.model.kecamatan.ResponseDataKecamatan;
 import com.haloqlinic.haloqlinicapps.model.kota.ResponseDataKota;
 import com.haloqlinic.haloqlinicapps.model.kota.ResponseItem;
@@ -46,6 +51,7 @@ public class EditAkunActivity extends AppCompatActivity {
     RelativeLayout relativeProvinsi, relativeKota, relativeKecamatan;
     Spinner spinnerJK, spinnerProvinsi, spinnerKota, spinnerKecamatan;
     Button btnEditAkun;
+    ImageView imgBack;
 
     List<DataItem> dataProvinsi;
     List<ResponseItem> dataKota;
@@ -55,10 +61,14 @@ public class EditAkunActivity extends AppCompatActivity {
     String id_kota = "";
     String id_kecamatan = "";
 
+    String provinsi, kota, kecamatan, tanggal_lahir, jenis_kelamin;
+
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormatter;
 
     private SharedPreferencedConfig preferencedConfig;
+
+    Typeface face;
 
 
     @Override
@@ -87,6 +97,20 @@ public class EditAkunActivity extends AppCompatActivity {
         spinnerProvinsi = findViewById(R.id.spinner_provinsi_edit_akun);
         spinnerKota = findViewById(R.id.spinner_kota_edit_akun);
         btnEditAkun = findViewById(R.id.btn_edit_akun);
+        imgBack = findViewById(R.id.img_back_edit_akun);
+
+        face = ResourcesCompat.getFont(EditAkunActivity.this, R.font.robotobold);
+
+        ArrayList<String> jenisKelaminList = new ArrayList<>();
+        jenisKelaminList.add("Laki - Laki");
+        jenisKelaminList.add("Perempuan");
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         linearTglLahir.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +149,25 @@ public class EditAkunActivity extends AppCompatActivity {
             public void onClick(View v) {
                 linearJenisKelamin.setVisibility(View.GONE);
                 spinnerJK.setVisibility(View.VISIBLE);
+
+
+
+                ArrayAdapter<String> adapterJenisKelamin = new ArrayAdapter<String>(EditAkunActivity.this, R.layout.spinner_item, jenisKelaminList);
+
+                spinnerJK.setAdapter(adapterJenisKelamin);
+
+                spinnerJK.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        jenis_kelamin = jenisKelaminList.get(position).toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
             }
         });
 
@@ -134,6 +177,7 @@ public class EditAkunActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 id_provinsi = dataProvinsi.get(position).getProvinceId();
+                provinsi = dataProvinsi.get(position).getProvince();
                 initSpinnerKota(id_provinsi);
             }
 
@@ -147,6 +191,7 @@ public class EditAkunActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 id_kota = dataKota.get(position).getCityId();
+                kota = dataKota.get(position).getCityName();
                 initSpinnerKecamatan(id_kota);
             }
 
@@ -156,8 +201,206 @@ public class EditAkunActivity extends AppCompatActivity {
             }
         });
 
+        spinnerKecamatan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                id_kecamatan = dataKecamatan.get(position).getSubdistrictId();
+                kecamatan = dataKecamatan.get(position).getSubdistrictName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        Log.d("checkIdCustomer", "idCustomer: "+preferencedConfig.getPreferenceIdCustomer());
+
         initData();
         Log.d("testPreference", "onCreate: "+preferencedConfig.getPreferenceJk());
+
+        btnEditAkun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editAkun();
+            }
+        });
+
+    }
+
+    private void editAkun() {
+
+        String id_customer = preferencedConfig.getPreferenceIdCustomer();
+        String nama = edtNamaLengkap.getText().toString();
+        String no_hp = edtNotelepon.getText().toString();
+        String alamat = edtAlamat.getText().toString();
+        String provinsiPost = "";
+        String kotaPost = "";
+        String kecamatanPost = "";
+        String jenisKelaminPost = "";
+        String tglLahirPost = "";
+
+        if (nama.isEmpty()){
+            edtNamaLengkap.setError("Nama Lengkap tidak boleh kosong");
+            edtNamaLengkap.requestFocus();
+            return;
+        }
+
+        if (no_hp.isEmpty()){
+            edtNotelepon.setError("No Telepon tidak boleh kosong");
+            edtNotelepon.requestFocus();
+            return;
+        }
+
+        if (alamat.isEmpty()){
+            edtAlamat.setError("alamat tidak boleh kosong");
+            edtAlamat.requestFocus();
+            return;
+        }
+
+        if (preferencedConfig.getPreferenceJk().equals("") && jenis_kelamin.isEmpty()){
+
+            Toast.makeText(this, "Anda belum memilih jenis kelamin", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+        if (preferencedConfig.getPreferenceTglLahir().equals("") && tanggal_lahir.isEmpty()){
+            Toast.makeText(this, "Anda belum memilih tanggal lahir", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (preferencedConfig.getPreferenceProvinsi().equals("") && provinsi.isEmpty()){
+            Toast.makeText(this, "Anda belum memilih Provinsi", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (preferencedConfig.getPreferenceKota().equals("") && kota.isEmpty()){
+            Toast.makeText(this, "Anda belum memilih Kota", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (preferencedConfig.getPreferenceKecamatan().equals("") && kecamatan.isEmpty()){
+            Toast.makeText(this, "Anda Belum memilih kecamatan", Toast.LENGTH_SHORT).show();
+        }
+
+        if (jenis_kelamin != null){
+            jenisKelaminPost = jenis_kelamin;
+        }else{
+            jenisKelaminPost = preferencedConfig.getPreferenceJk();
+        }
+
+        if (tanggal_lahir != null){
+            tglLahirPost = tanggal_lahir;
+        }else{
+            tglLahirPost = preferencedConfig.getPreferenceTglLahir();
+        }
+
+        if (!id_provinsi.equals("")){
+            provinsiPost = id_provinsi;
+        }else if (id_provinsi.equals("")){
+            provinsiPost = preferencedConfig.getPreferenceIdProvinsi();
+        }
+
+        if (!id_kota.equals("")){
+            kotaPost = id_kota;
+        }else if (id_kota.equals("")){
+            kotaPost = preferencedConfig.getPreferenceIdKota();
+        }
+
+        if (!id_kecamatan.equals("")){
+            kecamatanPost = id_kecamatan;
+        }else if (id_kecamatan.equals("")){
+            kecamatanPost = preferencedConfig.getPreferenceIdKecamatan();
+        }
+
+        Log.d("checkDataAlamat", "onResponse: "+provinsiPost+", "+kotaPost+", "+kecamatanPost+", "+jenisKelaminPost+", "+tglLahirPost);
+        Log.d("checkDataAlamat", "preference: "+preferencedConfig.getPreferenceIdProvinsi()+
+                ", "+preferencedConfig.getPreferenceIdKota()+", "+preferencedConfig.getPreferenceIdKecamatan());
+        Log.d("checkDataAlamat", "fromSpinner: "+id_provinsi+", "+id_kota+", "+id_kecamatan);
+        
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Update data akun");
+        progressDialog.show();
+
+        ConfigRetrofit.service.editAkun(id_customer, nama, alamat, no_hp, jenisKelaminPost, provinsiPost, kotaPost, kecamatanPost,
+                tglLahirPost).enqueue(new Callback<ResponseEditAkun>() {
+            @Override
+            public void onResponse(Call<ResponseEditAkun> call, Response<ResponseEditAkun> response) {
+                if (response.isSuccessful()){
+                    
+                    progressDialog.dismiss();
+                    Toast.makeText(EditAkunActivity.this, "berhasil edit data akun", Toast.LENGTH_SHORT).show();
+                    
+                    List<com.haloqlinic.haloqlinicapps.model.editAkun.ResponseItem> dataEditAkun = response.body().getResponse();
+
+                    String id_customer = "";
+                    String nama = "";
+                    String kode = "";
+                    String email = "";
+                    String no_hp = "";
+                    String jk = "";
+                    String tgl_lahir = "";
+                    String usia = "";
+                    String img = "";
+                    String provinsi = "";
+                    String kota = "";
+                    String kecamatan = "";
+                    String alamat = "";
+                    String idProvinsi = "";
+                    String idKota = "";
+                    String idKecamatan = "";
+                    
+                    for (int i = 0; i<dataEditAkun.size(); i++){
+                        id_customer = dataEditAkun.get(i).getIdCustomer();
+                        nama = dataEditAkun.get(i).getNama();
+                        kode = dataEditAkun.get(i).getKode();
+                        email = dataEditAkun.get(i).getEmail();
+                        no_hp = dataEditAkun.get(i).getNoHp();
+                        jk = dataEditAkun.get(i).getJk();
+                        tgl_lahir = dataEditAkun.get(i).getTglLahir();
+                        usia = dataEditAkun.get(i).getUsia();
+                        img = (String) dataEditAkun.get(i).getImg();
+                        provinsi = dataEditAkun.get(i).getNamaProvinsi();
+                        kota = dataEditAkun.get(i).getNamaKota();
+                        kecamatan = dataEditAkun.get(i).getNamaKecamatan();
+                        alamat = dataEditAkun.get(i).getAlamat();
+                        idProvinsi = dataEditAkun.get(i).getProvinsi();
+                        idKota = dataEditAkun.get(i).getKota();
+                        idKecamatan = dataEditAkun.get(i).getKecamatan();
+                    }
+
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_CUSTOMER, id_customer);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KODE, kode);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_NAMA, nama);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_EMAIL, email);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_NO_HP, no_hp);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_JK, jk);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_TGL_LAHIR, tgl_lahir);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_USIA, usia);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_IMG, img);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_PROVINSI, provinsi);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KOTA, kota);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KECAMATAN, kecamatan);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ALAMAT, alamat);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_PROVINSI, idProvinsi);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KOTA, idKota);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KECAMATAN, idKecamatan);
+                    preferencedConfig.savePrefBoolean(SharedPreferencedConfig.PREFERENCE_IS_LOGIN, true);
+                    finish();
+                    
+                }else{
+                    progressDialog.dismiss();
+                    Toast.makeText(EditAkunActivity.this, "Gagal edit data akun", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEditAkun> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(EditAkunActivity.this, "Terjadi kesalahan di server", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -179,30 +422,41 @@ public class EditAkunActivity extends AppCompatActivity {
             txtJenisKelamin.setText("Jenis Kelamin");
         }else{
             txtJenisKelamin.setText(preferencedConfig.getPreferenceJk());
+            txtJenisKelamin.setTextColor(Color.parseColor("#000000"));
+            txtJenisKelamin.setTypeface(face);
+
         }
 
         if (preferencedConfig.getPreferenceTglLahir().equals("")){
             txtTanggalLahir.setText("Tanggal Lahir");
         }else{
             txtTanggalLahir.setText(preferencedConfig.getPreferenceTglLahir());
+            txtTanggalLahir.setTextColor(Color.parseColor("#000000"));
+            txtTanggalLahir.setTypeface(face);
         }
 
         if (preferencedConfig.getPreferenceProvinsi().equals("")){
             txtProvinsi.setText("Provinsi");
         }else{
             txtProvinsi.setText(preferencedConfig.getPreferenceProvinsi());
+            txtProvinsi.setTextColor(Color.parseColor("#000000"));
+            txtProvinsi.setTypeface(face);
         }
 
         if (preferencedConfig.getPreferenceKota().equals("")){
             txtKota.setText("Kota");
         }else{
             txtKota.setText(preferencedConfig.getPreferenceKota());
+            txtKota.setTextColor(Color.parseColor("#000000"));
+            txtKota.setTypeface(face);
         }
 
         if (preferencedConfig.getPreferenceKecamatan().equals("")){
             txtKecamatan.setText("Kecamatan");
         }else{
             txtKecamatan.setText(preferencedConfig.getPreferenceKecamatan());
+            txtKecamatan.setTextColor(Color.parseColor("#000000"));
+            txtKecamatan.setTypeface(face);
         }
 
         if (preferencedConfig.getPreferenceAlamat().equals("")){
@@ -228,7 +482,7 @@ public class EditAkunActivity extends AppCompatActivity {
                     }
 
                     ArrayAdapter<String> adapterKecamatan = new ArrayAdapter<String>(EditAkunActivity.this,
-                            android.R.layout.simple_spinner_item, listSpinnerKecamatan);
+                            R.layout.spinner_item, listSpinnerKecamatan);
 
                     adapterKecamatan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -263,7 +517,7 @@ public class EditAkunActivity extends AppCompatActivity {
                     }
 
                     ArrayAdapter<String> adapterKota = new ArrayAdapter<String>(EditAkunActivity.this,
-                            android.R.layout.simple_spinner_item, listSpinnerKota);
+                            R.layout.spinner_item, listSpinnerKota);
 
                     adapterKota.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -295,7 +549,7 @@ public class EditAkunActivity extends AppCompatActivity {
                     }
 
                     ArrayAdapter<String> adapterProvinsi = new ArrayAdapter<String>(EditAkunActivity.this,
-                            android.R.layout.simple_spinner_item, listSpinnerProvinsi);
+                            R.layout.spinner_item, listSpinnerProvinsi);
                     adapterProvinsi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerProvinsi.setAdapter(adapterProvinsi);
                 }else{
@@ -323,6 +577,7 @@ public class EditAkunActivity extends AppCompatActivity {
                 newDate.set(year, monthOfYear, dayOfMonth);
 
                 txtTanggalLahir.setText(dateFormatter.format(newDate.getTime()));
+                tanggal_lahir = dateFormatter.format(newDate.getTime());
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));

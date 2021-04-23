@@ -1,5 +1,6 @@
 package com.haloqlinic.haloqlinicapps;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,6 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 
 public class ProfileFragment extends Fragment {
 
@@ -22,7 +28,9 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    RelativeLayout relativeEditProfile;
+    RelativeLayout relativeEditProfile, relativeLogout;
+    private SharedPreferencedConfig preferencedConfig;
+    TextView txtNamaUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,7 +38,13 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        preferencedConfig = new SharedPreferencedConfig(getActivity());
+
         relativeEditProfile = rootview.findViewById(R.id.relative_edit_profile);
+        relativeLogout = rootview.findViewById(R.id.relative_keluar_profile);
+        txtNamaUser = rootview.findViewById(R.id.text_nama_user_profile);
+
+        txtNamaUser.setText(preferencedConfig.getPreferenceNama());
 
         relativeEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +53,38 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        relativeLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialAlertDialogBuilder(getActivity())
+                        .setTitle("Keluar Akun?")
+                        .setMessage("Anda yakin ingin keluar dari akun ini?")
+
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                keluarAkun();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
+            }
+        });
+
         return rootview;
+    }
+
+    private void keluarAkun() {
+
+        Toast.makeText(getActivity(), "Keluar akun", Toast.LENGTH_SHORT).show();
+        preferencedConfig.savePrefBoolean(SharedPreferencedConfig.PREFERENCE_IS_LOGIN, false);
+        startActivity(new Intent(getActivity(), LoginActivity.class));
+        getActivity().finish();
+
     }
 }

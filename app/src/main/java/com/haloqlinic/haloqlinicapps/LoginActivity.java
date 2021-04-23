@@ -182,6 +182,9 @@ public class LoginActivity extends AppCompatActivity {
                     String kota = "";
                     String kecamatan = "";
                     String alamat = "";
+                    String idProvinsi = "";
+                    String idKota = "";
+                    String idKecamatan = "";
 
                     for (int i = 0; i<dataUser.size(); i++){
                         id_customer = dataUser.get(i).getIdCustomer();
@@ -193,10 +196,13 @@ public class LoginActivity extends AppCompatActivity {
                         tgl_lahir = dataUser.get(i).getTglLahir();
                         usia = dataUser.get(i).getUsia();
                         img = (String) dataUser.get(i).getImg();
-                        provinsi = (String) dataUser.get(i).getProvinsi();
-                        kota = (String) dataUser.get(i).getKota();
-                        kecamatan = dataUser.get(i).getKecamatan();
+                        provinsi = (String) dataUser.get(i).getNamaProvinsi();
+                        kota = (String) dataUser.get(i).getNamaKota();
+                        kecamatan = dataUser.get(i).getNamaKecamatan();
                         alamat = dataUser.get(i).getAlamat();
+                        idProvinsi = dataUser.get(i).getProvinsi();
+                        idKota = dataUser.get(i).getKota();
+                        idKecamatan = dataUser.get(i).getKecamatan();
                     }
 
                     if (dataUser.size()>0) {
@@ -214,6 +220,9 @@ public class LoginActivity extends AppCompatActivity {
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KOTA, kota);
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KECAMATAN, kecamatan);
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ALAMAT, alamat);
+                        preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_PROVINSI, idProvinsi);
+                        preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KOTA, idKota);
+                        preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KECAMATAN, idKecamatan);
                         preferencedConfig.savePrefBoolean(SharedPreferencedConfig.PREFERENCE_IS_LOGIN, true);
 
                         Toast.makeText(LoginActivity.this, "Login Berhasil", Toast.LENGTH_SHORT).show();
@@ -322,6 +331,9 @@ public class LoginActivity extends AppCompatActivity {
                     String kota = "";
                     String kecamatan = "";
                     String alamat = "";
+                    String idProvinsi = "";
+                    String idKota = "";
+                    String idKecamatan = "";
 
                     for (int i=0; i<dataItem.size(); i++){
                         id_customer = dataItem.get(i).getIdCustomer();
@@ -337,6 +349,9 @@ public class LoginActivity extends AppCompatActivity {
                         kota = (String) dataItem.get(i).getKota();
                         kecamatan = (String) dataItem.get(i).getKecamatan();
                         alamat = (String) dataItem.get(i).getAlamat();
+                        idProvinsi = (String) dataItem.get(i).getProvinsi();
+                        idKota = (String) dataItem.get(i).getKota();
+                        idKecamatan = (String) dataItem.get(i).getKecamatan();
 
                     }
 
@@ -355,6 +370,9 @@ public class LoginActivity extends AppCompatActivity {
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KOTA, kota);
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KECAMATAN, kecamatan);
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ALAMAT, alamat);
+                        preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_PROVINSI, idProvinsi);
+                        preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KOTA, idKota);
+                        preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KECAMATAN, idKecamatan);
                         preferencedConfig.savePrefBoolean(SharedPreferencedConfig.PREFERENCE_IS_LOGIN, true);
 
                         Toast.makeText(LoginActivity.this, "Login Berhasil", Toast.LENGTH_SHORT).show();

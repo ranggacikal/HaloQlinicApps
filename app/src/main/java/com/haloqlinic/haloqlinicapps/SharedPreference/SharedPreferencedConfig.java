@@ -18,6 +18,9 @@ public class SharedPreferencedConfig {
     public static final String PREFERENCE_PROVINSI = "prefProvinsi";
     public static final String PREFERENCE_KOTA = "prefKota";
     public static final String PREFERENCE_KECAMATAN = "prefKecamatan";
+    public static final String PREFERENCE_ID_PROVINSI = "prefIdProvinsi";
+    public static final String PREFERENCE_ID_KOTA = "prefIdKota";
+    public static final String PREFERENCE_ID_KECAMATAN = "prefIdKecamatan";
     public static final String PREFERENCE_ALAMAT = "prefAlamat";
     public static final String PREFERENCE_IS_LOGIN = "prefIsLogin";
 
@@ -95,6 +98,18 @@ public class SharedPreferencedConfig {
 
     public String getPreferenceAlamat(){
         return preferences.getString(PREFERENCE_ALAMAT, "");
+    }
+
+    public String getPreferenceIdProvinsi(){
+        return preferences.getString(PREFERENCE_ID_PROVINSI, "");
+    }
+
+    public String getPreferenceIdKota(){
+        return preferences.getString(PREFERENCE_ID_KOTA, "");
+    }
+
+    public String getPreferenceIdKecamatan(){
+        return preferences.getString(PREFERENCE_ID_KECAMATAN, "");
     }
 
     public Boolean getPreferenceIsLogin(){
