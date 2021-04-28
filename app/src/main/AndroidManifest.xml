@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.haloqlinic.haloqlinicapps">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,29 +12,38 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HaloQlinicApps">
-        <activity android:name=".ChatActivity">
-
-        </activity>
-        <activity android:name=".HistoryActivity"
+        android:theme="@style/Theme.HaloQlinicApps"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:theme">
+        <activity android:name=".CheckoutProdukActivity"></activity>
+        <activity android:name=".DetailPesananActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity
+            android:name=".HistoryActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity android:name=".KeranjangActivity"
+        <activity
+            android:name=".KeranjangActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity android:name=".EditAkunActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
-        <activity android:name=".DetailProdukActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
-        <activity android:name=".DetailDokterActivity"
+        <activity
+            android:name=".EditAkunActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity android:name=".JadwalKonsultasiActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
-        <activity android:name=".SignUpActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
-        <activity android:name=".LoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-
-        </activity>
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".DetailProdukActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".DetailDokterActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".JadwalKonsultasiActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".SignUpActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".SplashActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,10 +51,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-
-        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
 
 </manifest>

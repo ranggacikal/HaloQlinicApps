@@ -89,4 +89,8 @@ dependencies {
 
     //pagging
     implementation 'androidx.paging:paging-runtime:2.1.0'
+
+    //elegant number picker
+    implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
+
 }

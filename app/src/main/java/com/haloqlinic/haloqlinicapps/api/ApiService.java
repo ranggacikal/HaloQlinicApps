@@ -3,20 +3,27 @@ package com.haloqlinic.haloqlinicapps.api;
 import com.haloqlinic.haloqlinicapps.model.cariDokter.ResponseCariDokter;
 import com.haloqlinic.haloqlinicapps.model.cariProduk.ResponseCariProduk;
 import com.haloqlinic.haloqlinicapps.model.daftar.ResponseDaftar;
+import com.haloqlinic.haloqlinicapps.model.dataKeranjang.ResponseDataKeranjang;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.ResponseDetailDokter;
 import com.haloqlinic.haloqlinicapps.model.detailProduk.ResponseDetailProduk;
 import com.haloqlinic.haloqlinicapps.model.editAkun.ResponseEditAkun;
+import com.haloqlinic.haloqlinicapps.model.hapusKeranjang.ResponseHapusKeranjang;
 import com.haloqlinic.haloqlinicapps.model.kecamatan.ResponseDataKecamatan;
 import com.haloqlinic.haloqlinicapps.model.kota.ResponseDataKota;
 import com.haloqlinic.haloqlinicapps.model.listDokter.ResponseDataDokter;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktif.ResponseDataDokterAktif;
+import com.haloqlinic.haloqlinicapps.model.listPesanan.ResponseListPesanan;
 import com.haloqlinic.haloqlinicapps.model.loginapi.ResponseLoginUser;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.Response;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.ResponseLoginGoogle;
 import com.haloqlinic.haloqlinicapps.model.loginmesibo.ResponseLoginMesibo;
 import com.haloqlinic.haloqlinicapps.model.produk.ResponseDataProduk;
 import com.haloqlinic.haloqlinicapps.model.provinsi.ResponseDataProvinsi;
+import com.haloqlinic.haloqlinicapps.model.tambahKeranjang.ResponseTambahKeranjang;
+import com.haloqlinic.haloqlinicapps.model.updateKeranjang.ResponseUpdateKeranjang;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.ResponseGetUserMesibo;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -110,4 +117,35 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("detail_produk.php")
     Call<ResponseDetailProduk> detailProduk(@Field("id_produk") String id_produk);
+
+    @FormUrlEncoded
+    @POST("add_cart.php")
+    Call<ResponseTambahKeranjang> tambahKeranjang(@Field("id_customer") String id_customer,
+                                                  @Field("id_produk") String id_produk,
+                                                  @Field("id_member") String id_member,
+                                                  @Field("berat") String berat,
+                                                  @Field("jumlah") String jumlah,
+                                                  @Field("harga") String harga,
+                                                  @Field("id") String id,
+                                                  @Field("variasi") String variasi);
+
+    @FormUrlEncoded
+    @POST("cart.php")
+    Call<ResponseDataKeranjang> dataKeranjang(@Field("id_customer") String id_customer);
+
+    @FormUrlEncoded
+    @POST("update_cart.php")
+    Call<ResponseUpdateKeranjang> updateKeranjang(@Field("id_customer") String id_customer,
+                                                  @Field("id_pesan[]") ArrayList<String> id_pesan,
+                                                  @Field("jumlah[]") ArrayList<String> jumlah,
+                                                  @Field("harga[]") ArrayList<String> harga,
+                                                  @Field("berat_item[]") ArrayList<String> berat_item);
+
+    @FormUrlEncoded
+    @POST("list_pesan.php")
+    Call<ResponseListPesanan> listPesanan(@Field("id_transaksi") String id_transaksi);
+
+    @FormUrlEncoded
+    @POST("delete_item.php")
+    Call<ResponseHapusKeranjang> hapusKeranjang(@Field("id_pesan") String id_pesan);
 }

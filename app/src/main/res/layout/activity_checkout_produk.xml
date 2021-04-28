@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CheckoutProdukActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/img_back_pembayaran"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="14dp"
+            android:src="@drawable/ic_arrow_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/robotobold"
+            android:text="Pembayaran"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewDataPenerima"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_edit_akun"
+        android:layout_below="@+id/relative_header_edit_akun"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/robotobold"
+                android:text="Data Penerima"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_nama_penerima_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:hint="Nama Penerima"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/edt_nama_pembayaran"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_daftar"
+                    android:ems="10"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="8dp"
+                    android:inputType="text"
+                    android:padding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Provinsi"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:fontFamily="@font/robotobold"
+                android:layout_marginTop="20dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_provinsi_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Kota/Kabupaten"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/robotobold"
+                android:textSize="12sp"
+                android:layout_marginTop="20dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_kabupaten_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Kecamatan"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/robotobold"
+                android:textSize="12sp"
+                android:layout_marginTop="20dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_kecamatan_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_alamat_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp">
+
+                <EditText
+                    android:id="@+id/edt_alamat_pembayaran"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_daftar"
+                    android:gravity="top|left"
+                    android:hint="Alamat"
+                    android:inputType="textMultiLine"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:lines="12"
+                    android:maxLines="11"
+                    android:minLines="4"
+                    android:padding="8dp"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_kode_pos_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:hint="Kode Pos"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/edt_kode_pos_pembayaran"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_daftar"
+                    android:ems="10"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="8dp"
+                    android:inputType="number"
+                    android:padding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_lanjutkan_data_penerima"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/background_circle_button_green"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="Lanjutkan"
+                android:textColor="@color/white"
+                android:fontFamily="@font/robotobold"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollViewMetodeBayar"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_edit_akun"
+        android:layout_below="@+id/relative_header_edit_akun"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Pilih Kurir"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/robotobold"
+                android:textSize="12sp"
+                android:layout_marginTop="28dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_kurir_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Pilih Durasi Pengiriman"
+                android:fontFamily="@font/robotobold"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginTop="20dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_durasi_pengiriman_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_daftar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Harga Total"
+                android:textColor="@color/black"
+                android:fontFamily="@font/robotobold"
+                android:paddingStart="8dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginTop="20dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_produk_pembayaran"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Biaya Ongkos Kirim"
+                    android:textColor="@color/black"
+                    android:paddingStart="8dp"
+                    android:fontFamily="@font/robotoreguler"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/text_biaya_ongkir"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp0.000"
+                    android:textColor="@color/black"
+                    android:paddingStart="8dp"
+                    android:fontFamily="@font/robotoreguler"
+                    android:textSize="12sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Bayar"
+                    android:textColor="@color/black"
+                    android:paddingStart="8dp"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/text_total_bayar_pembayaran"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp0.000"
+                    android:textColor="@color/black"
+                    android:paddingStart="8dp"
+                    android:fontFamily="@font/robotoreguler"
+                    android:textSize="12sp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

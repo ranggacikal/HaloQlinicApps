@@ -8,7 +8,7 @@ public class ConfigRetrofit {
     private static ConfigRetrofit mInstance;
 
     public static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://aplikasicerdas.net/haloqlinic/android/customer/")
+            .baseUrl("http://aplikasicerdas.net/haloqlinic/android/customer/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

@@ -13,6 +13,7 @@
         android:layout_marginBottom="15dp">
 
         <ImageView
+            android:id="@+id/img_back_keranjang"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_arrow_left"
@@ -30,6 +31,19 @@
             android:textColor="@color/red"/>
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_keranjang_kosong"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Keranjang masih kosong"
+        android:fontFamily="@font/robotobold"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:layout_above="@+id/btn_checkout_keranjang"
+        android:layout_below="@+id/relative_header_keranjang"
+        android:textAlignment="center"/>
     
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_keranjang"
