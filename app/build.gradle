@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.haloqlinic.haloqlinicapps"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -92,5 +92,12 @@ dependencies {
 
     //elegant number picker
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
+
+    //xendit
+    implementation 'com.xendit:xendit-android:2.3.0'
+    implementation 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.4-1'
+
+    //QrCode generator
+    implementation 'com.github.kenglxn.QRGen:android:2.6.0'
 
 }

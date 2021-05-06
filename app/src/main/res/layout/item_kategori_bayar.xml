@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/text_item_nama_kategori_bayar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama kategori"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:fontFamily="@font/robotobold"
+        android:layout_centerVertical="true"/>
+
+    <ImageView
+        android:id="@+id/img_item_panah"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_arrow_right"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/img_item_panah"
+        android:background="#B9BBB6"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>

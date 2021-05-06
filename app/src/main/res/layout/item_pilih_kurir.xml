@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_store" />
+
+        <TextView
+            android:id="@+id/text_toko_item_kurir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Toko"
+            android:textSize="14sp"
+            android:fontFamily="@font/robotoreguler"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/linear_kurir"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_daftar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Pilih Kurir"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_data_kurir"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kurir : "
+            android:textSize="16sp"
+            android:fontFamily="@font/robotobold"/>
+
+        <TextView
+            android:id="@+id/text_item_nama_data_kurir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama kurir"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Layanan : "
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/robotobold"/>
+
+        <TextView
+            android:id="@+id/text_item_layanan_data_kurir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama kurir"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ongkos Kirim : "
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/robotobold"/>
+
+        <TextView
+            android:id="@+id/text_item_ongkir_data_kurir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama kurir"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/text_item_ganti_data_kurir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ganti kurir"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/robotobold"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9BBB6"
+            android:layout_marginTop="7dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotobold"
+                    android:paddingStart="8dp"
+                    android:text="Pilih Kurir"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinner_ekspedisi_item_kurir"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/bg_daftar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotobold"
+                    android:paddingStart="8dp"
+                    android:text="Pilih Durasi Pengiriman"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinner_layanan_item_kurir"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/bg_daftar" />
+
+    </LinearLayout>
+
+</LinearLayout>

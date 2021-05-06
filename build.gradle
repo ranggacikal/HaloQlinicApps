@@ -25,6 +25,14 @@ allprojects {
          }
 
         maven { url "https://jitpack.io" }
+
+        maven {
+            url "https://cardinalcommerce.bintray.com/android"
+            credentials {
+                username 'cards@cardinalcommerce'
+                password 'd2358b841891b65b0610f7d51361c13bf4915350'
+            }
+        }
     }
 }
 

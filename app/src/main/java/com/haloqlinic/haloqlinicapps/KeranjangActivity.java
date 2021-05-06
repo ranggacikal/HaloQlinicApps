@@ -73,6 +73,12 @@ public class KeranjangActivity extends AppCompatActivity {
         loadDataKeranjang();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDataKeranjang();
+    }
+
     private void checkOut() {
 
         ArrayList<String> id_pesan = new ArrayList<>();

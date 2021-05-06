@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,9 +61,7 @@ public class DetailDokterActivity extends AppCompatActivity {
         rvJadwal = findViewById(R.id.rv_jadwal_detail_dokter);
 
         rvJadwal.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailDokterActivity.this,
-                LinearLayoutManager.HORIZONTAL, false);
-        rvJadwal.setLayoutManager(linearLayoutManager);
+        rvJadwal.setLayoutManager(new LinearLayoutManager(DetailDokterActivity.this));
 
         loadDataDetailDokter(id_dokter);
 
@@ -102,7 +102,7 @@ public class DetailDokterActivity extends AppCompatActivity {
                     final String url_image = "https://aplikasicerdas.net/haloqlinic/file/dokter/profile/";
 
                     namaDokter.setText(nama_dokter);
-                    spesialisDokter.setText(spesialis);
+                    spesialisDokter.setText("Spesialis "+spesialis);
                     tentangDokter.setText(tentang);
 
                     Glide.with(DetailDokterActivity.this)
@@ -138,7 +138,20 @@ public class DetailDokterActivity extends AppCompatActivity {
         wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(wlp);
 
+        RelativeLayout relativeBuatJadwal = alertDialog.findViewById(R.id.relative_buat_jadwal);
+        RelativeLayout relativeKonsultasiSekarang = alertDialog.findViewById(R.id.relative_konsultasi_sekarang);
+
         alertDialog.show();
+
+        relativeBuatJadwal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailDokterActivity.this, AturJadwalActivity.class);
+                intent.putExtra("id_dokter", id_dokter);
+                startActivity(intent);
+                alertDialog.dismiss();
+            }
+        });
 
     }
 }

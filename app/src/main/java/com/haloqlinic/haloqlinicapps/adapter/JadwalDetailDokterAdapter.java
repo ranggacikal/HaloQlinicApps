@@ -34,9 +34,7 @@ public class JadwalDetailDokterAdapter extends RecyclerView.Adapter<JadwalDetail
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.txtHari.setText(dataJadwal.get(position).getHari());
-        holder.txtMulai.setText(dataJadwal.get(position).getMulai());
-        holder.txtAkhir.setText(dataJadwal.get(position).getAkhir());
+        holder.txtHari.setText(dataJadwal.get(position).getJadwal());
 
     }
 
@@ -47,12 +45,10 @@ public class JadwalDetailDokterAdapter extends RecyclerView.Adapter<JadwalDetail
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtHari, txtMulai, txtAkhir;
+        TextView txtHari;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtAkhir = itemView.findViewById(R.id.text_jam_akhir_jadwal_detail_dokter);
-            txtMulai = itemView.findViewById(R.id.text_jam_mulai_jadwal_detail_dokter);
             txtHari = itemView.findViewById(R.id.text_hari_jadwal_detail_dokter);
         }
     }

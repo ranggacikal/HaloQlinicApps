@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotoreguler"
+            android:text="Nama Penerima : "
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_penerima_nama_detail_transksi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NamaPenerima"
+            android:maxWidth="300dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotoreguler"
+            android:text="Alamat : "
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_penerima_alamat_detail_transksi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alamatPenerima"
+            android:maxWidth="300dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotoreguler"
+            android:text="Opsi bayar : "
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_penerima_opsi_bayar_detail_transksi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alamatPenerima"
+            android:maxWidth="300dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotoreguler"
+            android:text="Tanggal Transaksi : "
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_penerima_tgltransaksi_detail_transksi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alamatPenerima"
+            android:maxWidth="300dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotoreguler"
+            android:text="No. Resi : "
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_penerima_noresi_detail_transksi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alamatPenerima"
+            android:maxWidth="300dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotoreguler"
+            android:text="Jumlah bayar : "
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_penerima_jumlahbayar_detail_transksi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alamatPenerima"
+            android:maxWidth="300dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+    </LinearLayout>
+
+</LinearLayout>

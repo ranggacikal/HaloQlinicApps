@@ -14,6 +14,9 @@ public class ResultItem{
 	@SerializedName("nama")
 	private String nama;
 
+	@SerializedName("biaya")
+	private String biaya;
+
 	@SerializedName("data")
 	private List<DataItem> data;
 
@@ -47,6 +50,14 @@ public class ResultItem{
 		return nama;
 	}
 
+	public void setBiaya(String biaya){
+		this.biaya = biaya;
+	}
+
+	public String getBiaya(){
+		return biaya;
+	}
+
 	public void setData(List<DataItem> data){
 		this.data = data;
 	}
@@ -78,6 +89,7 @@ public class ResultItem{
 			"img = '" + img + '\'' + 
 			",tentang = '" + tentang + '\'' + 
 			",nama = '" + nama + '\'' + 
+			",biaya = '" + biaya + '\'' + 
 			",data = '" + data + '\'' + 
 			",spesialis = '" + spesialis + '\'' + 
 			",id_dokter = '" + idDokter + '\'' + 

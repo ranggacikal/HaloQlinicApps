@@ -28,7 +28,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    RelativeLayout relativeEditProfile, relativeLogout, relativeKeranjang;
+    RelativeLayout relativeEditProfile, relativeLogout, relativeKeranjang, relativeHistory;
     private SharedPreferencedConfig preferencedConfig;
     TextView txtNamaUser;
 
@@ -44,6 +44,7 @@ public class ProfileFragment extends Fragment {
         relativeLogout = rootview.findViewById(R.id.relative_keluar_profile);
         txtNamaUser = rootview.findViewById(R.id.text_nama_user_profile);
         relativeKeranjang = rootview.findViewById(R.id.relative_keranjang_profile);
+        relativeHistory = rootview.findViewById(R.id.relative_history_profile);
 
         txtNamaUser.setText(preferencedConfig.getPreferenceNama());
 
@@ -58,6 +59,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), KeranjangActivity.class));
+            }
+        });
+
+        relativeHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), HistoryActivity.class));
             }
         });
 

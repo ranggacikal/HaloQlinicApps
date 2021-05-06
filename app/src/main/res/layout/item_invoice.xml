@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="Total Belanja :"
+            android:textSize="17sp"
+            android:fontFamily="@font/robotoreguler"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/text_total_belanja_invoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp0.000"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/robotobold"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="Ongkos Kirim :"
+            android:textSize="17sp"
+            android:fontFamily="@font/robotoreguler"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/text_total_ongkir_invoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp0.000"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/robotobold"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="Biaya Admin :"
+            android:textSize="17sp"
+            android:fontFamily="@font/robotoreguler"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/text_biaya_admin_invoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp0.000"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/robotobold"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="jumlah Bayar :"
+            android:textSize="17sp"
+            android:fontFamily="@font/robotoreguler"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/text_jumlah_bayar_invoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp0.000"
+            android:textSize="17sp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/robotobold"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+</LinearLayout>

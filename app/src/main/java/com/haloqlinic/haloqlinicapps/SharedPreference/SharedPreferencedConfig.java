@@ -22,6 +22,11 @@ public class SharedPreferencedConfig {
     public static final String PREFERENCE_ID_KOTA = "prefIdKota";
     public static final String PREFERENCE_ID_KECAMATAN = "prefIdKecamatan";
     public static final String PREFERENCE_ALAMAT = "prefAlamat";
+    public static final String PREFERENCE_ID_OPSI_BAYAR = "prefIdOpsiBayar";
+    public static final String PREFERENCE_KODE_OPSI_BAYAR = "prefKodeOpsiBayar";
+    public static final String PREFERENCE_NAMA_OPSI_BAYAR = "prefNamaOpsiBayar";
+    public static final String PREFERENCE_IMAGE_OPSI_BAYAR = "prefImageOpsiBayar";
+    public static final String PREFERENCE_KATEGORI_BAYAR = "prefKategoriBayar";
     public static final String PREFERENCE_IS_LOGIN = "prefIsLogin";
 
     SharedPreferences preferences;
@@ -110,6 +115,26 @@ public class SharedPreferencedConfig {
 
     public String getPreferenceIdKecamatan(){
         return preferences.getString(PREFERENCE_ID_KECAMATAN, "");
+    }
+
+    public String getPreferenceIdOpsiBayar(){
+        return preferences.getString(PREFERENCE_ID_OPSI_BAYAR, "");
+    }
+
+    public String getPreferenceKodeOpsiBayar(){
+        return preferences.getString(PREFERENCE_KODE_OPSI_BAYAR, "");
+    }
+
+    public String getPreferenceKategoriBayar(){
+        return preferences.getString(PREFERENCE_KATEGORI_BAYAR, "");
+    }
+
+    public String getPreferenceNamaOpsiBayar(){
+        return preferences.getString(PREFERENCE_NAMA_OPSI_BAYAR, "");
+    }
+
+    public String getPreferenceImageOpsiBayar(){
+        return preferences.getString(PREFERENCE_IMAGE_OPSI_BAYAR, "");
     }
 
     public Boolean getPreferenceIsLogin(){

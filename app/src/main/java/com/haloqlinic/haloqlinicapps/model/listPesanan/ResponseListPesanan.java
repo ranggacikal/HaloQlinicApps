@@ -5,8 +5,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResponseListPesanan{
 
+	@SerializedName("total_ongkir")
+	private String totalOngkir;
+
 	@SerializedName("data")
 	private List<DataItem> data;
+
+	public void setTotalOngkir(String totalOngkir){
+		this.totalOngkir = totalOngkir;
+	}
+
+	public String getTotalOngkir(){
+		return totalOngkir;
+	}
 
 	public void setData(List<DataItem> data){
 		this.data = data;
@@ -20,7 +31,8 @@ public class ResponseListPesanan{
  	public String toString(){
 		return 
 			"ResponseListPesanan{" + 
-			"data = '" + data + '\'' + 
+			"total_ongkir = '" + totalOngkir + '\'' + 
+			",data = '" + data + '\'' + 
 			"}";
 		}
 }

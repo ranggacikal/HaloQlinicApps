@@ -15,9 +15,21 @@
         android:theme="@style/Theme.HaloQlinicApps"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
-        <activity android:name=".CheckoutProdukActivity"></activity>
-        <activity android:name=".DetailPesananActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".AturJadwalActivity"></activity>
+        <activity android:name=".DetailTransaksiActivity" />
+        <activity android:name=".CreateTokenActivity" />
+        <activity android:name=".InvoiceActivity" />
+        <activity android:name=".OpsiBayarActivity" />
+        <activity
+            android:name=".PilihKurirActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".CheckoutProdukActivity" />
+        <activity
+            android:name=".DetailPesananActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ChatActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".HistoryActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />

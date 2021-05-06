@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:layout_margin="10dp"
@@ -11,46 +11,10 @@
         android:id="@+id/text_hari_jadwal_detail_dokter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hari"
-        android:layout_gravity="center"
-        android:textSize="10sp"
+        android:text="Jadwal"
+        android:textSize="13sp"
+        android:layout_marginBottom="10dp"
         android:textColor="@color/black"
         android:fontFamily="@font/robotobold"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/text_jam_mulai_jadwal_detail_dokter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="jam mulai"
-            android:textSize="10sp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/robotoreguler"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" - "
-            android:textSize="10sp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/robotoreguler"/>
-
-        <TextView
-            android:id="@+id/text_jam_akhir_jadwal_detail_dokter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="jam mulai"
-            android:textSize="10sp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/robotoreguler"/>
-
-    </LinearLayout>
 
 </LinearLayout>

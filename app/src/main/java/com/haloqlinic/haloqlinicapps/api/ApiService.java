@@ -1,13 +1,22 @@
 package com.haloqlinic.haloqlinicapps.api;
 
+import com.haloqlinic.haloqlinicapps.model.biayaAdmin.ResponseBiayaAdmin;
 import com.haloqlinic.haloqlinicapps.model.cariDokter.ResponseCariDokter;
 import com.haloqlinic.haloqlinicapps.model.cariProduk.ResponseCariProduk;
 import com.haloqlinic.haloqlinicapps.model.daftar.ResponseDaftar;
+import com.haloqlinic.haloqlinicapps.model.dataEkspedisi.ResponseDataEkspedisi;
 import com.haloqlinic.haloqlinicapps.model.dataKeranjang.ResponseDataKeranjang;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.ResponseDetailDokter;
 import com.haloqlinic.haloqlinicapps.model.detailProduk.ResponseDetailProduk;
+import com.haloqlinic.haloqlinicapps.model.detailTransaksi.ResponseDetailTransaksi;
 import com.haloqlinic.haloqlinicapps.model.editAkun.ResponseEditAkun;
+import com.haloqlinic.haloqlinicapps.model.ewallet.ResponseEwallet;
+import com.haloqlinic.haloqlinicapps.model.ewalletOvo.ResponseOvo;
 import com.haloqlinic.haloqlinicapps.model.hapusKeranjang.ResponseHapusKeranjang;
+import com.haloqlinic.haloqlinicapps.model.historyTransaksi.ResponseHistoryTransaksi;
+import com.haloqlinic.haloqlinicapps.model.invoice.ResponseInvoice;
+import com.haloqlinic.haloqlinicapps.model.jadwalDokter.ResponseJadwalDokter;
+import com.haloqlinic.haloqlinicapps.model.kategoriXendit.ResponseKategoriXendit;
 import com.haloqlinic.haloqlinicapps.model.kecamatan.ResponseDataKecamatan;
 import com.haloqlinic.haloqlinicapps.model.kota.ResponseDataKota;
 import com.haloqlinic.haloqlinicapps.model.listDokter.ResponseDataDokter;
@@ -17,11 +26,15 @@ import com.haloqlinic.haloqlinicapps.model.loginapi.ResponseLoginUser;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.Response;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.ResponseLoginGoogle;
 import com.haloqlinic.haloqlinicapps.model.loginmesibo.ResponseLoginMesibo;
+import com.haloqlinic.haloqlinicapps.model.opsiBayar.ResponseOpsiBayar;
 import com.haloqlinic.haloqlinicapps.model.produk.ResponseDataProduk;
 import com.haloqlinic.haloqlinicapps.model.provinsi.ResponseDataProvinsi;
+import com.haloqlinic.haloqlinicapps.model.statusTransaksiModel.ResponseStatusTransaksi;
 import com.haloqlinic.haloqlinicapps.model.tambahKeranjang.ResponseTambahKeranjang;
 import com.haloqlinic.haloqlinicapps.model.updateKeranjang.ResponseUpdateKeranjang;
+import com.haloqlinic.haloqlinicapps.model.updateKurir.ResponseUpdateKurir;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.ResponseGetUserMesibo;
+import com.haloqlinic.haloqlinicapps.model.xenditQris.ResponseQris;
 
 import java.util.ArrayList;
 
@@ -148,4 +161,115 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("delete_item.php")
     Call<ResponseHapusKeranjang> hapusKeranjang(@Field("id_pesan") String id_pesan);
+
+    @GET("list_ekspedisi.php")
+    Call<ResponseDataEkspedisi> dataEkspedisi();
+
+    @FormUrlEncoded
+    @POST("update_kurir.php")
+    Call<ResponseUpdateKurir> updateKurir(@Field("id_transaksi") String id_transaksi,
+                                          @Field("id_member") String id_member,
+                                          @Field("kurir") String kurir,
+                                          @Field("ongkir") String ongkir,
+                                          @Field("layanan_kurir") String layanan_kurir,
+                                          @Field("ekspedisi") String ekspedisi);
+
+    @GET("kategori_xendit.php")
+    Call<ResponseKategoriXendit> kategoriXendit();
+
+    @FormUrlEncoded
+    @POST("opsi_bayar.php")
+    Call<ResponseOpsiBayar> opsiBayar(@Field("id") String id);
+
+    @FormUrlEncoded
+    @POST("biaya_admin.php")
+    Call<ResponseBiayaAdmin> biayaAdmin(@Field("opsi_bayar") String id,
+                                        @Field("total") String total);
+
+    @FormUrlEncoded
+    @POST("checkout_ewallet.php")
+    Call<ResponseOvo> checkOutOvo(@Field("id_customer") String id_customer,
+                                  @Field("id_transaksi") String id_transaksi,
+                                  @Field("total") String total,
+                                  @Field("kode") String kode,
+                                  @Field("nama_penerima") String nama_penerima,
+                                  @Field("alamat") String alamat,
+                                  @Field("kelurahan") String kelurahan,
+                                  @Field("kecamatan") String kecamatan,
+                                  @Field("kota") String kota,
+                                  @Field("provinsi") String provinsi,
+                                  @Field("kode_pos") String kode_pos,
+                                  @Field("nomor") String nomor,
+                                  @Field("keterangan") String keterangan,
+                                  @Field("id_member[]") ArrayList<String> id_member,
+                                  @Field("total_belanja[]") ArrayList<String> total_belanja,
+                                  @Field("total_berat[]") ArrayList<String> total_berat,
+                                  @Field("kurir[]") ArrayList<String> id_kurir,
+                                  @Field("layanan_kurir[]") ArrayList<String> layanan_kurir,
+                                  @Field("ongkir[]") ArrayList<String> ongkir,
+                                  @Field("biaya_admin") String biaya_admin);
+
+    @FormUrlEncoded
+    @POST("checkout_ewallet.php")
+    Call<ResponseEwallet> checkoutEwallet(@Field("id_customer") String id_customer,
+                                          @Field("id_transaksi") String id_transaksi,
+                                          @Field("total") String total,
+                                          @Field("kode") String kode,
+                                          @Field("nama_penerima") String nama_penerima,
+                                          @Field("alamat") String alamat,
+                                          @Field("kelurahan") String kelurahan,
+                                          @Field("kecamatan") String kecamatan,
+                                          @Field("kota") String kota,
+                                          @Field("provinsi") String provinsi,
+                                          @Field("kode_pos") String kode_pos,
+                                          @Field("nomor") String nomor,
+                                          @Field("keterangan") String keterangan,
+                                          @Field("id_member[]") ArrayList<String> id_member,
+                                          @Field("total_belanja[]") ArrayList<String> total_belanja,
+                                          @Field("total_berat[]") ArrayList<String> total_berat,
+                                          @Field("kurir[]") ArrayList<String> id_kurir,
+                                          @Field("layanan_kurir[]") ArrayList<String> layanan_kurir,
+                                          @Field("ongkir[]") ArrayList<String> ongkir,
+                                          @Field("biaya_admin") String biaya_admin);
+
+    @FormUrlEncoded
+    @POST("invoice.php")
+    Call<ResponseInvoice> invoice(@Field("id_transaksi") String id_transaksi);
+
+    @FormUrlEncoded
+    @POST("checkout_qrcode.php")
+    Call<ResponseQris> checkoutQris(@Field("id_customer") String id_customer,
+                                    @Field("id_transaksi") String id_transaksi,
+                                    @Field("total") String total,
+                                    @Field("nama_penerima") String nama_penerima,
+                                    @Field("alamat") String alamat,
+                                    @Field("kelurahan") String kelurahan,
+                                    @Field("kecamatan") String kecamatan,
+                                    @Field("kota") String kota,
+                                    @Field("provinsi") String provinsi,
+                                    @Field("kode_pos") String kode_pos,
+                                    @Field("no_hp") String no_hp,
+                                    @Field("keterangan") String keterangan,
+                                    @Field("id_member[]") ArrayList<String> id_member,
+                                    @Field("total_belanja[]") ArrayList<String> total_belanja,
+                                    @Field("total_berat[]") ArrayList<String> total_berat,
+                                    @Field("kurir[]") ArrayList<String> kurir,
+                                    @Field("layanan_kurir[]") ArrayList<String> layanan_kurir,
+                                    @Field("ongkir[]") ArrayList<String> ongkir,
+                                    @Field("biaya_admin") String biaya_admin);
+
+    @FormUrlEncoded
+    @POST("history_transaksi.php")
+    Call<ResponseStatusTransaksi> historyTransaksi(@Field("id_customer") String id_customer,
+                                                   @Field("status") String status);
+
+    @FormUrlEncoded
+    @POST("detail_transaksi.php")
+    Call<ResponseDetailTransaksi> detailTransaksi(@Field("id_transaksi") String id_transaksi,
+                                                  @Field("id_member") String id_member);
+
+    @FormUrlEncoded
+    @POST("jadwal_dokter.php")
+    Call<ResponseJadwalDokter> jadwalDokter(@Field("id_dokter") String id_dokter);
+
 }

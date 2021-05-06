@@ -50,7 +50,10 @@ public class DetailPesananActivity extends AppCompatActivity {
         btnLanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DetailPesananActivity.this, CheckoutProdukActivity.class));
+                Intent intent = new Intent(DetailPesananActivity.this, CheckoutProdukActivity.class);
+                intent.putExtra("id_transaksi", getIntent().getStringExtra("id_transaksi"));
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -77,14 +80,14 @@ public class DetailPesananActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     progressDialog.dismiss();
 
-                    List<ProdukItem> dataProduk = null;
+//                    List<ProdukItem> dataProduk = null;
                     List<DataItem> dataPesanan = response.body().getData();
 
-                    for (int i = 0; i<dataPesanan.size(); i++){
-                        dataProduk = dataPesanan.get(i).getProduk();
-                    }
+//                    for (int i = 0; i<dataPesanan.size(); i++){
+//                        dataProduk = dataPesanan.get(i).getProduk();
+//                    }
 
-                    Log.d("cekDataProduk", "onResponse: "+dataProduk);
+//                    Log.d("cekDataProduk", "onResponse: "+dataProduk);
 
                     DetailPesananAdapter adapter = new DetailPesananAdapter(DetailPesananActivity.this, dataPesanan);
                     rvDetailPesanan.setHasFixedSize(true);

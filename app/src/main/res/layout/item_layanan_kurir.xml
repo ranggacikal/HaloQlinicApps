@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/text_item_deskripsi_kurir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi layanan"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+        <TextView
+            android:id="@+id/text_item_kode_kurir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(kode)"
+            android:layout_marginStart="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotobold"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_item_harga_kurir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rp0.000"
+        android:layout_marginStart="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/robotobold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B9BBB6"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

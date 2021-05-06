@@ -4,46 +4,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class DataItem{
 
-	@SerializedName("hari")
-	private String hari;
+	@SerializedName("jadwal")
+	private String jadwal;
 
-	@SerializedName("mulai")
-	private String mulai;
-
-	@SerializedName("akhir")
-	private String akhir;
-
-	public void setHari(String hari){
-		this.hari = hari;
+	public void setJadwal(String jadwal){
+		this.jadwal = jadwal;
 	}
 
-	public String getHari(){
-		return hari;
-	}
-
-	public void setMulai(String mulai){
-		this.mulai = mulai;
-	}
-
-	public String getMulai(){
-		return mulai;
-	}
-
-	public void setAkhir(String akhir){
-		this.akhir = akhir;
-	}
-
-	public String getAkhir(){
-		return akhir;
+	public String getJadwal(){
+		return jadwal;
 	}
 
 	@Override
  	public String toString(){
 		return 
 			"DataItem{" + 
-			"hari = '" + hari + '\'' + 
-			",mulai = '" + mulai + '\'' + 
-			",akhir = '" + akhir + '\'' + 
+			"jadwal = '" + jadwal + '\'' + 
 			"}";
 		}
 }
