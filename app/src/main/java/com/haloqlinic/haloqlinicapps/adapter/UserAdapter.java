@@ -141,8 +141,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtNamaDokter = itemView.findViewById(R.id.text_item_nama_dokter_online);
-            txtSpesialisDokter = itemView.findViewById(R.id.text_item_spesialis_dokter_online);
         }
     }
 

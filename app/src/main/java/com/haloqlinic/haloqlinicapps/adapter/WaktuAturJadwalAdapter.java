@@ -1,14 +1,18 @@
 package com.haloqlinic.haloqlinicapps.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.haloqlinic.haloqlinicapps.AturJadwalActivity;
 import com.haloqlinic.haloqlinicapps.R;
 import com.haloqlinic.haloqlinicapps.model.jadwalDokter.ListItem;
 
@@ -20,10 +24,13 @@ public class WaktuAturJadwalAdapter extends RecyclerView.Adapter<WaktuAturJadwal
 
     Context context;
     List<ListItem> dataJadwal;
+    AturJadwalActivity aturJadwalActivity;
+    int row_index;
 
-    public WaktuAturJadwalAdapter(Context context, List<ListItem> dataJadwal) {
+    public WaktuAturJadwalAdapter(Context context, List<ListItem> dataJadwal, AturJadwalActivity aturJadwalActivity) {
         this.context = context;
         this.dataJadwal = dataJadwal;
+        this.aturJadwalActivity = aturJadwalActivity;
     }
 
     @NonNull
@@ -37,6 +44,27 @@ public class WaktuAturJadwalAdapter extends RecyclerView.Adapter<WaktuAturJadwal
     @Override
     public void onBindViewHolder(@NonNull @NotNull WaktuAturJadwalViewHolder holder, int position) {
         holder.txtHari.setText(dataJadwal.get(position).getJadwal());
+
+        holder.txtHari.setBackground(ContextCompat.getDrawable(context, R.drawable.background_circle_white));
+        holder.txtHari.setTextColor(Color.parseColor("#000000"));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aturJadwalActivity.jadwal_dokter = dataJadwal.get(position).getJadwal();
+                aturJadwalActivity.id_jadwal = dataJadwal.get(position).getId();
+                row_index = position;
+//                if (row_index==position){
+//                    holder.txtHari.setBackground(ContextCompat.getDrawable(context, R.drawable.background_circle_button_green));
+//                    holder.txtHari.setTextColor(Color.parseColor("#FFFFFF"));
+//                    notifyDataSetChanged();
+//                }
+                Toast.makeText(context, "jadwal: "+aturJadwalActivity.jadwal_dokter+" id: "+
+                                aturJadwalActivity.id_jadwal, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     @Override

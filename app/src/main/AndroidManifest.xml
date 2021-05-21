@@ -15,7 +15,14 @@
         android:theme="@style/Theme.HaloQlinicApps"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
-        <activity android:name=".AturJadwalActivity"></activity>
+        <activity android:name=".HistoryKonsultasiActivity"></activity>
+        <activity android:name=".ProdukMitraActivity" />
+        <activity android:name=".InvoiceKonsultasiActivity" />
+        <activity android:name=".MitraKlinikActivity" />
+        <activity android:name=".DokterSpesialisActivity" />
+        <activity android:name=".DokterTersediaActivity" />
+        <activity android:name=".CheckoutKonsultasiActivity" />
+        <activity android:name=".AturJadwalActivity" />
         <activity android:name=".DetailTransaksiActivity" />
         <activity android:name=".CreateTokenActivity" />
         <activity android:name=".InvoiceActivity" />
@@ -66,6 +73,10 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <meta-data android:name="com.onesignal.NotificationServiceExtension"
+            android:value="com.company.NotificationServiceExtension" />
+
     </application>
 
 </manifest>

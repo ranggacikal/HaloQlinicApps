@@ -5,11 +5,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class DataItem{
 
+	@SerializedName("img")
+	private String img;
+
 	@SerializedName("id_kategori")
 	private String idKategori;
 
 	@SerializedName("nama")
 	private String nama;
+
+	@SerializedName("biaya")
+	private String biaya;
 
 	@SerializedName("spesialis")
 	private String spesialis;
@@ -19,6 +25,14 @@ public class DataItem{
 
 	@SerializedName("id_dokter")
 	private String idDokter;
+
+	public void setImg(String img){
+		this.img = img;
+	}
+
+	public String getImg(){
+		return img;
+	}
 
 	public void setIdKategori(String idKategori){
 		this.idKategori = idKategori;
@@ -34,6 +48,14 @@ public class DataItem{
 
 	public String getNama(){
 		return nama;
+	}
+
+	public void setBiaya(String biaya){
+		this.biaya = biaya;
+	}
+
+	public String getBiaya(){
+		return biaya;
 	}
 
 	public void setSpesialis(String spesialis){
@@ -64,8 +86,10 @@ public class DataItem{
  	public String toString(){
 		return 
 			"DataItem{" + 
-			"id_kategori = '" + idKategori + '\'' + 
+			"img = '" + img + '\'' + 
+			",id_kategori = '" + idKategori + '\'' + 
 			",nama = '" + nama + '\'' + 
+			",biaya = '" + biaya + '\'' + 
 			",spesialis = '" + spesialis + '\'' + 
 			",list = '" + list + '\'' + 
 			",id_dokter = '" + idDokter + '\'' + 

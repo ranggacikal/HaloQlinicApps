@@ -3,6 +3,7 @@ package com.haloqlinic.haloqlinicapps;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +34,10 @@ import com.haloqlinic.haloqlinicapps.model.logingoogle.DataItem;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.ResponseLoginGoogle;
 import com.haloqlinic.haloqlinicapps.model.loginmesibo.ResponseLoginMesibo;
 import com.haloqlinic.haloqlinicapps.model.loginmesibo.UsersItem;
+import com.onesignal.OSDeviceState;
+import com.onesignal.OSSubscriptionObserver;
+import com.onesignal.OSSubscriptionStateChanges;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +57,10 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     private SharedPreferencedConfig preferencedConfig;
+
+    String token, token_from, user_id, user_id_from;
+
+    private static final String ONESIGNAL_APP_ID = "67314311-5f01-4b4e-b20c-1e0f6fb9958c";
 
     //google
     GoogleSignInClient googleSignInClient;
@@ -75,6 +84,17 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.login_password);
         showPassBtn = findViewById(R.id.img_hide_password_login);
         btnLoginGoogle = findViewById(R.id.img_login_google);
+
+        OneSignal.initWithContext(this);
+        OneSignal.setAppId(ONESIGNAL_APP_ID);
+
+        OSDeviceState device = OneSignal.getDeviceState();
+
+        token = device.getPushToken();
+        user_id = device.getUserId();
+
+        Log.d("checkOneSignal", "token: "+token);
+        Log.d("checkOneSignal", "user_id: "+user_id);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.server_client_id))
@@ -160,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Sign In");
         progressDialog.show();
 
-        ConfigRetrofit.service.login(email, password).enqueue(new Callback<ResponseLoginUser>() {
+        ConfigRetrofit.service.login(email, password, user_id).enqueue(new Callback<ResponseLoginUser>() {
             @Override
             public void onResponse(Call<ResponseLoginUser> call, Response<ResponseLoginUser> response) {
 
@@ -309,7 +329,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginGoogleFb(final String oauthpro, final String oauthid, String first_name, String last_name, String email) {
 
-        ConfigRetrofit.service.loginGoogle(oauthpro, oauthid, first_name, last_name, email).enqueue(new Callback<ResponseLoginGoogle>() {
+        ConfigRetrofit.service.loginGoogle(oauthpro, oauthid, first_name, last_name, email, user_id).enqueue(new Callback<ResponseLoginGoogle>() {
             @Override
             public void onResponse(Call<ResponseLoginGoogle> call, Response<ResponseLoginGoogle> response) {
                 progressDialog.dismiss();

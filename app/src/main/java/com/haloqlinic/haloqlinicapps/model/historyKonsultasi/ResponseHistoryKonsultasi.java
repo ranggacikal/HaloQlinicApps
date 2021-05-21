@@ -1,9 +1,9 @@
-package com.haloqlinic.haloqlinicapps.model.listDokter;
+package com.haloqlinic.haloqlinicapps.model.historyKonsultasi;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseDataDokter{
+public class ResponseHistoryKonsultasi{
 
 	@SerializedName("data")
 	private List<DataItem> data;
@@ -19,7 +19,7 @@ public class ResponseDataDokter{
 	@Override
  	public String toString(){
 		return 
-			"ResponseDataDokter{" + 
+			"ResponseHistoryKonsultasi{" + 
 			"data = '" + data + '\'' + 
 			"}";
 		}

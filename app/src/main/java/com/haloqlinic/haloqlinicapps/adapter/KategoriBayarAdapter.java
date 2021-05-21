@@ -50,6 +50,7 @@ public class KategoriBayarAdapter extends RecyclerView.Adapter<KategoriBayarAdap
                 Intent intent = new Intent(context, OpsiBayarActivity.class);
                 intent.putExtra("kategoriBayar", dataKategori.get(position).getKategori());
                 intent.putExtra("idKategori", dataKategori.get(position).getId());
+                preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KATEGORI_BAYAR, dataKategori.get(position).getId());
                 preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KATEGORI_BAYAR, dataKategori.get(position).getKategori());
                 context.startActivity(intent);
             }

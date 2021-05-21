@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="35dp"
     android:layout_marginEnd="35dp"
     tools:context=".DokterFragment">
 
-    <SearchView
-        android:id="@+id/search_dokter"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayoutDokter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/MineCustomTabText"
+        app:tabIndicatorColor="@color/green"
+        app:tabSelectedTextColor="@color/red"
+        style="@style/MineCustomTabText"
+        android:background="@android:color/white"/>
+
+    <FrameLayout
+        android:id="@+id/frame_dokter"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_dokter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/search_dokter"
-        tools:listitem="@layout/item_dokter"/>
-
-</RelativeLayout>
+</LinearLayout>

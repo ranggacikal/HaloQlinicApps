@@ -10,9 +10,6 @@ public class DataItem{
 	@SerializedName("nama")
 	private String nama;
 
-	@SerializedName("spesialis")
-	private String spesialis;
-
 	@SerializedName("id_dokter")
 	private String idDokter;
 
@@ -32,14 +29,6 @@ public class DataItem{
 		return nama;
 	}
 
-	public void setSpesialis(String spesialis){
-		this.spesialis = spesialis;
-	}
-
-	public String getSpesialis(){
-		return spesialis;
-	}
-
 	public void setIdDokter(String idDokter){
 		this.idDokter = idDokter;
 	}
@@ -54,7 +43,6 @@ public class DataItem{
 			"DataItem{" + 
 			"img = '" + img + '\'' + 
 			",nama = '" + nama + '\'' + 
-			",spesialis = '" + spesialis + '\'' + 
 			",id_dokter = '" + idDokter + '\'' + 
 			"}";
 		}

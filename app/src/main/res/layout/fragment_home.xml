@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="35dp"
     android:layout_marginEnd="35dp"
     tools:context=".HomeFragment">
@@ -17,125 +17,164 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/relative_jadwal_konsultasi_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <RelativeLayout
-                    android:id="@+id/text_jadwal_konsul"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/linear_dokter_spesialis_home"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/background_borde_circle_navy"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_dokter_spesialis" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/robotoblack"
-                        android:text="Jadwal Konsultasi Anda"
-                        android:textColor="@color/red"
-                        android:textSize="12sp" />
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Dokter\nSpesialis"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_skincare_home"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/background_borde_circle_navy"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_skincare" />
 
                     <TextView
-                        android:id="@+id/text_lihat_semua_jadwal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:fontFamily="@font/robotoreguler"
-                        android:text="Lihat semua"
-                        android:textColor="@color/red"
-                        android:textSize="12sp" />
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/robotobold"
+                        android:text="SKIN CARE"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    app:cardBackgroundColor="@color/red"
-                    android:layout_below="@+id/text_jadwal_konsul"
-                    android:layout_marginTop="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="10dp">
+                <LinearLayout
+                    android:id="@+id/linear_jadwal_home"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/background_borde_circle_navy"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_calendar" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Jadwal\nKonsultasi"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
 
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/img_dokter_jadwal_konsultasi"
-                                android:layout_marginStart="20dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/icon_dokter"
-                                app:civ_border_width="1dp"
-                                app:civ_border_color="@color/green"/>
+                </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_toRightOf="@+id/img_dokter_jadwal_konsultasi"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="15dp"
-                                android:orientation="vertical">
+            </LinearLayout>
 
-                                <TextView
-                                    android:id="@+id/text_nama_dokter_jadwal_konsultasi"
-                                    android:layout_width="170dp"
-                                    android:layout_height="wrap_content"
-                                    android:text="Nama Dokter"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp"
-                                    android:fontFamily="@font/robotobold"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp">
 
-                                <TextView
-                                    android:id="@+id/text_spesialis_jadwal_konsultasi"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Spesialis dokter"
-                                    android:textColor="@color/white"
-                                    android:textSize="10sp"
-                                    android:fontFamily="@font/robotoreguler"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotobold"
+                    android:text="Dokter yang sedang tersedia"
+                    android:textColor="@color/red"
+                    android:layout_centerVertical="true"
+                    android:textSize="11sp" />
 
-                            </LinearLayout>
-
-                            <ImageView
-                                android:id="@+id/img_chat_jadwal"
-                                android:layout_width="45dp"
-                                android:layout_height="45dp"
-                                android:src="@drawable/icon_chat_jadwal"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginEnd="15dp"
-                                android:layout_centerVertical="true"/>
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/text_lihat_semua_dokter_tersedia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Semua"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/background_circle_button_green"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/robotobold"/>
 
             </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/robotoblack"
-                android:text="Dokter yang sedang aktif"
-                android:layout_marginTop="15dp"
-                android:textColor="@color/red"
-                android:textSize="12sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_dokter_online_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                tools:listitem="@layout/item_dokter_online"/>
+                android:layout_marginTop="10dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotobold"
+                    android:text="Mitra Klinik Kecantikan"
+                    android:textColor="@color/red"
+                    android:layout_centerVertical="true"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/text_lihat_semua_mitra_klinik"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Semua"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/background_circle_button_green"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/robotobold"/>
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_mitra_klinik_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
 

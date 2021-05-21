@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.haloqlinic.haloqlinicapps.R;
 import com.haloqlinic.haloqlinicapps.model.jadwalDokter.DataItem;
 
@@ -37,6 +38,13 @@ public class DokterAturJadwalAdapter extends RecyclerView.Adapter<DokterAturJadw
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull DokterAturJadwalViewHolder holder, int position) {
+
+        final String url_image = "https://aplikasicerdas.net/haloqlinic/file/dokter/profile/"+dataDokter.get(position).getImg();
+
+        Glide.with(context)
+                .load(url_image)
+                .error(R.mipmap.ic_launcher)
+                .into(holder.imgDokter);
 
         holder.txtNama.setText("Konsultasi Dengan Dr. "+dataDokter.get(position).getNama());
         holder.txtSpesialis.setText("Spesialis "+dataDokter.get(position).getSpesialis());

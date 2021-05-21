@@ -47,7 +47,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.DokterView
                 .into(holder.imgDokter);
 
         holder.txtNamaDokter.setText(dokterList.get(position).getNama());
-        holder.txtSpesialisDokter.setText(dokterList.get(position).getSpesialis());
+        holder.txtSpesialisDokter.setText("Spesialis "+dokterList.get(position).getSpesialis());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

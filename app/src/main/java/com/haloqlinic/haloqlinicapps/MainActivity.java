@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
+import com.onesignal.OneSignal;
 
 public class MainActivity extends AppCompatActivity {
 

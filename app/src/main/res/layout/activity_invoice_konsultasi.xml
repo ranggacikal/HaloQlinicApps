@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".InvoiceKonsultasiActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/robotobold"
+        android:text="Silahkan lakukan pembayaran via"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/img_qris_invoice_konsultasi"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logo_qris"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/img_dana_invoice_konsultasi"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logo_dana"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/img_linkaja_invoice_konsultasi"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logo_link_aja"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/img_ovo_invoice_konsultasi"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logo_ovo"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/img_shopeepay_invoice_konsultasi"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logo_shopeepay"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_invoice_konsultasi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp" />
+
+    <ImageView
+        android:id="@+id/img_qrcode_invoice_konsultasi"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_selesaikan_pembayaran_invoice_konsultasi"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/background_circle_button_green"
+                android:fontFamily="@font/robotobold"
+                android:layout_marginBottom="10dp"
+                android:text="Selesaikan Pembayaran"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_pembayaran_selesai_invoice_konsultasi"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="40dp"
+                android:background="@drawable/background_circle_button_green"
+                android:fontFamily="@font/robotobold"
+                android:text="Pembayaran Selesai"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

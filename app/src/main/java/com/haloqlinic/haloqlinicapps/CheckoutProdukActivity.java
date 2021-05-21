@@ -88,6 +88,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
     public static final String PUBLISHABLE_KEY = "xnd_public_development_ol47f4f0kEfPw8dc7ZifHxwGaBJhGsDQCqG0sdPKkw50VSWSarz9ubK71YsksPG";
 
     String key = "9bc530edfde2ffdba603d779832349cf";
+
     public String id_transaksi;
 
     public String id_kecamatan;

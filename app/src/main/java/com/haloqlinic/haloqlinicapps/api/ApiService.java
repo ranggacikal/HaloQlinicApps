@@ -11,24 +11,30 @@ import com.haloqlinic.haloqlinicapps.model.detailProduk.ResponseDetailProduk;
 import com.haloqlinic.haloqlinicapps.model.detailTransaksi.ResponseDetailTransaksi;
 import com.haloqlinic.haloqlinicapps.model.editAkun.ResponseEditAkun;
 import com.haloqlinic.haloqlinicapps.model.ewallet.ResponseEwallet;
+import com.haloqlinic.haloqlinicapps.model.ewalletKonsultasi.ResponseEwalletKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.ewalletOvo.ResponseOvo;
 import com.haloqlinic.haloqlinicapps.model.hapusKeranjang.ResponseHapusKeranjang;
 import com.haloqlinic.haloqlinicapps.model.historyTransaksi.ResponseHistoryTransaksi;
 import com.haloqlinic.haloqlinicapps.model.invoice.ResponseInvoice;
+import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasi.ResponseInvoiceKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.jadwalDokter.ResponseJadwalDokter;
 import com.haloqlinic.haloqlinicapps.model.kategoriXendit.ResponseKategoriXendit;
 import com.haloqlinic.haloqlinicapps.model.kecamatan.ResponseDataKecamatan;
+import com.haloqlinic.haloqlinicapps.model.konsultasi.ResponseKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.kota.ResponseDataKota;
-import com.haloqlinic.haloqlinicapps.model.listDokter.ResponseDataDokter;
+import com.haloqlinic.haloqlinicapps.model.listDokter.ResponseListDokter;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktif.ResponseDataDokterAktif;
+import com.haloqlinic.haloqlinicapps.model.listKonsultasi.ResponseListKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.ResponseListPesanan;
 import com.haloqlinic.haloqlinicapps.model.loginapi.ResponseLoginUser;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.Response;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.ResponseLoginGoogle;
 import com.haloqlinic.haloqlinicapps.model.loginmesibo.ResponseLoginMesibo;
+import com.haloqlinic.haloqlinicapps.model.mitraKlinik.ResponseDataMitra;
 import com.haloqlinic.haloqlinicapps.model.opsiBayar.ResponseOpsiBayar;
 import com.haloqlinic.haloqlinicapps.model.produk.ResponseDataProduk;
 import com.haloqlinic.haloqlinicapps.model.provinsi.ResponseDataProvinsi;
+import com.haloqlinic.haloqlinicapps.model.qriskonsultasi.ResponseQrisKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.statusTransaksiModel.ResponseStatusTransaksi;
 import com.haloqlinic.haloqlinicapps.model.tambahKeranjang.ResponseTambahKeranjang;
 import com.haloqlinic.haloqlinicapps.model.updateKeranjang.ResponseUpdateKeranjang;
@@ -60,7 +66,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("signin.php")
     Call<ResponseLoginUser> login(@Field("email") String email,
-                                  @Field("password") String password);
+                                  @Field("password") String password,
+                                  @Field("player_id") String player_id);
 
     @FormUrlEncoded
     @POST("signup.php")
@@ -81,7 +88,8 @@ public interface ApiService {
                                           @Field("oauthid") String oauthid,
                                           @Field("first_name") String first_name,
                                           @Field("last_name") String last_name,
-                                          @Field("email") String email);
+                                          @Field("email") String email,
+                                          @Field("player_id") String player_id);
 
     @GET("province.php")
     Call<ResponseDataProvinsi> dataProvinsi();
@@ -106,15 +114,18 @@ public interface ApiService {
                                     @Field("id_kecamatan") String id_kecamatan,
                                     @Field("tgl_lahir") String tgl_lahir);
 
-    @GET("list_dokter.php")
-    Call<ResponseDataDokter> dataDokter();
+    @FormUrlEncoded
+    @POST("list_dokter.php")
+    Call<ResponseListDokter> dataDokter(@Field("status") String status);
 
     @FormUrlEncoded
     @POST("cari_dokter.php")
-    Call<ResponseCariDokter> cariDokter(@Field("nama") String nama);
+    Call<ResponseCariDokter> cariDokter(@Field("status") String status,
+                                        @Field("nama") String nama);
 
-    @GET("list_dokter_aktif.php")
-    Call<ResponseDataDokterAktif> dataDokterAktif();
+    @FormUrlEncoded
+    @POST("list_dokter_aktif.php")
+    Call<ResponseDataDokterAktif> dataDokterAktif(@Field("status") String status);
 
     @FormUrlEncoded
     @POST("detail_dokter.php")
@@ -271,5 +282,47 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("jadwal_dokter.php")
     Call<ResponseJadwalDokter> jadwalDokter(@Field("id_dokter") String id_dokter);
+
+    @FormUrlEncoded
+    @POST("konsultasi_ewallet.php")
+    Call<ResponseEwalletKonsultasi> ewalletKonsultasi(@Field("id_transaksi") String id_transaksi,
+                                                      @Field("id_customer") String id_customer,
+                                                      @Field("total") String total,
+                                                      @Field("kode") String kode,
+                                                      @Field("nomor") String nomor,
+                                                      @Field("biaya_admin") String biaya_admin,
+                                                      @Field("id_dokter") String id_dokter,
+                                                      @Field("id_kategori") String id_kategori,
+                                                      @Field("jadwal") String jadwal);
+
+    @FormUrlEncoded
+    @POST("list_mitra.php")
+    Call<ResponseDataMitra> dataMitra(@Field("status") String status);
+
+    @FormUrlEncoded
+    @POST("konsultasi_qrcode.php")
+    Call<ResponseQrisKonsultasi> qrisKonsultasi(@Field("id_transaksi") String id_transaksi,
+                                                @Field("id_customer") String id_customer,
+                                                @Field("total") String total,
+                                                @Field("biaya_admin") String biaya_admin,
+                                                @Field("id_dokter") String id_dokter,
+                                                @Field("id_kategori") String id_kategori,
+                                                @Field("jadwal") String jadwal);
+
+    @FormUrlEncoded
+    @POST("invoice_konsultasi.php")
+    Call<ResponseInvoiceKonsultasi> invoiceKonsultasi(@Field("id_transaksi") String id_transaksi);
+
+    @FormUrlEncoded
+    @POST("konsultasi.php")
+    Call<ResponseKonsultasi> postKonsultasi(@Field("id_customer") String id_customer,
+                                            @Field("id") String id,
+                                            @Field("id_dokter") String id_dokter,
+                                            @Field("jadwal") String jadwal);
+
+    @FormUrlEncoded
+    @POST("history_konsultasi.php")
+    Call<ResponseListKonsultasi> listKonsultasi(@Field("id_customer") String id_customer,
+                                                @Field("status") String status);
 
 }
