@@ -2,23 +2,30 @@ package com.haloqlinic.haloqlinicapps;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.adapter.CariUmumAdapter;
+import com.haloqlinic.haloqlinicapps.adapter.DokterAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.UmumAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.cariDokter.ResponseCariDokter;
 import com.haloqlinic.haloqlinicapps.model.listDokter.DataItem;
 import com.haloqlinic.haloqlinicapps.model.listDokter.ResponseListDokter;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,6 +46,14 @@ public class DokterUmumFragment extends Fragment {
 
     RecyclerView rvDokterumum;
     SearchView searchDokterumum;
+    private int page = 1;
+    private int page_size = 10;
+    private int total_page = 1;
+    private List<DataItem> dataDokter = new ArrayList<>();
+    LinearLayoutManager manager;
+    DokterAdapter adapter;
+    private boolean isLoading = false;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,9 +63,43 @@ public class DokterUmumFragment extends Fragment {
 
         rvDokterumum = rootView.findViewById(R.id.recycler_umum_fragment);
         searchDokterumum = rootView.findViewById(R.id.search_dokter_umum);
+        progressBar = rootView.findViewById(R.id.progressbar_dokter_umum);
+
+        manager = new LinearLayoutManager(getActivity());
 
         rvDokterumum.setHasFixedSize(true);
-        rvDokterumum.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvDokterumum.setLayoutManager(manager);
+
+        loadDokterUmum();
+
+        adapter = new DokterAdapter(getActivity(), dataDokter);
+        rvDokterumum.setAdapter(adapter);
+
+        rvDokterumum.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull @NotNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int visibleItem = manager.getChildCount();
+                int totalItem = adapter.getItemCount();
+                int firstVisibleItemPosition = manager.findFirstVisibleItemPosition();
+
+                if (!isLoading && page < total_page) {
+
+                    if (visibleItem + firstVisibleItemPosition >= totalItem) {
+
+                        page++;
+                        Log.d("checkScrolled", "page: " + page);
+                        loadDokterUmum();
+                    }
+                }
+            }
+        });
 
         searchDokterumum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +122,6 @@ public class DokterUmumFragment extends Fragment {
                 return true;
             }
         });
-
-        loadDokterUmum();
 
         return rootView;
     }
@@ -105,23 +152,37 @@ public class DokterUmumFragment extends Fragment {
 
     private void loadDokterUmum() {
 
-        ConfigRetrofit.service.dataDokter("0").enqueue(new Callback<ResponseListDokter>() {
+        progressBar.setVisibility(View.VISIBLE);
+        isLoading = true;
+
+        ConfigRetrofit.service.dataDokter("0", String.valueOf(page)).enqueue(new Callback<ResponseListDokter>() {
             @Override
             public void onResponse(Call<ResponseListDokter> call, Response<ResponseListDokter> response) {
                 if (response.isSuccessful()){
 
-                    List<DataItem> dataDokter = response.body().getData();
-                    UmumAdapter adapter = new UmumAdapter(getActivity(), dataDokter);
-                    rvDokterumum.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+
+                    total_page = response.body().getTotalPage();
+                    dataDokter = response.body().getData();
+                    Toast.makeText(getActivity(), "berhasil load page ke- "+page, Toast.LENGTH_SHORT).show();
+                    if (dataDokter!=null) {
+
+                        adapter.addList(dataDokter);
+                    }
+                    isLoading = false;
 
                 }else{
-                    Toast.makeText(getActivity(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    isLoading = false;
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseListDokter> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                isLoading = false;
+                Toast.makeText(getActivity(), "Terjadi Kesalahan Di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

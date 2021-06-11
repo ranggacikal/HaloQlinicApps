@@ -8,7 +8,7 @@
     tools:context=".JadwalKonsultasiActivity">
 
     <RelativeLayout
-        android:id="@+id/linear_signup"
+        android:id="@+id/linear_jadwal_konsultasi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -37,7 +37,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linear_signup"
+        android:layout_below="@+id/linear_jadwal_konsultasi"
         android:background="@drawable/background_white_30">
 
         <LinearLayout

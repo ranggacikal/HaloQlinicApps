@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -22,11 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.adapter.JadwalDetailDokterAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.DataItem;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.ResponseDetailDokter;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.ResultItem;
+import com.haloqlinic.haloqlinicapps.model.konsultasi.ResponseKonsultasi;
 
 import java.util.List;
 
@@ -40,13 +43,17 @@ public class DetailDokterActivity extends AppCompatActivity {
     String id_dokter;
     ProgressDialog progressDialog;
     TextView namaDokter, spesialisDokter, tentangDokter;
-    ImageView imgDokter;
+    ImageView imgDokter, imgBack;
     RecyclerView rvJadwal;
+
+    private SharedPreferencedConfig preferencedConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_dokter);
+
+        preferencedConfig = new SharedPreferencedConfig(DetailDokterActivity.this);
 
         btnChat = findViewById(R.id.btn_chat_detail_dokter);
         progressDialog = new ProgressDialog(DetailDokterActivity.this);
@@ -59,11 +66,19 @@ public class DetailDokterActivity extends AppCompatActivity {
         tentangDokter = findViewById(R.id.text_tentang_detai_dokter);
         imgDokter = findViewById(R.id.img_detail_dokter);
         rvJadwal = findViewById(R.id.rv_jadwal_detail_dokter);
+        imgBack = findViewById(R.id.img_back_detail_dokter);
 
         rvJadwal.setHasFixedSize(true);
         rvJadwal.setLayoutManager(new LinearLayoutManager(DetailDokterActivity.this));
 
         loadDataDetailDokter(id_dokter);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,9 +164,58 @@ public class DetailDokterActivity extends AppCompatActivity {
                 Intent intent = new Intent(DetailDokterActivity.this, AturJadwalActivity.class);
                 intent.putExtra("id_dokter", id_dokter);
                 startActivity(intent);
+                finish();
                 alertDialog.dismiss();
             }
         });
+
+        relativeKonsultasiSekarang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                konsultasiSekarang();
+                alertDialog.dismiss();
+            }
+        });
+
+    }
+
+    private void konsultasiSekarang() {
+
+        String id_customer = preferencedConfig.getPreferenceIdCustomer();
+
+        ProgressDialog progressKonsultasi = new ProgressDialog(DetailDokterActivity.this);
+        progressKonsultasi.setMessage("Membuat Permintaan Konsultasi");
+        progressKonsultasi.show();
+
+        ConfigRetrofit.service.postKonsultasi(id_customer, "", id_dokter, "", "1")
+                .enqueue(new Callback<ResponseKonsultasi>() {
+                    @Override
+                    public void onResponse(Call<ResponseKonsultasi> call, Response<ResponseKonsultasi> response) {
+                        if (response.isSuccessful()){
+
+                            progressKonsultasi.dismiss();
+                            String id_transaksi = response.body().getIdTransaksi();
+
+                            Log.d("getIdTransaksi", "onResponse: "+id_transaksi);
+
+                            Toast.makeText(DetailDokterActivity.this, "Berhasil membuat permintaan konsultasi", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(DetailDokterActivity.this, TungguAccActivity.class);
+                            intent.putExtra("id_transaksi", id_transaksi);
+                            startActivity(intent);
+                            finish();
+
+                        }else{
+                            progressKonsultasi.dismiss();
+                            Toast.makeText(DetailDokterActivity.this, "Gagal membuat permintaan konsultasi", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseKonsultasi> call, Throwable t) {
+                        progressKonsultasi.dismiss();
+                        Toast.makeText(DetailDokterActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 }

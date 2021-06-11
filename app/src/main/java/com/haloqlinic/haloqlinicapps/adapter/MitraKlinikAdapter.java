@@ -1,6 +1,7 @@
 package com.haloqlinic.haloqlinicapps.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.haloqlinic.haloqlinicapps.ProfileMitraActivity;
 import com.haloqlinic.haloqlinicapps.R;
 import com.haloqlinic.haloqlinicapps.model.mitraKlinik.DataItem;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
 
 public class MitraKlinikAdapter extends RecyclerView.Adapter<MitraKlinikAdapter.MitraKlinikViewHolder> {
 
@@ -47,6 +52,17 @@ public class MitraKlinikAdapter extends RecyclerView.Adapter<MitraKlinikAdapter.
                 .into(holder.imgMitra);
 
         holder.txtNamaMitra.setText(dataMitra.get(position).getNamaToko());
+
+        PushDownAnim.setPushDownAnimTo(holder.itemView)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, ProfileMitraActivity.class);
+                        intent.putExtra("id_member", dataMitra.get(position).getIdMember());
+                        context.startActivity(intent);
+                    }
+                });
 
     }
 

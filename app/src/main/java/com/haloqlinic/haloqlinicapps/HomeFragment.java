@@ -17,12 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.adapter.DokterAktifAdapter;
+import com.haloqlinic.haloqlinicapps.adapter.DokterAktifHomeAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.MitraHomeAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.UserAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.User;
-import com.haloqlinic.haloqlinicapps.model.listDokterAktif.DataItem;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktif.ResponseDataDokterAktif;
+import com.haloqlinic.haloqlinicapps.model.listDokterAktifHome.DataItem;
+import com.haloqlinic.haloqlinicapps.model.listDokterAktifHome.ResponseDokterAktifHome;
 import com.haloqlinic.haloqlinicapps.model.mitraKlinik.ResponseDataMitra;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.ResponseGetUserMesibo;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.UsersItem;
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView rvDokterOnline, rvMitra;
     TextView txtLihatSemuaDokterTersedia, txtLihatSemuaMitra;
-    LinearLayout linearDokterSpesialis;
+    LinearLayout linearDokterSpesialis, linearSkincare, linearJadwalKonsultasi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +65,8 @@ public class HomeFragment extends Fragment {
         linearDokterSpesialis = rootview.findViewById(R.id.linear_dokter_spesialis_home);
         rvMitra = rootview.findViewById(R.id.recycler_mitra_klinik_home);
         txtLihatSemuaMitra = rootview.findViewById(R.id.text_lihat_semua_mitra_klinik);
+        linearSkincare = rootview.findViewById(R.id.linear_skincare_home);
+        linearJadwalKonsultasi = rootview.findViewById(R.id.linear_jadwal_home);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManagerMitra = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -100,6 +104,24 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        PushDownAnim.setPushDownAnimTo(linearJadwalKonsultasi)
+                .setScale(MODE_SCALE, 0.89f)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), JadwalKonsultasiActivity.class));
+                    }
+                });
+
+        PushDownAnim.setPushDownAnimTo(linearSkincare)
+                .setScale(MODE_SCALE, 0.89f)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), KategoriActivity.class));
+                    }
+                });
+
         loadDokterOnline();
         loadMitraKlinik();
 
@@ -133,25 +155,23 @@ public class HomeFragment extends Fragment {
 
         String status = "0";
 
-        ConfigRetrofit.service.dataDokterAktif(status).enqueue(new Callback<ResponseDataDokterAktif>() {
+        ConfigRetrofit.service.dokterAktifHome(status).enqueue(new Callback<ResponseDokterAktifHome>() {
             @Override
-            public void onResponse(Call<ResponseDataDokterAktif> call, Response<ResponseDataDokterAktif> response) {
+            public void onResponse(Call<ResponseDokterAktifHome> call, Response<ResponseDokterAktifHome> response) {
                 if (response.isSuccessful()){
 
-                    List<DataItem> dokterAktifItems = response.body().getData();
-                    DokterAktifAdapter adapter = new DokterAktifAdapter(getActivity(), dokterAktifItems);
+                    List<DataItem> dataItems = response.body().getData();
+                    DokterAktifHomeAdapter adapter = new DokterAktifHomeAdapter(getActivity(), dataItems);
                     rvDokterOnline.setAdapter(adapter);
 
                 }else{
-                    Toast.makeText(getActivity(), "Gagal Load Data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Gagal memuat data dokter online", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseDataDokterAktif> call, Throwable t) {
-
-                Toast.makeText(getActivity(), "Terjadi Kesalahan di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
-
+            public void onFailure(Call<ResponseDokterAktifHome> call, Throwable t) {
+                Toast.makeText(getActivity(), "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

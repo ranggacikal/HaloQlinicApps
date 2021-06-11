@@ -69,6 +69,11 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
         notifyDataSetChanged();
     }
 
+    public void clear(){
+        dataItems.clear();
+        notifyDataSetChanged();
+    }
+
     public class ProdukViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgProduk;

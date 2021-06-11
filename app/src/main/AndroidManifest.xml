@@ -5,6 +5,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +19,13 @@
         android:theme="@style/Theme.HaloQlinicApps"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
-        <activity android:name=".HistoryKonsultasiActivity"></activity>
+        <activity android:name=".ProfileMitraActivity"></activity>
+        <activity android:name=".KategoriActivity" />
+        <activity android:name=".SkincareActivity" />
+        <activity android:name=".DetailHistoryActivity" />
+        <activity android:name=".TungguAccActivity" />
+        <activity android:name=".ResepObatActivity" />
+        <activity android:name=".HistoryKonsultasiActivity" />
         <activity android:name=".ProdukMitraActivity" />
         <activity android:name=".InvoiceKonsultasiActivity" />
         <activity android:name=".MitraKlinikActivity" />
@@ -74,9 +84,9 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
-        <meta-data android:name="com.onesignal.NotificationServiceExtension"
+        <meta-data
+            android:name="com.onesignal.NotificationServiceExtension"
             android:value="com.company.NotificationServiceExtension" />
-
     </application>
 
 </manifest>

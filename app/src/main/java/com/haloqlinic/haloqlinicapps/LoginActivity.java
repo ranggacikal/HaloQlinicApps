@@ -205,6 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                     String idProvinsi = "";
                     String idKota = "";
                     String idKecamatan = "";
+                    String token = "";
 
                     for (int i = 0; i<dataUser.size(); i++){
                         id_customer = dataUser.get(i).getIdCustomer();
@@ -223,6 +224,7 @@ public class LoginActivity extends AppCompatActivity {
                         idProvinsi = dataUser.get(i).getProvinsi();
                         idKota = dataUser.get(i).getKota();
                         idKecamatan = dataUser.get(i).getKecamatan();
+                        token = dataUser.get(i).getToken();
                     }
 
                     if (dataUser.size()>0) {
@@ -243,7 +245,10 @@ public class LoginActivity extends AppCompatActivity {
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_PROVINSI, idProvinsi);
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KOTA, idKota);
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KECAMATAN, idKecamatan);
+                        preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_TOKEN, token);
                         preferencedConfig.savePrefBoolean(SharedPreferencedConfig.PREFERENCE_IS_LOGIN, true);
+
+                        Log.d("testLoginUserId", "onResponse: "+user_id);
 
                         Toast.makeText(LoginActivity.this, "Login Berhasil", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -354,6 +359,7 @@ public class LoginActivity extends AppCompatActivity {
                     String idProvinsi = "";
                     String idKota = "";
                     String idKecamatan = "";
+                    String token = "";
 
                     for (int i=0; i<dataItem.size(); i++){
                         id_customer = dataItem.get(i).getIdCustomer();
@@ -372,6 +378,7 @@ public class LoginActivity extends AppCompatActivity {
                         idProvinsi = (String) dataItem.get(i).getProvinsi();
                         idKota = (String) dataItem.get(i).getKota();
                         idKecamatan = (String) dataItem.get(i).getKecamatan();
+                        token = dataItem.get(i).getToken();
 
                     }
 
@@ -393,6 +400,7 @@ public class LoginActivity extends AppCompatActivity {
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_PROVINSI, idProvinsi);
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KOTA, idKota);
                         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_KECAMATAN, idKecamatan);
+                        preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_TOKEN, token);
                         preferencedConfig.savePrefBoolean(SharedPreferencedConfig.PREFERENCE_IS_LOGIN, true);
 
                         Toast.makeText(LoginActivity.this, "Login Berhasil", Toast.LENGTH_SHORT).show();

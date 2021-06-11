@@ -24,6 +24,7 @@ import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.adapter.DokterAturJadwalAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.KategoriBayarAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
+import com.haloqlinic.haloqlinicapps.model.batalkanKonsultasi.ResponseBatalkanKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.biayaAdmin.ResponseBiayaAdmin;
 import com.haloqlinic.haloqlinicapps.model.ewalletKonsultasi.Actions;
 import com.haloqlinic.haloqlinicapps.model.ewalletKonsultasi.ResponseEwalletKonsultasi;
@@ -35,19 +36,21 @@ import com.haloqlinic.haloqlinicapps.model.qriskonsultasi.ResponseQrisKonsultasi
 import java.text.NumberFormat;
 import java.util.List;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CheckoutKonsultasiActivity extends AppCompatActivity {
 
-    String id_dokter, jadwal_dokter, nomerTelepon, id_transaksi;
+    String id_dokter, jadwal_dokter, nomerTelepon, id_transaksi, status;
     int biaya = 0, biaya_admin = 0, total_bayar = 0;
     RelativeLayout relative_biaya_admin;
     RecyclerView rvDokterCheckout, rvMetodeBayar;
     TextView txtHargaKonsultasi, txtBiayaAdmin, txtTotalBayar, txtOpsiBayarPilih;
     ImageView imgBack, imgBayarPilih;
-    Button btnCheckout;
+    Button btnCheckout, btnBatal;
     LinearLayout linearBayarPilih;
 
     private SharedPreferencedConfig preferencedConfig;
@@ -63,6 +66,7 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
         jadwal_dokter = getIntent().getStringExtra("jadwal_dokter");
         biaya = Integer.parseInt(getIntent().getStringExtra("biaya"));
         id_transaksi = getIntent().getStringExtra("id_transaksi");
+        status = getIntent().getStringExtra("status");
 
         rvDokterCheckout = findViewById(R.id.recycler_dokter_pembayaran_konsultasi);
         rvMetodeBayar = findViewById(R.id.recycler_metode_bayar_konsultasi);
@@ -75,6 +79,11 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
         imgBayarPilih = findViewById(R.id.img_byar_pilih_konsultasi);
         txtOpsiBayarPilih = findViewById(R.id.text_nama_bayar_pilih_konsultasu);
         linearBayarPilih = findViewById(R.id.metode_bayar_pilih_konsultasi);
+        btnBatal = findViewById(R.id.btn_batalkan_konsultasi);
+
+        if (status.equals("1")){
+            btnBatal.setVisibility(View.VISIBLE);
+        }
 
         initMetodeBayarPilih();
 
@@ -105,9 +114,73 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
             }
         });
 
+        btnBatal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                tampilDialog();
+            }
+        });
+
         loadDokter();
         loadMetodeBayar();
         loadBiayaAdmin();
+    }
+
+    private void batal() {
+
+        ProgressDialog progressDialog = new ProgressDialog(CheckoutKonsultasiActivity.this);
+        progressDialog.setMessage("membatalkan konsultasi");
+        progressDialog.show();
+
+        ConfigRetrofit.service.batalkanKonsultasi(id_transaksi).enqueue(new Callback<ResponseBatalkanKonsultasi>() {
+            @Override
+            public void onResponse(Call<ResponseBatalkanKonsultasi> call, Response<ResponseBatalkanKonsultasi> response) {
+                if (response.isSuccessful()){
+
+                    progressDialog.dismiss();
+                    Toast.makeText(CheckoutKonsultasiActivity.this, "Berhasil membatalkan konsultasi", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CheckoutKonsultasiActivity.this, MainActivity.class));
+                    finish();
+
+                }else{
+                    progressDialog.dismiss();
+                    Toast.makeText(CheckoutKonsultasiActivity.this, "Gagal membatalkan pesanan", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBatalkanKonsultasi> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(CheckoutKonsultasiActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void tampilDialog() {
+
+        MaterialDialog mDialog = new MaterialDialog.Builder(this)
+                .setTitle("Batalkan Konsultasi?")
+                .setMessage("Anda yakin ingin membatalkan konsultasi?")
+                .setCancelable(false)
+                .setPositiveButton("Batalkan", new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        batal();
+                    }
+                })
+                .setNegativeButton("Tidak", new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+
     }
 
     private void initMetodeBayarPilih() {
@@ -183,7 +256,7 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
         progressDialog.show();
 
         ConfigRetrofit.service.qrisKonsultasi(id_transaksi, id_customer, total, biayaAdminPost, id_dokter, kategori,
-                jadwal_dokter).enqueue(new Callback<ResponseQrisKonsultasi>() {
+                jadwal_dokter, status).enqueue(new Callback<ResponseQrisKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseQrisKonsultasi> call, Response<ResponseQrisKonsultasi> response) {
                 if (response.isSuccessful()){
@@ -202,6 +275,7 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
                     Intent intent = new Intent(CheckoutKonsultasiActivity.this, InvoiceKonsultasiActivity.class);
                     intent.putExtra("qr_string", qr_string);
                     intent.putExtra("id_transaksi", id_transaksi);
+                    intent.putExtra("status", status);
                     startActivity(intent);
                     finish();
                 }else{
@@ -256,9 +330,11 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
         Log.d("dataKirimEWallet", "kategori: "+kategori);
         Log.d("dataKirimEWallet", "idDokter: "+id_dokter);
         Log.d("dataKirimEWallet", "jadwalDokter: "+jadwal_dokter);
+        Log.d("dataKirimEWallet", "status: "+status);
+        Log.d("dataKirimEWallet", "id_transaksi: "+id_transaksi);
 
         ConfigRetrofit.service.ewalletKonsultasi(id_transaksi, id_customer, total, kode, "0", biayaAdminPost,
-                id_dokter, kategori, jadwal_dokter).enqueue(new Callback<ResponseEwalletKonsultasi>() {
+                id_dokter, kategori, jadwal_dokter, status).enqueue(new Callback<ResponseEwalletKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseEwalletKonsultasi> call, Response<ResponseEwalletKonsultasi> response) {
                 if (response.isSuccessful()){
@@ -282,6 +358,7 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
                     intent.putExtra("id_transaksi", id_transaksi);
                     intent.putExtra("mobile_web", mobileUrl);
                     intent.putExtra("mobile_deeplink", deeplink);
+                    intent.putExtra("status", status);
                     startActivity(intent);
                     finish();
 
@@ -340,7 +417,7 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
 
 
         ConfigRetrofit.service.ewalletKonsultasi(id_transaksi, id_customer, total, kode, nomerTelepon, biayaAdminPost, id_dokter,
-                kategori, jadwal_dokter).enqueue(new Callback<ResponseEwalletKonsultasi>() {
+                kategori, jadwal_dokter, status).enqueue(new Callback<ResponseEwalletKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseEwalletKonsultasi> call, Response<ResponseEwalletKonsultasi> response) {
                 if (response.isSuccessful()){

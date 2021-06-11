@@ -66,6 +66,16 @@ public class DokterTersediaAdapter extends RecyclerView.Adapter<DokterTersediaAd
         return dataDokter.size();
     }
 
+    public void addList(List<DataItem> list_data){
+        dataDokter.addAll(list_data);
+        notifyDataSetChanged();
+    }
+
+    public void clear(){
+        dataDokter.clear();
+        notifyDataSetChanged();
+    }
+
     public class DokterTersediaViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgDokter;

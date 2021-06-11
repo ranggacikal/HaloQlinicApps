@@ -72,11 +72,11 @@
                 android:id="@+id/metode_bayar_pilih_konsultasi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,18 +96,18 @@
                         android:id="@+id/img_byar_pilih_konsultasi"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
-                        android:src="@mipmap/ic_launcher"/>
+                        android:src="@mipmap/ic_launcher" />
 
                     <TextView
                         android:id="@+id/text_nama_bayar_pilih_konsultasu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nama Opsi Bayar"
-                        android:textSize="17sp"
-                        android:layout_marginStart="15dp"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Nama Opsi Bayar"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/robotobold"/>
+                        android:textSize="17sp" />
 
                 </LinearLayout>
 
@@ -211,16 +211,38 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp">
 
-                <Button
-                    android:id="@+id/btn_checkout_konsultasi"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@drawable/background_circle_button_green"
-                    android:fontFamily="@font/robotobold"
-                    android:text="Checkout"
-                    android:textColor="@color/white" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_checkout_konsultasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/background_circle_button_green"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Checkout"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/btn_batalkan_konsultasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:visibility="gone"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/background_circle_button_red"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Batalkan Konsultasi"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 

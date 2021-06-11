@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.adapter.InvoiceKonsultasiAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
+import com.haloqlinic.haloqlinicapps.model.batalkanKonsultasi.ResponseBatalkanKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasi.DataItem;
 import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasi.ResponseInvoiceKonsultasi;
 
@@ -22,6 +24,8 @@ import net.glxn.qrgen.android.QRCode;
 
 import java.util.List;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,11 +34,11 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
 
     ImageView imgShopee, imgDana, imgOvo, imgLinkAja, imgQris, imgQrCode;
     RecyclerView rvInvoice;
-    Button btnSelesaikanPembayaran, btnPembayaranSelesai;
+    Button btnSelesaikanPembayaran, btnPembayaranSelesai, btnBayarNanti;
 
     String opsi_bayar = "";
 
-    String id_transaksi, mobile_web, mobile_deeplink, qr_string;
+    String id_transaksi, mobile_web, mobile_deeplink, qr_string, status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +53,21 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
         imgQris = findViewById(R.id.img_qris_invoice_konsultasi);
         btnPembayaranSelesai = findViewById(R.id.btn_pembayaran_selesai_invoice_konsultasi);
         imgQrCode = findViewById(R.id.img_qrcode_invoice_konsultasi);
+        btnBayarNanti = findViewById(R.id.btn_bayar_nanti_invoice_konsultasi);
 
         id_transaksi = getIntent().getStringExtra("id_transaksi");
         mobile_web = getIntent().getStringExtra("mobile_web");
         mobile_deeplink = getIntent().getStringExtra("mobile_deeplink");
         qr_string = getIntent().getStringExtra("qr_string");
+        status = getIntent().getStringExtra("status");
+
+        Log.d("statusInvoice", "onCreate: "+status);
+
+        if (status.equals("2")){
+
+            btnBayarNanti.setVisibility(View.VISIBLE);
+
+        }
 
         btnSelesaikanPembayaran.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +83,42 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
             }
         });
 
+        btnBayarNanti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tampilDialog();
+            }
+        });
+
         loadDataInvoice();
+    }
+
+    private void tampilDialog() {
+
+        MaterialDialog mDialog = new MaterialDialog.Builder(this)
+                .setTitle("Bayar nanti?")
+                .setMessage("Silahkan buka menu history konsultasi di profile untuk melakukan pembayaran")
+                .setCancelable(false)
+                .setPositiveButton("Buka history konsultasi", new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        //BATALKAN PESANAN METHO
+                        startActivity(new Intent(InvoiceKonsultasiActivity.this, HistoryKonsultasiActivity.class));
+                        finish();
+                    }
+                })
+                .setNegativeButton("Kembali ke home", new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        startActivity(new Intent(InvoiceKonsultasiActivity.this, MainActivity.class));
+                        finish();
+                    }
+                })
+                .build();
+
+        // Show Dialog
+        mDialog.show();
+
     }
 
     private void loadDataInvoice() {
@@ -137,6 +186,65 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (status.equals("1")) {
+            MaterialDialog mDialog = new MaterialDialog.Builder(this)
+                    .setTitle("Anda Yakin ingin keluar dari halaman pembayaran?")
+                    .setMessage("Konsultasi anda akan dibatalkan, jika anda keluar dari halaman pembayaran")
+                    .setCancelable(false)
+                    .setPositiveButton("Iya", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            InvoiceKonsultasiActivity.super.onBackPressed();
+                            //BATALKAN PESANAN METHO
+                            cancelPayment();
+                        }
+                    })
+                    .setNegativeButton("Tidak", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
+
+            // Show Dialog
+            mDialog.show();
+
+        }else{
+            InvoiceKonsultasiActivity.super.onBackPressed();
+            //BATALKAN PESANAN METHO
+            startActivity(new Intent(InvoiceKonsultasiActivity.this, MainActivity.class));
+            finish();
+        }
+    }
+
+    private void cancelPayment() {
+
+        ConfigRetrofit.service.batalkanKonsultasi(id_transaksi).enqueue(new Callback<ResponseBatalkanKonsultasi>() {
+            @Override
+            public void onResponse(Call<ResponseBatalkanKonsultasi> call, Response<ResponseBatalkanKonsultasi> response) {
+                if (response.isSuccessful()){
+
+                    Toast.makeText(InvoiceKonsultasiActivity.this, "Berhasil batalkan transaksi", Toast.LENGTH_SHORT).show();
+
+                    startActivity(new Intent(InvoiceKonsultasiActivity.this, MainActivity.class));
+                    finish();
+                }else{
+                    Toast.makeText(InvoiceKonsultasiActivity.this, "Gagal batalkan transaksi", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBatalkanKonsultasi> call, Throwable t) {
+                Toast.makeText(InvoiceKonsultasiActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }

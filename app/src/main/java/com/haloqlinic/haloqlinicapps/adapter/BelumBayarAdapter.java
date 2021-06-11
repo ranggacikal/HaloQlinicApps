@@ -72,6 +72,7 @@ public class BelumBayarAdapter extends RecyclerView.Adapter<BelumBayarAdapter.Be
                 Intent intent = new Intent(context, DetailTransaksiActivity.class);
                 intent.putExtra("id_transaksi", dataBelumBayar.get(position).getIdTransaksi());
                 intent.putExtra("id_member", dataBelumBayar.get(position).getIdMember());
+                intent.putExtra("fragmentStatusTransaksi", "belumbayar");
                 context.startActivity(intent);
             }
         });

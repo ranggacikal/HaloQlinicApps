@@ -1,23 +1,30 @@
 package com.haloqlinic.haloqlinicapps;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.adapter.CariDokterTersediaAdapter;
+import com.haloqlinic.haloqlinicapps.adapter.DokterAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.DokterTersediaAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.cariDokter.ResponseCariDokter;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktif.DataItem;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktif.ResponseDataDokterAktif;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,6 +36,14 @@ public class DokterTersediaActivity extends AppCompatActivity {
     RecyclerView rvDokterTersedia;
     ImageView imgBack;
     SearchView cariDokter;
+    private int page = 1;
+    private int page_size = 10;
+    private int total_page = 1;
+    private List<DataItem> dataDokter = new ArrayList<>();
+    LinearLayoutManager manager;
+    DokterTersediaAdapter adapter;
+    private boolean isLoading = false;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +53,41 @@ public class DokterTersediaActivity extends AppCompatActivity {
         rvDokterTersedia = findViewById(R.id.recycler_dokter_tersedia);
         imgBack = findViewById(R.id.img_back_dokter_tersedia);
         cariDokter = findViewById(R.id.cari_dokter_tersedia);
+        progressBar = findViewById(R.id.progressbar_dokter_online);
+
+        manager = new LinearLayoutManager(DokterTersediaActivity.this);
+        rvDokterTersedia.setHasFixedSize(true);
+        rvDokterTersedia.setLayoutManager(manager);
+
+        loadDokterTersedia();
+
+        adapter = new DokterTersediaAdapter(DokterTersediaActivity.this, dataDokter);
+        rvDokterTersedia.setAdapter(adapter);
+
+        rvDokterTersedia.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull @NotNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItem = manager.getChildCount();
+                int totalItem = adapter.getItemCount();
+                int firstVisibleItemPosition = manager.findFirstVisibleItemPosition();
+
+                if (!isLoading && page < total_page) {
+
+                    if (visibleItem + firstVisibleItemPosition >= totalItem) {
+
+                        page++;
+                        Log.d("checkScrolled", "page: " + page);
+                        loadDokterTersedia();
+                    }
+                }
+            }
+        });
 
         cariDokter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,10 +110,12 @@ public class DokterTersediaActivity extends AppCompatActivity {
             }
         });
 
-        rvDokterTersedia.setHasFixedSize(true);
-        rvDokterTersedia.setLayoutManager(new LinearLayoutManager(DokterTersediaActivity.this));
-
-        loadDokterTersedia();
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void loadCariDataDokter(String newText) {
@@ -93,31 +145,36 @@ public class DokterTersediaActivity extends AppCompatActivity {
     private void loadDokterTersedia() {
 
         String status = "1";
+        progressBar.setVisibility(View.VISIBLE);
+        isLoading = true;
 
-        ProgressDialog progressDialog = new ProgressDialog(DokterTersediaActivity.this);
-        progressDialog.setMessage("Memuat semua data dokter tersedia");
-        progressDialog.show();
-
-        ConfigRetrofit.service.dataDokterAktif(status).enqueue(new Callback<ResponseDataDokterAktif>() {
+        ConfigRetrofit.service.dataDokterAktif(status, String.valueOf(page)).enqueue(new Callback<ResponseDataDokterAktif>() {
             @Override
             public void onResponse(Call<ResponseDataDokterAktif> call, Response<ResponseDataDokterAktif> response) {
                 if (response.isSuccessful()){
-                    progressDialog.dismiss();
 
-                    List<DataItem> dataDokter = response.body().getData();
-                    DokterTersediaAdapter adapter = new DokterTersediaAdapter(DokterTersediaActivity.this, dataDokter);
-                    rvDokterTersedia.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+
+                    total_page = response.body().getTotalPage();
+                    dataDokter = response.body().getData();
+                    if (dataDokter!=null) {
+
+                        adapter.addList(dataDokter);
+                    }
+                    isLoading = false;
 
                 }else{
-                    progressDialog.dismiss();
-                    Toast.makeText(DokterTersediaActivity.this, "Gagal memuat data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DokterTersediaActivity.this, "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    isLoading = false;
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseDataDokterAktif> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(DokterTersediaActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                isLoading = false;
+                Toast.makeText(DokterTersediaActivity.this, "Terjadi Kesalahan Di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

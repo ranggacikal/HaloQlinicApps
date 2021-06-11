@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
         tokenUser = getIntent().getStringExtra("tokenUser");
         addressUser = getIntent().getStringExtra("addressUser");
+
+        imgKeranjang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, KeranjangActivity.class));
+            }
+        });
 
         getAllWidgets();
         bindWidgetsWithAnEvent();

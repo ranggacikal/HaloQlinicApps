@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName;
 public class DataItem{
 
 	@SerializedName("provinsi")
-	private Object provinsi;
+	private String provinsi;
 
 	@SerializedName("usia")
-	private Object usia;
+	private String usia;
 
 	@SerializedName("jk")
-	private Object jk;
+	private String jk;
 
 	@SerializedName("img")
 	private Object img;
 
 	@SerializedName("kota")
-	private Object kota;
+	private String kota;
 
 	@SerializedName("no_hp")
-	private Object noHp;
+	private String noHp;
 
 	@SerializedName("id_customer")
 	private String idCustomer;
@@ -29,13 +29,19 @@ public class DataItem{
 	private String createdAt;
 
 	@SerializedName("tgl_lahir")
-	private Object tglLahir;
+	private String tglLahir;
+
+	@SerializedName("token")
+	private String token;
 
 	@SerializedName("oauthpro")
 	private String oauthpro;
 
 	@SerializedName("alamat")
-	private Object alamat;
+	private String alamat;
+
+	@SerializedName("uid")
+	private String uid;
 
 	@SerializedName("oauthid")
 	private String oauthid;
@@ -43,42 +49,48 @@ public class DataItem{
 	@SerializedName("password")
 	private Object password;
 
+	@SerializedName("player_id")
+	private String playerId;
+
 	@SerializedName("nama")
 	private String nama;
 
 	@SerializedName("updated_at")
-	private Object updatedAt;
+	private String updatedAt;
 
 	@SerializedName("kode")
 	private String kode;
 
 	@SerializedName("kecamatan")
-	private Object kecamatan;
+	private String kecamatan;
 
 	@SerializedName("email")
 	private String email;
 
-	public void setProvinsi(Object provinsi){
+	@SerializedName("status")
+	private String status;
+
+	public void setProvinsi(String provinsi){
 		this.provinsi = provinsi;
 	}
 
-	public Object getProvinsi(){
+	public String getProvinsi(){
 		return provinsi;
 	}
 
-	public void setUsia(Object usia){
+	public void setUsia(String usia){
 		this.usia = usia;
 	}
 
-	public Object getUsia(){
+	public String getUsia(){
 		return usia;
 	}
 
-	public void setJk(Object jk){
+	public void setJk(String jk){
 		this.jk = jk;
 	}
 
-	public Object getJk(){
+	public String getJk(){
 		return jk;
 	}
 
@@ -90,19 +102,19 @@ public class DataItem{
 		return img;
 	}
 
-	public void setKota(Object kota){
+	public void setKota(String kota){
 		this.kota = kota;
 	}
 
-	public Object getKota(){
+	public String getKota(){
 		return kota;
 	}
 
-	public void setNoHp(Object noHp){
+	public void setNoHp(String noHp){
 		this.noHp = noHp;
 	}
 
-	public Object getNoHp(){
+	public String getNoHp(){
 		return noHp;
 	}
 
@@ -122,12 +134,20 @@ public class DataItem{
 		return createdAt;
 	}
 
-	public void setTglLahir(Object tglLahir){
+	public void setTglLahir(String tglLahir){
 		this.tglLahir = tglLahir;
 	}
 
-	public Object getTglLahir(){
+	public String getTglLahir(){
 		return tglLahir;
+	}
+
+	public void setToken(String token){
+		this.token = token;
+	}
+
+	public String getToken(){
+		return token;
 	}
 
 	public void setOauthpro(String oauthpro){
@@ -138,12 +158,20 @@ public class DataItem{
 		return oauthpro;
 	}
 
-	public void setAlamat(Object alamat){
+	public void setAlamat(String alamat){
 		this.alamat = alamat;
 	}
 
-	public Object getAlamat(){
+	public String getAlamat(){
 		return alamat;
+	}
+
+	public void setUid(String uid){
+		this.uid = uid;
+	}
+
+	public String getUid(){
+		return uid;
 	}
 
 	public void setOauthid(String oauthid){
@@ -162,6 +190,14 @@ public class DataItem{
 		return password;
 	}
 
+	public void setPlayerId(String playerId){
+		this.playerId = playerId;
+	}
+
+	public String getPlayerId(){
+		return playerId;
+	}
+
 	public void setNama(String nama){
 		this.nama = nama;
 	}
@@ -170,11 +206,11 @@ public class DataItem{
 		return nama;
 	}
 
-	public void setUpdatedAt(Object updatedAt){
+	public void setUpdatedAt(String updatedAt){
 		this.updatedAt = updatedAt;
 	}
 
-	public Object getUpdatedAt(){
+	public String getUpdatedAt(){
 		return updatedAt;
 	}
 
@@ -186,11 +222,11 @@ public class DataItem{
 		return kode;
 	}
 
-	public void setKecamatan(Object kecamatan){
+	public void setKecamatan(String kecamatan){
 		this.kecamatan = kecamatan;
 	}
 
-	public Object getKecamatan(){
+	public String getKecamatan(){
 		return kecamatan;
 	}
 
@@ -200,6 +236,14 @@ public class DataItem{
 
 	public String getEmail(){
 		return email;
+	}
+
+	public void setStatus(String status){
+		this.status = status;
+	}
+
+	public String getStatus(){
+		return status;
 	}
 
 	@Override
@@ -215,15 +259,19 @@ public class DataItem{
 			",id_customer = '" + idCustomer + '\'' + 
 			",created_at = '" + createdAt + '\'' + 
 			",tgl_lahir = '" + tglLahir + '\'' + 
+			",token = '" + token + '\'' + 
 			",oauthpro = '" + oauthpro + '\'' + 
 			",alamat = '" + alamat + '\'' + 
+			",uid = '" + uid + '\'' + 
 			",oauthid = '" + oauthid + '\'' + 
 			",password = '" + password + '\'' + 
+			",player_id = '" + playerId + '\'' + 
 			",nama = '" + nama + '\'' + 
 			",updated_at = '" + updatedAt + '\'' + 
 			",kode = '" + kode + '\'' + 
 			",kecamatan = '" + kecamatan + '\'' + 
 			",email = '" + email + '\'' + 
+			",status = '" + status + '\'' + 
 			"}";
 		}
 }

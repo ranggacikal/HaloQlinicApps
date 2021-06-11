@@ -40,7 +40,7 @@ public class AturJadwalActivity extends AppCompatActivity {
     RecyclerView rvDokter, rvJadwal;
     TextView txtKonsultasiDengan;
     ImageView imgBack;
-    Button btnBuatJadwal;
+    Button btnBuatJadwal, btnKonsultasiSekarang;
 
     String id_dokter, nama_dokter, biaya;
     private SharedPreferencedConfig preferencedConfig;
@@ -90,15 +90,6 @@ public class AturJadwalActivity extends AppCompatActivity {
                     Toast.makeText(AturJadwalActivity.this, "Anda belum memilih jadwal dokter", Toast.LENGTH_SHORT).show();
                 }else {
 
-//                    Intent intent = new Intent(AturJadwalActivity.this, CheckoutKonsultasiActivity.class);
-//                    intent.putExtra("id_dokter", id_dokter);
-//                    intent.putExtra("jadwal_dokter", jadwal_dokter);
-//                    intent.putExtra("id_jadwal", id_jadwal);
-//                    intent.putExtra("biaya", biaya);
-//                    Log.d("checkDataJadwal", "onClick: "+id_dokter);
-//                    Log.d("checkDataJadwal", "onClick: "+jadwal_dokter);
-//                    startActivity(intent);
-
                     postKonsultasi();
 
                 }
@@ -117,16 +108,33 @@ public class AturJadwalActivity extends AppCompatActivity {
         progressDialog.setMessage("Mengajukan Permintaan Konsultasi");
         progressDialog.show();
 
-        ConfigRetrofit.service.postKonsultasi(id_customer, id_jadwal, id_dokter, jadwal_dokter).enqueue(new Callback<ResponseKonsultasi>() {
+        ConfigRetrofit.service.postKonsultasi(id_customer, id_jadwal, id_dokter, jadwal_dokter, "2").enqueue(new Callback<ResponseKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseKonsultasi> call, Response<ResponseKonsultasi> response) {
                 if (response.isSuccessful()){
 
                     progressDialog.dismiss();
                     Toast.makeText(AturJadwalActivity.this, "Berhasil mengajukan konsultasi", Toast.LENGTH_SHORT).show();
-                    tampilDialog();
+
+                    String id_transaksi = response.body().getIdTransaksi();
+
+                    Intent intent = new Intent(AturJadwalActivity.this, CheckoutKonsultasiActivity.class);
+                    intent.putExtra("id_dokter", id_dokter);
+                    intent.putExtra("id_transaksi", id_transaksi);
+                    intent.putExtra("jadwal_dokter", jadwal_dokter);
+                    intent.putExtra("id_jadwal", id_jadwal);
+                    intent.putExtra("biaya", biaya);
+                    intent.putExtra("status", "2");
+                    Log.d("checkDataJadwal", "onClick: "+id_dokter);
+                    Log.d("checkDataJadwal", "onClick: "+jadwal_dokter);
+                    startActivity(intent);
+//                    tampilDialog();
                 }else{
                     progressDialog.dismiss();
+                    Log.d("checkParamKonsultasi", "id_customer: "+id_customer);
+                    Log.d("checkParamKonsultasi", "id_jadwal: "+id_jadwal);
+                    Log.d("checkParamKonsultasi", "id_dokter: "+id_dokter);
+                    Log.d("checkParamKonsultasi", "jadwal_dokter: "+jadwal_dokter);
                     Toast.makeText(AturJadwalActivity.this, "Gagal mengajulan konsultasi", Toast.LENGTH_SHORT).show();
                 }
             }

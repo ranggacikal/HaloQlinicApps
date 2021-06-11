@@ -69,7 +69,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/robotobold"
-                        android:text="SKIN CARE"
+                        android:text="Produk\nKecantikan"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="10sp" />

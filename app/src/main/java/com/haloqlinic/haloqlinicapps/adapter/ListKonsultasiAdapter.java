@@ -7,11 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.haloqlinic.haloqlinicapps.ChatActivity;
 import com.haloqlinic.haloqlinicapps.CheckoutKonsultasiActivity;
+import com.haloqlinic.haloqlinicapps.DetailHistoryActivity;
 import com.haloqlinic.haloqlinicapps.HistoryKonsultasiActivity;
 import com.haloqlinic.haloqlinicapps.R;
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
@@ -50,22 +53,39 @@ public class ListKonsultasiAdapter extends RecyclerView.Adapter<ListKonsultasiAd
         holder.txtSpesialis.setText("Spesialis " + dataKonsultasi.get(position).getSpesialis());
         holder.txtJadwal.setText(dataKonsultasi.get(position).getJadwal());
 
+        String status_transaksi = dataKonsultasi.get(position).getStatusTransaksi();
+        String id_transaksi = dataKonsultasi.get(position).getIdTransaksi();
+
         preferencedConfig = new SharedPreferencedConfig(context);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (preferencedConfig.getPreferencePositionFragment().equals("1")) {
+                if (preferencedConfig.getPreferencePositionFragment().equals("0")) {
 
-                    Intent intent = new Intent(context, CheckoutKonsultasiActivity.class);
-                    intent.putExtra("id_transaksi", dataKonsultasi.get(position).getIdTransaksi());
-                    intent.putExtra("id_dokter", dataKonsultasi.get(position).getIdDokter());
-                    intent.putExtra("jadwal_dokter", dataKonsultasi.get(position).getJadwal());
-                    intent.putExtra("biaya", dataKonsultasi.get(position).getBiaya());
+                    Intent intent = new Intent(context, DetailHistoryActivity.class);
+                    intent.putExtra("id_transaksi", id_transaksi);
                     context.startActivity(intent);
 
+                }else if (preferencedConfig.getPreferencePositionFragment().equals("1")){
+
+                    if (status_transaksi.equals("1")){
+
+                        Intent intentChat = new Intent(context, ChatActivity.class);
+                        intentChat.putExtra("token", dataKonsultasi.get(position).getToken());
+                        intentChat.putExtra("nama_dokter", dataKonsultasi.get(position).getNama());
+                        intentChat.putExtra("image", dataKonsultasi.get(position).getImg());
+                        intentChat.putExtra("spesialis", dataKonsultasi.get(position).getSpesialis());
+                        intentChat.putExtra("player_id", dataKonsultasi.get(position).getPlayerId());
+                        context.startActivity(intentChat);
+
+                    }
+
+                }else if (preferencedConfig.getPreferencePositionFragment().equals("2")){
+                    Toast.makeText(context, "Test Click", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 

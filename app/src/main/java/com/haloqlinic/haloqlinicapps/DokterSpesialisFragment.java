@@ -2,23 +2,30 @@ package com.haloqlinic.haloqlinicapps;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.adapter.CariSpesialisAdapter;
+import com.haloqlinic.haloqlinicapps.adapter.DokterAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.SpesialisAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.cariDokter.ResponseCariDokter;
 import com.haloqlinic.haloqlinicapps.model.listDokter.DataItem;
 import com.haloqlinic.haloqlinicapps.model.listDokter.ResponseListDokter;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,6 +46,14 @@ public class DokterSpesialisFragment extends Fragment {
 
     RecyclerView rvSpesialisFragment;
     SearchView searchView;
+    private int page = 1;
+    private int page_size = 10;
+    private int total_page = 1;
+    private List<DataItem> dataDokter = new ArrayList<>();
+    LinearLayoutManager manager;
+    DokterAdapter adapter;
+    private boolean isLoading = false;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +63,42 @@ public class DokterSpesialisFragment extends Fragment {
 
         rvSpesialisFragment = rootView.findViewById(R.id.recycler_spesialis_fragment);
         searchView = rootView.findViewById(R.id.search_dokter_spesialis);
+        progressBar = rootView.findViewById(R.id.progressbar_dokter);
+
+        manager = new LinearLayoutManager(getActivity());
+        rvSpesialisFragment.setHasFixedSize(true);
+        rvSpesialisFragment.setLayoutManager(manager);
+
+        loadDokterSpesialis();
+
+        adapter = new DokterAdapter(getActivity(), dataDokter);
+        rvSpesialisFragment.setAdapter(adapter);
+
+        rvSpesialisFragment.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull @NotNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int visibleItem = manager.getChildCount();
+                int totalItem = adapter.getItemCount();
+                int firstVisibleItemPosition = manager.findFirstVisibleItemPosition();
+
+                if (!isLoading && page < total_page) {
+
+                    if (visibleItem + firstVisibleItemPosition >= totalItem) {
+
+                        page++;
+                        Log.d("checkScrolled", "page: " + page);
+                        loadDokterSpesialis();
+                    }
+                }
+            }
+        });
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +107,6 @@ public class DokterSpesialisFragment extends Fragment {
                 searchView.setIconified(false);
             }
         });
-
-        rvSpesialisFragment.setHasFixedSize(true);
-        rvSpesialisFragment.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -73,8 +121,6 @@ public class DokterSpesialisFragment extends Fragment {
                 return true;
             }
         });
-
-        loadDokterSpesialis();
 
         return rootView;
     }
@@ -106,26 +152,38 @@ public class DokterSpesialisFragment extends Fragment {
     private void loadDokterSpesialis() {
 
         String status = "1";
+        progressBar.setVisibility(View.VISIBLE);
+        isLoading = true;
 
-        ConfigRetrofit.service.dataDokter(status).enqueue(new Callback<ResponseListDokter>() {
+        ConfigRetrofit.service.dataDokter(status, String.valueOf(page)).enqueue(new Callback<ResponseListDokter>() {
             @Override
             public void onResponse(Call<ResponseListDokter> call, Response<ResponseListDokter> response) {
                 if (response.isSuccessful()){
 
-                    List<DataItem> dataDokter = response.body().getData();
-                    SpesialisAdapter adapter = new SpesialisAdapter(getActivity(), dataDokter);
-                    rvSpesialisFragment.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+
+                    total_page = response.body().getTotalPage();
+                    dataDokter = response.body().getData();
+                    Toast.makeText(getActivity(), "berhasil load page ke- "+page, Toast.LENGTH_SHORT).show();
+                    if (dataDokter!=null) {
+
+                        adapter.addList(dataDokter);
+                    }
+                    isLoading = false;
 
                 }else{
-                    Toast.makeText(getActivity(), "Gagal memuat data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    isLoading = false;
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseListDokter> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                isLoading = false;
+                Toast.makeText(getActivity(), "Terjadi Kesalahan Di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

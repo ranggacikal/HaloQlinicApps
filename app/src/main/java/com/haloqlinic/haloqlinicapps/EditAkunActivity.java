@@ -1,13 +1,18 @@
 package com.haloqlinic.haloqlinicapps;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +27,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+//import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.StringRequestListener;
+import com.androidnetworking.interfaces.UploadProgressListener;
+import com.bumptech.glide.Glide;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.editAkun.ResponseEditAkun;
@@ -30,21 +43,29 @@ import com.haloqlinic.haloqlinicapps.model.kota.ResponseDataKota;
 import com.haloqlinic.haloqlinicapps.model.kota.ResponseItem;
 import com.haloqlinic.haloqlinicapps.model.provinsi.DataItem;
 import com.haloqlinic.haloqlinicapps.model.provinsi.ResponseDataProvinsi;
+import com.haloqlinic.haloqlinicapps.model.updatePhoto.ResponseUpdatePhoto;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditAkunActivity extends AppCompatActivity {
 
-    CircleImageView imgEditAkun;
+    CircleImageView imgEditAkun, imgUpdatePhoto;
     EditText edtNamaLengkap, edtNotelepon, edtAlamat;
     TextView txtJenisKelamin, txtTanggalLahir, txtProvinsi, txtKota, txtKecamatan;
     LinearLayout linearJenisKelamin, linearTglLahir;
@@ -70,6 +91,11 @@ public class EditAkunActivity extends AppCompatActivity {
 
     Typeface face;
 
+    Uri uri1;
+
+    String nama_file1 = "";
+    private String PicturePath1 = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +104,10 @@ public class EditAkunActivity extends AppCompatActivity {
 
         preferencedConfig = new SharedPreferencedConfig(this);
 
+        AndroidNetworking.initialize(getApplicationContext());
+
         imgEditAkun = findViewById(R.id.img_edit_akun);
+        imgUpdatePhoto = findViewById(R.id.img_update_photo);
         edtNamaLengkap = findViewById(R.id.edt_nama_edit_akun);
         edtNotelepon = findViewById(R.id.edt_no_telepon_edit_akun);
         edtAlamat = findViewById(R.id.edt_alamat_edit_akun);
@@ -225,6 +254,135 @@ public class EditAkunActivity extends AppCompatActivity {
                 editAkun();
             }
         });
+
+        imgEditAkun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.with(EditAkunActivity.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == RESULT_OK) {
+
+
+                uri1 = data.getData();
+                nama_file1 = uri1.getLastPathSegment();
+                imgEditAkun.setImageURI(uri1);
+                PicturePath1 = uri1.getPath();
+
+                Log.d("checkPath", "onActivityResult: "+PicturePath1);
+
+                updatePhoto();
+
+            }else if (resultCode == ImagePicker.RESULT_ERROR){
+                Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+            }
+    }
+
+    private void updatePhoto() {
+
+        ProgressDialog progressDialog = new ProgressDialog(EditAkunActivity.this);
+        progressDialog.setMessage("Mengajukan Penukaran Produk");
+        progressDialog.setTitle("Mohon Tunggu");
+        progressDialog.show();
+
+        File file = new File(PicturePath1);
+
+        RequestBody requestFile =
+                RequestBody.create(file, MediaType.parse("multipart/form-data"));
+
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+        RequestBody id_customer = RequestBody.create(preferencedConfig.getPreferenceIdCustomer(), MediaType.parse("text/plain"));
+
+        ConfigRetrofit.service.updatePhoto(id_customer, body).enqueue(new Callback<ResponseUpdatePhoto>() {
+            @Override
+            public void onResponse(Call<ResponseUpdatePhoto> call, Response<ResponseUpdatePhoto> response) {
+                if (response.isSuccessful()){
+
+                    progressDialog.dismiss();
+                    String nama_file = response.body().getFile();
+                    Log.d("namaUpdatePhoto", "onResponse: "+nama_file);
+                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_IMG, nama_file);
+                    Toast.makeText(EditAkunActivity.this, "Berhasil Update photo", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(EditAkunActivity.this, "Gagal update photo", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseUpdatePhoto> call, Throwable t) {
+                Toast.makeText(EditAkunActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//        HashMap<String, String> params = new HashMap<>();
+//        params.put("id_customer", preferencedConfig.getPreferenceIdCustomer());
+//        //params.put("password2",picturePath);
+//
+//        try {
+//            OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+//                    .connectTimeout(10, TimeUnit.SECONDS)
+//                    .readTimeout(10, TimeUnit.SECONDS)
+//                    .writeTimeout(10, TimeUnit.SECONDS)
+//                    .build();
+//
+//
+//            AndroidNetworking.upload("https://aplikasicerdas.net/haloqlinic/android/customer/update_photo.php")
+//                    .addMultipartParameter(params)
+//                    .addMultipartFile("file", new File(PicturePath1))
+//                    .setTag(EditAkunActivity.this)
+//                    .setPriority(Priority.HIGH)
+//                    .setOkHttpClient(okHttpClient)
+//                    .build()
+//                    .setUploadProgressListener(new UploadProgressListener() {
+//                        @Override
+//                        public void onProgress(long bytesUploaded, long totalBytes) {
+//
+//                        }
+//                    })
+//                    .getAsString(new StringRequestListener() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            if (response.contains("Berhasil update foto")) {
+//                                Toast.makeText(EditAkunActivity.this, "Profile Picture has succesfully changed.", Toast.LENGTH_LONG).show();
+//                                Log.d("getFoto", "onResponse: "+new File(PicturePath1));
+//                                Log.d("getNamaFoto", "onResponse: "+nama_file1);
+//                            } else {
+//                                Toast.makeText(EditAkunActivity.this, "Gagal", Toast.LENGTH_SHORT).show();
+//                                Log.d("getFoto", "onResponse: "+new File(PicturePath1));
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(ANError anError) {
+////                        progressDialog.dismiss();
+//                            Toast.makeText(EditAkunActivity.this, anError.getErrorDetail(), Toast.LENGTH_SHORT).show();
+//                            Log.d("checkErrorUpdatePhoto", "onError: "+anError.getErrorDetail());
+//                            Log.d("checkErrorUpdatePhoto", "onError: "+anError.getErrorCode());
+//                            Log.d("getParam", "onError: "+params);
+//                            Log.d("getFoto", "onResponse: "+new File(PicturePath1));
+//                        }
+//                    });
+//        }catch (NullPointerException e){
+//            //kalau kosong
+//            e.printStackTrace();
+//            Toast.makeText(EditAkunActivity.this, "Upload dulu Imagenya, tekan di bagian gambar.", Toast.LENGTH_SHORT).show();
+//        }
 
     }
 
@@ -464,6 +622,12 @@ public class EditAkunActivity extends AppCompatActivity {
         }else{
             edtAlamat.setText(preferencedConfig.getPreferenceAlamat());
         }
+
+        String url = "https://aplikasicerdas.net/haloqlinic/file/customer/profile/"+preferencedConfig.getPreferenceImg();
+        Glide.with(EditAkunActivity.this)
+                .load(url)
+                .error(R.mipmap.ic_launcher)
+                .into(imgEditAkun);
 
     }
 

@@ -103,6 +103,17 @@
                 android:textColor="@color/white" />
 
             <Button
+                android:id="@+id/btn_bayar_nanti_invoice_konsultasi"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:background="@drawable/background_circle_button_red"
+                android:fontFamily="@font/robotobold"
+                android:layout_marginBottom="10dp"
+                android:text="Bayar nanti"
+                android:textColor="@color/white" />
+
+            <Button
                 android:id="@+id/btn_pembayaran_selesai_invoice_konsultasi"
                 android:layout_width="match_parent"
                 android:visibility="gone"

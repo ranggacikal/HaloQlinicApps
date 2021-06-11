@@ -16,8 +16,14 @@ public class DataItem{
 	@SerializedName("harga")
 	private String harga;
 
+	@SerializedName("berat")
+	private String berat;
+
 	@SerializedName("kode")
 	private String kode;
+
+	@SerializedName("id_member")
+	private String idMember;
 
 	@SerializedName("disc")
 	private String disc;
@@ -57,12 +63,28 @@ public class DataItem{
 		return harga;
 	}
 
+	public void setBerat(String berat){
+		this.berat = berat;
+	}
+
+	public String getBerat(){
+		return berat;
+	}
+
 	public void setKode(String kode){
 		this.kode = kode;
 	}
 
 	public String getKode(){
 		return kode;
+	}
+
+	public void setIdMember(String idMember){
+		this.idMember = idMember;
+	}
+
+	public String getIdMember(){
+		return idMember;
 	}
 
 	public void setDisc(String disc){
@@ -89,7 +111,9 @@ public class DataItem{
 			",nama_produk = '" + namaProduk + '\'' + 
 			",img = '" + img + '\'' + 
 			",harga = '" + harga + '\'' + 
+			",berat = '" + berat + '\'' + 
 			",kode = '" + kode + '\'' + 
+			",id_member = '" + idMember + '\'' + 
 			",disc = '" + disc + '\'' + 
 			",harga_jual = '" + hargaJual + '\'' + 
 			"}";

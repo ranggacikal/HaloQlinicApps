@@ -24,6 +24,7 @@ public class NotificationServiceExtension implements OneSignal.OSRemoteNotificat
 
         OSMutableNotification mutableNotification = notification.mutableCopy();
         mutableNotification.setExtender(builder -> builder.setColor(context.getResources().getColor(R.color.colorPrimary)));
+        
 
         // If complete isn't call within a time period of 25 seconds, OneSignal internal logic will show the original notification
         notificationReceivedEvent.complete(mutableNotification);

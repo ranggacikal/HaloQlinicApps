@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 
@@ -28,9 +30,11 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    RelativeLayout relativeEditProfile, relativeLogout, relativeKeranjang, relativeHistory, relativeHistoryChat;
+    RelativeLayout relativeEditProfile, relativeLogout, relativeKeranjang, relativeHistory, relativeHistoryChat,
+    relativeRecipe;
     private SharedPreferencedConfig preferencedConfig;
     TextView txtNamaUser;
+    ImageView imgProfile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,8 +50,19 @@ public class ProfileFragment extends Fragment {
         relativeKeranjang = rootview.findViewById(R.id.relative_keranjang_profile);
         relativeHistory = rootview.findViewById(R.id.relative_history_profile);
         relativeHistoryChat = rootview.findViewById(R.id.relative_history_konsultasi);
+        relativeRecipe = rootview.findViewById(R.id.relative_recipe);
+        imgProfile = rootview.findViewById(R.id.img_profile_user);
 
         txtNamaUser.setText(preferencedConfig.getPreferenceNama());
+
+        initGambar();
+
+        relativeRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ResepObatActivity.class));
+            }
+        });
 
         relativeEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +116,22 @@ public class ProfileFragment extends Fragment {
         });
 
         return rootview;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initGambar();
+    }
+
+    private void initGambar() {
+
+        String url = "https://aplikasicerdas.net/haloqlinic/file/customer/profile/"+preferencedConfig.getPreferenceImg();
+        Glide.with(getActivity())
+                .load(url)
+                .error(R.mipmap.ic_launcher)
+                .into(imgProfile);
+
     }
 
     private void keluarAkun() {

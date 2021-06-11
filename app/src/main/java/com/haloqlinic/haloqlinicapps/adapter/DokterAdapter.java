@@ -65,6 +65,16 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.DokterView
         return dokterList.size();
     }
 
+    public void addList(List<DataItem> list_data){
+        dokterList.addAll(list_data);
+        notifyDataSetChanged();
+    }
+
+    public void clear(){
+        dokterList.clear();
+        notifyDataSetChanged();
+    }
+
     public class DokterViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView imgDokter;
