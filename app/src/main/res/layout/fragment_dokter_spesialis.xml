@@ -20,6 +20,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_cari_spesialis_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_margin="15dp"/>
+
     <ProgressBar
         android:id="@+id/progressbar_dokter"
         android:visibility="gone"

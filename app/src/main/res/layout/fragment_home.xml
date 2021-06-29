@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="35dp"
-    android:layout_marginEnd="35dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     tools:context=".HomeFragment">
 
     <ScrollView
@@ -27,15 +27,15 @@
 
                 <LinearLayout
                     android:id="@+id/linear_dokter_spesialis_home"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
                     android:background="@drawable/background_borde_circle_navy"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/ic_dokter_spesialis" />
 
                     <TextView
@@ -46,22 +46,22 @@
                         android:text="Dokter\nSpesialis"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/linear_skincare_home"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/background_borde_circle_navy"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/ic_skincare" />
 
                     <TextView
@@ -72,22 +72,22 @@
                         android:text="Produk\nKecantikan"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/linear_jadwal_home"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/background_borde_circle_navy"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/ic_calendar" />
 
                     <TextView
@@ -98,7 +98,7 @@
                         android:text="Jadwal\nKonsultasi"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -116,7 +116,7 @@
                     android:text="Dokter yang sedang tersedia"
                     android:textColor="@color/red"
                     android:layout_centerVertical="true"
-                    android:textSize="11sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/text_lihat_semua_dokter_tersedia"
@@ -130,6 +130,7 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:textColor="@color/white"
+                    android:textSize="15sp"
                     android:fontFamily="@font/robotobold"/>
 
             </RelativeLayout>
@@ -138,6 +139,7 @@
                 android:id="@+id/recycler_dokter_online_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp" />
 
             <RelativeLayout
@@ -152,7 +154,7 @@
                     android:text="Mitra Klinik Kecantikan"
                     android:textColor="@color/red"
                     android:layout_centerVertical="true"
-                    android:textSize="11sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/text_lihat_semua_mitra_klinik"
@@ -165,6 +167,7 @@
                     android:paddingTop="5dp"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
+                    android:textSize="15sp"
                     android:textColor="@color/white"
                     android:fontFamily="@font/robotobold"/>
 

@@ -44,7 +44,7 @@ import retrofit2.Response;
 
 public class CheckoutKonsultasiActivity extends AppCompatActivity {
 
-    String id_dokter, jadwal_dokter, nomerTelepon, id_transaksi, status;
+    String id_dokter, jadwal_dokter, nomerTelepon, id_transaksi, status, token_dokter, nama_dokter, player_id_dokter;
     int biaya = 0, biaya_admin = 0, total_bayar = 0;
     RelativeLayout relative_biaya_admin;
     RecyclerView rvDokterCheckout, rvMetodeBayar;
@@ -276,6 +276,11 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
                     intent.putExtra("qr_string", qr_string);
                     intent.putExtra("id_transaksi", id_transaksi);
                     intent.putExtra("status", status);
+                    intent.putExtra("konsultasi", "konsultasi");
+                    intent.putExtra("token_dokter", token_dokter);
+                    intent.putExtra("nama_dokter", nama_dokter);
+                    intent.putExtra("player_id", player_id_dokter);
+                    intent.putExtra("id_dokter", id_dokter);
                     startActivity(intent);
                     finish();
                 }else{
@@ -358,7 +363,12 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
                     intent.putExtra("id_transaksi", id_transaksi);
                     intent.putExtra("mobile_web", mobileUrl);
                     intent.putExtra("mobile_deeplink", deeplink);
+                    intent.putExtra("konsultasi", "konsultasi");
                     intent.putExtra("status", status);
+                    intent.putExtra("token_dokter", token_dokter);
+                    intent.putExtra("nama_dokter", nama_dokter);
+                    intent.putExtra("player_id", player_id_dokter);
+                    intent.putExtra("id_dokter", id_dokter);
                     startActivity(intent);
                     finish();
 
@@ -440,6 +450,11 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
                     preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_IMAGE_OPSI_BAYAR, "");
                     Intent intent = new Intent(CheckoutKonsultasiActivity.this, InvoiceKonsultasiActivity.class);
                     intent.putExtra("id_transaksi", id_transaksi);
+                    intent.putExtra("konsultasi", "konsultasi");
+                    intent.putExtra("token_dokter", token_dokter);
+                    intent.putExtra("nama_dokter", nama_dokter);
+                    intent.putExtra("player_id", player_id_dokter);
+                    intent.putExtra("id_dokter", id_dokter);
                     startActivity(intent);
                     finish();
                 }else{
@@ -489,6 +504,12 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
 
                     List<DataItem> dataDokter = response.body().getData();
+
+                    for (int i = 0; i<dataDokter.size(); i++){
+                        token_dokter = dataDokter.get(i).getToken();
+                        nama_dokter = dataDokter.get(i).getNama();
+                        player_id_dokter = dataDokter.get(i).getPlayerId();
+                    }
 
                     DokterAturJadwalAdapter adapterDokter = new DokterAturJadwalAdapter(CheckoutKonsultasiActivity.this, dataDokter);
                     rvDokterCheckout.setAdapter(adapterDokter);

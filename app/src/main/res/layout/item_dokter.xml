@@ -13,18 +13,18 @@
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/img_item_dokter"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="100dp"
+            android:layout_height="160dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/icon_dokter"/>
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitXY"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center"
             android:layout_marginStart="10dp">
 
             <TextView
@@ -44,6 +44,88 @@
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:fontFamily="@font/robotoreguler"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp">
+
+                    <ImageView
+                        android:id="@+id/imgbag"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/icon_bag"/>
+
+                    <TextView
+                        android:id="@+id/jumlah_tahun_dokter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/imgbag"
+                        android:layout_centerVertical="true"
+                        android:text="0 Tahun"
+                        android:fontFamily="@font/robotoreguler"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_harga_dokter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Harga Dokter"
+                    android:textSize="12sp"
+                    android:textColor="@color/red"
+                    android:fontFamily="@font/robotobold"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="15dp">
+
+                <Button
+                    android:id="@+id/btn_item_chat_dokter"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_button_red"
+                    android:text="Chat"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/robotobold"/>
+
+                    <Button
+                        android:id="@+id/btn_item_buat_jadwal_dokter"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/background_btn_border_red"
+                        android:text="Buat Jadwal"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
+                        android:textColor="@color/red"
+                        android:fontFamily="@font/robotobold"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -14,4 +14,6 @@
 
     <string name="key_raja_ongkir">9bc530edfde2ffdba603d779832349cf</string>
 
+    <string name="aturJadwal">Pembatalan tersedia untuk dokter dan Pasien hingga 1 jam sebelum konsultasi. Tidak ada refund jika pasien telat > 10 menit</string>
+
 </resources>

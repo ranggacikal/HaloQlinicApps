@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/img_dokter_atur_jadwal"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:src="@mipmap/ic_launcher"/>
 
         <LinearLayout
@@ -33,17 +33,26 @@
                 android:maxWidth="300dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/robotobold"
-                android:textSize="15sp"/>
+                android:textSize="20sp"/>
 
             <TextView
                 android:id="@+id/text_spesialis_atur_jadwal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="spesialis"
+                android:fontFamily="@font/robotoreguler"
+                android:layout_marginTop="7dp"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:id="@+id/text_harga_atur_jadwal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Harga"
                 android:textColor="@color/black"
                 android:fontFamily="@font/robotoreguler"
                 android:layout_marginTop="7dp"
-                android:textSize="15sp"/>
+                android:textSize="19sp"/>
 
 
         </LinearLayout>

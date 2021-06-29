@@ -7,11 +7,8 @@ public class ListItem{
 	@SerializedName("jadwal")
 	private String jadwal;
 
-	@SerializedName("id")
-	private String id;
-
-	@SerializedName("status")
-	private String status;
+	@SerializedName("tanggal")
+	private String tanggal;
 
 	public void setJadwal(String jadwal){
 		this.jadwal = jadwal;
@@ -21,20 +18,12 @@ public class ListItem{
 		return jadwal;
 	}
 
-	public void setId(String id){
-		this.id = id;
+	public void setTanggal(String tanggal){
+		this.tanggal = tanggal;
 	}
 
-	public String getId(){
-		return id;
-	}
-
-	public void setStatus(String status){
-		this.status = status;
-	}
-
-	public String getStatus(){
-		return status;
+	public String getTanggal(){
+		return tanggal;
 	}
 
 	@Override
@@ -42,8 +31,7 @@ public class ListItem{
 		return 
 			"ListItem{" + 
 			"jadwal = '" + jadwal + '\'' + 
-			",id = '" + id + '\'' + 
-			",status = '" + status + '\'' + 
+			",tanggal = '" + tanggal + '\'' + 
 			"}";
 		}
 }

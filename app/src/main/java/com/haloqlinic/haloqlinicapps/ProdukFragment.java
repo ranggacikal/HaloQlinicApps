@@ -1,8 +1,10 @@
 package com.haloqlinic.haloqlinicapps;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -64,6 +66,11 @@ public class ProdukFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_produk, container, false);
 
+        if (list!=null || list.size()>0){
+            list.clear();
+            page = 1;
+        }
+
         rvProduk = rootView.findViewById(R.id.recycler_produk);
         progressBar = rootView.findViewById(R.id.progress_bar_produk);
         searchProduk = rootView.findViewById(R.id.search_produk);
@@ -76,13 +83,13 @@ public class ProdukFragment extends Fragment {
             }
         });
 
-        manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         rvProduk.setHasFixedSize(true);
         rvProduk.setLayoutManager(manager);
 
         getProdukPagination();
 
-        adapter = new ProdukAdapter(getActivity(), list);
+        adapter = new ProdukAdapter(getContext(), list);
         rvProduk.setAdapter(adapter);
 
         rvProduk.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -107,8 +114,6 @@ public class ProdukFragment extends Fragment {
                         getProdukPagination();
                     }
                 }
-
-//                super.onScrolled(recyclerView, dx, dy);
             }
         });
 
@@ -129,6 +134,14 @@ public class ProdukFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        page = 1;
+        adapter.clear();
+        getProdukPagination();
+    }
+
     private void loadSearchProduk(String newText) {
 
         ConfigRetrofit.service.cariProduk(newText).enqueue(new Callback<ResponseCariProduk>() {
@@ -137,17 +150,17 @@ public class ProdukFragment extends Fragment {
                 if (response.isSuccessful()) {
 
                     List<com.haloqlinic.haloqlinicapps.model.cariProduk.DataItem> dataItems = response.body().getData();
-                    CariProdukAdapter produkAdapter = new CariProdukAdapter(getActivity(), dataItems);
+                    CariProdukAdapter produkAdapter = new CariProdukAdapter(getContext(), dataItems);
                     rvProduk.setAdapter(produkAdapter);
 
                 } else {
-                    Toast.makeText(getActivity(), "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseCariProduk> call, Throwable t) {
-                Toast.makeText(getActivity(), "Terjadi kesalahan di server " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Terjadi kesalahan di server " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -171,14 +184,13 @@ public class ProdukFragment extends Fragment {
 
                             total_page = response.body().getTotalPage();
                             list = response.body().getData();
-                            Toast.makeText(getActivity(), "berhasil load page ke- "+page, Toast.LENGTH_SHORT).show();
                             if (list!=null) {
 
                                 adapter.addList(list);
                             }
                             isLoading = false;
                         }else{
-                            Toast.makeText(getActivity(), "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                             isLoading = false;
                         }
@@ -188,10 +200,15 @@ public class ProdukFragment extends Fragment {
                     public void onFailure(Call<ResponseDataProduk> call, Throwable t) {
                         progressBar.setVisibility(View.GONE);
                         isLoading = false;
-                        Toast.makeText(getActivity(), "Terjadi Kesalahan Di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Terjadi Kesalahan Di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         }, 2000);
+    }
+
+    @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        super.onAttach(context);
     }
 }

@@ -10,19 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.haloqlinic.haloqlinicapps.R;
-import com.haloqlinic.haloqlinicapps.model.detailDokter.DataItem;
 
 import java.util.List;
 
 public class JadwalDetailDokterAdapter extends RecyclerView.Adapter<JadwalDetailDokterAdapter.ViewHolder> {
 
     Context context;
-    List<DataItem> dataJadwal;
+//    List<DataItem> dataJadwal;
 
-    public JadwalDetailDokterAdapter(Context context, List<DataItem> dataJadwal) {
-        this.context = context;
-        this.dataJadwal = dataJadwal;
-    }
+//    public JadwalDetailDokterAdapter(Context context, List<DataItem> dataJadwal) {
+//        this.context = context;
+//        this.dataJadwal = dataJadwal;
+//    }
 
     @NonNull
     @Override
@@ -34,13 +33,13 @@ public class JadwalDetailDokterAdapter extends RecyclerView.Adapter<JadwalDetail
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.txtHari.setText(dataJadwal.get(position).getJadwal());
+//        holder.txtHari.setText(dataJadwal.get(position).getJadwal());
 
     }
 
     @Override
     public int getItemCount() {
-        return dataJadwal.size();
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

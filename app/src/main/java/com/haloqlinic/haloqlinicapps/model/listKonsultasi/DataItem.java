@@ -7,6 +7,9 @@ public class DataItem{
 	@SerializedName("img")
 	private String img;
 
+	@SerializedName("mulai_konsultasi")
+	private String mulaiKonsultasi;
+
 	@SerializedName("id_transaksi")
 	private String idTransaksi;
 
@@ -23,7 +26,7 @@ public class DataItem{
 	private String playerId;
 
 	@SerializedName("biaya")
-	private Object biaya;
+	private String biaya;
 
 	@SerializedName("biaya_admin")
 	private Object biayaAdmin;
@@ -49,6 +52,14 @@ public class DataItem{
 
 	public String getImg(){
 		return img;
+	}
+
+	public void setMulaiKonsultasi(String mulaiKonsultasi){
+		this.mulaiKonsultasi = mulaiKonsultasi;
+	}
+
+	public String getMulaiKonsultasi(){
+		return mulaiKonsultasi;
 	}
 
 	public void setIdTransaksi(String idTransaksi){
@@ -91,11 +102,11 @@ public class DataItem{
 		return playerId;
 	}
 
-	public void setBiaya(Object biaya){
+	public void setBiaya(String biaya){
 		this.biaya = biaya;
 	}
 
-	public Object getBiaya(){
+	public String getBiaya(){
 		return biaya;
 	}
 
@@ -152,6 +163,7 @@ public class DataItem{
 		return 
 			"DataItem{" + 
 			"img = '" + img + '\'' + 
+			",mulai_konsultasi = '" + mulaiKonsultasi + '\'' + 
 			",id_transaksi = '" + idTransaksi + '\'' + 
 			",id_dokter = '" + idDokter + '\'' + 
 			",token = '" + token + '\'' + 

@@ -9,16 +9,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.haloqlinic.haloqlinicapps.AturJadwalActivity;
 import com.haloqlinic.haloqlinicapps.R;
 import com.haloqlinic.haloqlinicapps.model.jadwalDokter.ListItem;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
 
 public class WaktuAturJadwalAdapter extends RecyclerView.Adapter<WaktuAturJadwalAdapter.WaktuAturJadwalViewHolder> {
 
@@ -27,10 +31,14 @@ public class WaktuAturJadwalAdapter extends RecyclerView.Adapter<WaktuAturJadwal
     AturJadwalActivity aturJadwalActivity;
     int row_index;
 
+    private static int lastClickedPosition = -1;
+    private int selectedItem;
+
     public WaktuAturJadwalAdapter(Context context, List<ListItem> dataJadwal, AturJadwalActivity aturJadwalActivity) {
         this.context = context;
         this.dataJadwal = dataJadwal;
         this.aturJadwalActivity = aturJadwalActivity;
+        selectedItem = 0;
     }
 
     @NonNull
@@ -43,27 +51,32 @@ public class WaktuAturJadwalAdapter extends RecyclerView.Adapter<WaktuAturJadwal
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull WaktuAturJadwalViewHolder holder, int position) {
-        holder.txtHari.setText(dataJadwal.get(position).getJadwal());
 
-        holder.txtHari.setBackground(ContextCompat.getDrawable(context, R.drawable.background_circle_white));
-        holder.txtHari.setTextColor(Color.parseColor("#000000"));
+        holder.cardWaktu.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        holder.txtHari.setTextColor(context.getResources().getColor(R.color.black));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                aturJadwalActivity.jadwal_dokter = dataJadwal.get(position).getJadwal();
-                aturJadwalActivity.id_jadwal = dataJadwal.get(position).getId();
-                row_index = position;
-//                if (row_index==position){
-//                    holder.txtHari.setBackground(ContextCompat.getDrawable(context, R.drawable.background_circle_button_green));
-//                    holder.txtHari.setTextColor(Color.parseColor("#FFFFFF"));
-//                    notifyDataSetChanged();
-//                }
-                Toast.makeText(context, "jadwal: "+aturJadwalActivity.jadwal_dokter+" id: "+
-                                aturJadwalActivity.id_jadwal, Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (selectedItem == position){
+            holder.cardWaktu.setCardBackgroundColor(context.getResources().getColor(R.color.red));
+            holder.txtHari.setTextColor(context.getResources().getColor(R.color.white));
+            aturJadwalActivity.tanggal = dataJadwal.get(position).getTanggal();
+            aturJadwalActivity.formatTanggal = dataJadwal.get(position).getJadwal();
+            aturJadwalActivity.loadJamDokter();
+        }
 
+        holder.txtHari.setText(dataJadwal.get(position).getTanggal());
+
+        PushDownAnim.setPushDownAnimTo(holder.itemView)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int previousItem = selectedItem;
+                        selectedItem = position;
+
+                        notifyItemChanged(previousItem);
+                        notifyItemChanged(position);
+                    }
+                });
 
     }
 
@@ -75,10 +88,12 @@ public class WaktuAturJadwalAdapter extends RecyclerView.Adapter<WaktuAturJadwal
     public class WaktuAturJadwalViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtHari;
+        CardView cardWaktu;
 
         public WaktuAturJadwalViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             txtHari = itemView.findViewById(R.id.text_hari_jadwal_detail_dokter);
+            cardWaktu = itemView.findViewById(R.id.card_waktu_detail_dokter);
         }
     }
 }

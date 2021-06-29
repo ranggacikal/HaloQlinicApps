@@ -128,7 +128,7 @@ public class DokterUmumFragment extends Fragment {
 
     private void loadCariDokter(String newText) {
 
-        ConfigRetrofit.service.cariDokter("0", newText).enqueue(new Callback<ResponseCariDokter>() {
+        ConfigRetrofit.service.cariDokter("0", newText, "").enqueue(new Callback<ResponseCariDokter>() {
             @Override
             public void onResponse(Call<ResponseCariDokter> call, Response<ResponseCariDokter> response) {
                 if (response.isSuccessful()){
@@ -164,7 +164,6 @@ public class DokterUmumFragment extends Fragment {
 
                     total_page = response.body().getTotalPage();
                     dataDokter = response.body().getData();
-                    Toast.makeText(getActivity(), "berhasil load page ke- "+page, Toast.LENGTH_SHORT).show();
                     if (dataDokter!=null) {
 
                         adapter.addList(dataDokter);

@@ -16,6 +16,7 @@ import com.haloqlinic.haloqlinicapps.model.jadwalDokter.DataItem;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class DokterAturJadwalAdapter extends RecyclerView.Adapter<DokterAturJadwalAdapter.DokterAturJadwalViewHolder> {
@@ -43,11 +44,14 @@ public class DokterAturJadwalAdapter extends RecyclerView.Adapter<DokterAturJadw
 
         Glide.with(context)
                 .load(url_image)
-                .error(R.mipmap.ic_launcher)
+                .error(R.drawable.icon_dokter)
                 .into(holder.imgDokter);
 
-        holder.txtNama.setText("Konsultasi Dengan Dr. "+dataDokter.get(position).getNama());
+        String biaya = dataDokter.get(position).getBiaya();
+
+        holder.txtNama.setText("Dr. "+dataDokter.get(position).getNama());
         holder.txtSpesialis.setText("Spesialis "+dataDokter.get(position).getSpesialis());
+        holder.txtHarga.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(biaya)));
 
     }
 
@@ -59,13 +63,14 @@ public class DokterAturJadwalAdapter extends RecyclerView.Adapter<DokterAturJadw
     public class DokterAturJadwalViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgDokter;
-        TextView txtNama, txtSpesialis;
+        TextView txtNama, txtSpesialis, txtHarga;
 
         public DokterAturJadwalViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imgDokter = itemView.findViewById(R.id.img_dokter_atur_jadwal);
             txtNama = itemView.findViewById(R.id.text_nama_atur_jadwal);
             txtSpesialis = itemView.findViewById(R.id.text_spesialis_atur_jadwal);
+            txtHarga = itemView.findViewById(R.id.text_harga_atur_jadwal);
         }
     }
 }

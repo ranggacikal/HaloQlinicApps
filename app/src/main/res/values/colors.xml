@@ -10,4 +10,7 @@
     <color name="green">#4ED28E</color>
     <color name="red">#ED3572</color>
     <color name="redDark">#DB4437</color>
+    <color name="hijauMuda">#c5e0b4</color>
+    <color name="hijauTua">#548235</color>
+    <color name="grey">#dae3f3</color>
 </resources>

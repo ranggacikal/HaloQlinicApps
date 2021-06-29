@@ -26,11 +26,13 @@ import com.bumptech.glide.Glide;
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.adapter.JadwalDetailDokterAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
-import com.haloqlinic.haloqlinicapps.model.detailDokter.DataItem;
+import com.haloqlinic.haloqlinicapps.databinding.ActivityDetailDokterBinding;
+import com.haloqlinic.haloqlinicapps.databinding.ActivityResepObatBinding;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.ResponseDetailDokter;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.ResultItem;
 import com.haloqlinic.haloqlinicapps.model.konsultasi.ResponseKonsultasi;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,51 +41,59 @@ import retrofit2.Response;
 
 public class DetailDokterActivity extends AppCompatActivity {
 
-    Button btnChat;
-    String id_dokter;
+    String id_dokter, status;
     ProgressDialog progressDialog;
-    TextView namaDokter, spesialisDokter, tentangDokter;
-    ImageView imgDokter, imgBack;
-    RecyclerView rvJadwal;
 
     private SharedPreferencedConfig preferencedConfig;
+
+    private ActivityDetailDokterBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_dokter);
+        binding = ActivityDetailDokterBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         preferencedConfig = new SharedPreferencedConfig(DetailDokterActivity.this);
-
-        btnChat = findViewById(R.id.btn_chat_detail_dokter);
         progressDialog = new ProgressDialog(DetailDokterActivity.this);
         progressDialog.setMessage("Memuat Data");
         progressDialog.show();
 
         id_dokter = getIntent().getStringExtra("id_dokter");
-        namaDokter = findViewById(R.id.text_nama_detail_dokter);
-        spesialisDokter = findViewById(R.id.text_spesialis_detail_dokter);
-        tentangDokter = findViewById(R.id.text_tentang_detai_dokter);
-        imgDokter = findViewById(R.id.img_detail_dokter);
-        rvJadwal = findViewById(R.id.rv_jadwal_detail_dokter);
-        imgBack = findViewById(R.id.img_back_detail_dokter);
+        status = getIntent().getStringExtra("status");
 
-        rvJadwal.setHasFixedSize(true);
-        rvJadwal.setLayoutManager(new LinearLayoutManager(DetailDokterActivity.this));
+        if (status.equals("offline")){
+            binding.btnChatDetailDokter.setVisibility(View.GONE);
+            binding.btnBuatJadwalDetailDokter.setVisibility(View.VISIBLE);
+        }else{
+            binding.btnBuatJadwalDetailDokter.setVisibility(View.GONE);
+            binding.btnChatDetailDokter.setVisibility(View.VISIBLE);
+        }
 
         loadDataDetailDokter(id_dokter);
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
+        binding.imgBackDetailDokter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        btnChat.setOnClickListener(new View.OnClickListener() {
+        binding.btnChatDetailDokter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tampilDialog();
+                konsultasiSekarang();
+            }
+        });
+
+        binding.btnBuatJadwalDetailDokter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailDokterActivity.this, AturJadwalActivity.class);
+                intent.putExtra("id_dokter", id_dokter);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -94,46 +104,70 @@ public class DetailDokterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseDetailDokter> call, Response<ResponseDetailDokter> response) {
                 if (response.isSuccessful()){
+
                     progressDialog.dismiss();
 
-                    List<ResultItem> dataDetail = response.body().getResult();
-                    List<DataItem> dataJadwal = null;
+                    List<ResultItem> dataDokter = response.body().getResult();
 
-                    String nama_dokter = "";
-                    String spesialis = "";
-                    String img = "";
-                    String tentang = "";
+                    String nama_dokter = "", spesialis_dokter = "", harga_dokter = "",
+                            pengalaman = "", nama_kampus = "",
+                            tempat_praktik = "", nomor_str = "";
 
-                    for (int i = 0; i<dataDetail.size(); i++){
-                        nama_dokter = dataDetail.get(i).getNama();
-                        spesialis = dataDetail.get(i).getSpesialis();
-                        img = dataDetail.get(i).getImg();
-                        dataJadwal = dataDetail.get(i).getData();
+                    for (int i = 0; i < dataDokter.size(); i++){
+
+                        nama_dokter = dataDokter.get(i).getNama();
+                        spesialis_dokter = dataDokter.get(i).getSpesialis();
+                        harga_dokter = dataDokter.get(i).getBiaya();
+                        pengalaman = (String) dataDokter.get(i).getPengalaman();
+                        nama_kampus = (String) dataDokter.get(i).getAlumni();
+                        tempat_praktik = (String) dataDokter.get(i).getTempatPraktik();
+                        nomor_str = (String) dataDokter.get(i).getStr();
+
                     }
 
-                    JadwalDetailDokterAdapter adapter = new JadwalDetailDokterAdapter(DetailDokterActivity.this, dataJadwal);
-                    rvJadwal.setAdapter(adapter);
+                    Log.d("checkDataDetail", "alumni: "+nama_kampus);
+                    Log.d("checkDataDetail", "tempat_praktik: "+tempat_praktik);
+                    Log.d("checkDataDetail", "nomor_str: "+nomor_str);
 
-                    final String url_image = "https://aplikasicerdas.net/haloqlinic/file/dokter/profile/";
+                    binding.textNamaDetailDokter.setText("Dr. "+nama_dokter);
+                    binding.textSpesialisDetailDokter.setText("Spesialis "+spesialis_dokter);
+                    binding.textHargaDetailDokter.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga_dokter)));
 
-                    namaDokter.setText(nama_dokter);
-                    spesialisDokter.setText("Spesialis "+spesialis);
-                    tentangDokter.setText(tentang);
+                    if (pengalaman==null){
+                        binding.textTahunDetailDokter.setText("null tahun");
+                    }else{
+                        binding.textTahunDetailDokter.setText(pengalaman+" tahun");
+                    }
 
-                    Glide.with(DetailDokterActivity.this)
-                            .load(url_image+img)
-                            .error(R.mipmap.ic_launcher)
-                            .into(imgDokter);
-                }else{
+                    if (nama_kampus==null){
+                        binding.textNamaKampusDetailDokter.setText("null kampus");
+                    }else{
+                        binding.textNamaKampusDetailDokter.setText(nama_kampus);
+                    }
+
+                    if (tempat_praktik==null){
+                        binding.textTempatPraktisDetailDokter.setText("null Tempat Praktik");
+                    }else{
+                        binding.textTempatPraktisDetailDokter.setText(tempat_praktik);
+                    }
+
+                    if (nomor_str==null){
+                        binding.textNoStrDetailDokter.setText("null No. STR");
+                    }else{
+                        binding.textNoStrDetailDokter.setText(nomor_str);
+                    }
+
+
+                }else {
                     progressDialog.dismiss();
-                    Toast.makeText(DetailDokterActivity.this, "Gagal Muat Data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailDokterActivity.this, "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseDetailDokter> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(DetailDokterActivity.this, "Terjadi kesalhan di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailDokterActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -201,6 +235,7 @@ public class DetailDokterActivity extends AppCompatActivity {
                             Toast.makeText(DetailDokterActivity.this, "Berhasil membuat permintaan konsultasi", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(DetailDokterActivity.this, TungguAccActivity.class);
                             intent.putExtra("id_transaksi", id_transaksi);
+                            intent.putExtra("id_dokter", id_dokter);
                             startActivity(intent);
                             finish();
 

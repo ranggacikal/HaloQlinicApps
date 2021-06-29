@@ -2,16 +2,23 @@ package com.haloqlinic.haloqlinicapps;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.checkStatus.ResponseCheckStatus;
+import com.haloqlinic.haloqlinicapps.model.detailDokter.ResponseDetailDokter;
+import com.haloqlinic.haloqlinicapps.model.detailDokter.ResultItem;
 import com.haloqlinic.haloqlinicapps.model.updateKonsultasi.ResponseUpdateKonsultasi;
+
+import java.util.List;
 
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
@@ -21,9 +28,10 @@ import retrofit2.Response;
 
 public class TungguAccActivity extends AppCompatActivity {
 
-    TextView txtWaktu;
+    TextView txtWaktu, txtNama, txtSpesialis;
+    ImageView imgDokter;
 
-    String id_transaksi, id_dokter, biaya;
+    String id_transaksi, id_dokter, biaya, id_detail_dokter;
     int status;
     CountDownTimer countDownTimer;
     private long timeMillisSecond = 60000;
@@ -33,10 +41,14 @@ public class TungguAccActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tunggu_acc);
         txtWaktu = findViewById(R.id.text_waktu_tunggu);
+        txtNama = findViewById(R.id.text_nama_dokter_tunggu_acc);
+        txtSpesialis = findViewById(R.id.text_spesialis_tunggu_acc);
+        imgDokter = findViewById(R.id.img_dokter_tunggu_acc);
 
         id_transaksi = getIntent().getStringExtra("id_transaksi");
+        id_detail_dokter = getIntent().getStringExtra("id_dokter");
 
-
+        getDetailDokter();
 
         countDownTimer = new CountDownTimer(60000, 1000) {
             @Override
@@ -67,6 +79,56 @@ public class TungguAccActivity extends AppCompatActivity {
                 updatKonsultasi();
             }
         }.start();
+
+    }
+
+    private void getDetailDokter() {
+
+        ProgressDialog progressDialog = new ProgressDialog(TungguAccActivity.this);
+        progressDialog.setMessage("Memuat Data Dokter");
+        progressDialog.show();
+
+        ConfigRetrofit.service.detailDokter(id_detail_dokter).enqueue(new Callback<ResponseDetailDokter>() {
+            @Override
+            public void onResponse(Call<ResponseDetailDokter> call, Response<ResponseDetailDokter> response) {
+                if (response.isSuccessful()){
+
+                    progressDialog.dismiss();
+
+                    List<ResultItem> dataDokter = response.body().getResult();
+                    String link = "https://aplikasicerdas.net/haloqlinic/file/dokter/profile/";
+                    String image = "";
+                    String nama = "";
+                    String spesialis = "";
+
+                    for (int i = 0; i<dataDokter.size(); i++){
+
+                        image = dataDokter.get(i).getImg();
+                        nama = dataDokter.get(i).getNama();
+                        spesialis = dataDokter.get(i).getSpesialis();
+
+                    }
+
+                    Glide.with(TungguAccActivity.this)
+                            .load(link+image)
+                            .error(R.drawable.icon_dokter)
+                            .into(imgDokter);
+
+                    txtNama.setText("Dr. "+nama);
+                    txtSpesialis.setText("Spesialis "+spesialis);
+
+                }else{
+                    progressDialog.dismiss();
+                    Toast.makeText(TungguAccActivity.this, "Gagal Load Data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDetailDokter> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(TungguAccActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

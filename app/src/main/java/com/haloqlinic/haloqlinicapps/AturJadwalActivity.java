@@ -1,6 +1,7 @@
 package com.haloqlinic.haloqlinicapps;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,15 +18,18 @@ import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.adapter.DokterAturJadwalAdapter;
+import com.haloqlinic.haloqlinicapps.adapter.JamJadwalAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.WaktuAturJadwalAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.jadwalDokter.DataItem;
 import com.haloqlinic.haloqlinicapps.model.jadwalDokter.ListItem;
 import com.haloqlinic.haloqlinicapps.model.jadwalDokter.ResponseJadwalDokter;
+import com.haloqlinic.haloqlinicapps.model.jamDokter.ResponseJamDokter;
 import com.haloqlinic.haloqlinicapps.model.konsultasi.ResponseKonsultasi;
 import com.onesignal.OSSubscriptionObserver;
 import com.onesignal.OSSubscriptionStateChanges;
 import com.onesignal.OneSignal;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.List;
 
@@ -35,14 +39,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
+
 public class AturJadwalActivity extends AppCompatActivity {
 
-    RecyclerView rvDokter, rvJadwal;
+    RecyclerView rvDokter, rvJadwal, rvJamJadwal;
     TextView txtKonsultasiDengan;
-    ImageView imgBack;
+    ImageView imgBack, imgDown, imgUp;
     Button btnBuatJadwal, btnKonsultasiSekarang;
 
+    CardView cardPilihJam, cardJamJadwal;
+
     String id_dokter, nama_dokter, biaya;
+    public String tanggal, formatTanggal;
     private SharedPreferencedConfig preferencedConfig;
 
     String token, token_from, user_id, user_id_from;
@@ -64,10 +73,14 @@ public class AturJadwalActivity extends AppCompatActivity {
         preferencedConfig = new SharedPreferencedConfig(AturJadwalActivity.this);
 
         rvDokter = findViewById(R.id.recycler_dokter_atur_jadwal);
-        txtKonsultasiDengan = findViewById(R.id.text_konsultasi_dengan);
         rvJadwal = findViewById(R.id.recycler_jadwal_konsultasi_atur_jadwal);
         imgBack = findViewById(R.id.img_back_atur_jadwal);
         btnBuatJadwal = findViewById(R.id.btn_buat_jadwal);
+        rvJamJadwal = findViewById(R.id.rv_jam_jadwal);
+        imgDown = findViewById(R.id.img_ic_down);
+        imgUp = findViewById(R.id.img_ic_up);
+        cardPilihJam = findViewById(R.id.card_pilih_jam);
+        cardJamJadwal = findViewById(R.id.card_jam_jadwal);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,13 +93,38 @@ public class AturJadwalActivity extends AppCompatActivity {
         rvDokter.setLayoutManager(new LinearLayoutManager(AturJadwalActivity.this));
 
         rvJadwal.setHasFixedSize(true);
-        rvJadwal.setLayoutManager(new LinearLayoutManager(AturJadwalActivity.this));
+        rvJadwal.setLayoutManager(new LinearLayoutManager(AturJadwalActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
+        rvJamJadwal.setHasFixedSize(true);
+        rvJamJadwal.setLayoutManager(new LinearLayoutManager(AturJadwalActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
+        PushDownAnim.setPushDownAnimTo(imgDown)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cardJamJadwal.setVisibility(View.VISIBLE);
+                        imgUp.setVisibility(View.VISIBLE);
+                        imgDown.setVisibility(View.GONE);
+                    }
+                });
+
+        PushDownAnim.setPushDownAnimTo(imgUp)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cardJamJadwal.setVisibility(View.GONE);
+                        imgUp.setVisibility(View.GONE);
+                        imgDown.setVisibility(View.VISIBLE);
+                    }
+                });
 
         btnBuatJadwal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (jadwal_dokter.equals("")){
+                if (id_jadwal.equals("")){
                     Toast.makeText(AturJadwalActivity.this, "Anda belum memilih jadwal dokter", Toast.LENGTH_SHORT).show();
                 }else {
 
@@ -98,6 +136,39 @@ public class AturJadwalActivity extends AppCompatActivity {
 
         loadDokter();
         loadJadwal();
+        loadJamDokter();
+    }
+
+    public void loadJamDokter() {
+
+        ProgressDialog progressDialog = new ProgressDialog(AturJadwalActivity.this);
+        progressDialog.setMessage("Memuat Data Jam Jadwal");
+        progressDialog.show();
+
+        ConfigRetrofit.service.jamDokter(id_dokter, tanggal).enqueue(new Callback<ResponseJamDokter>() {
+            @Override
+            public void onResponse(Call<ResponseJamDokter> call, Response<ResponseJamDokter> response) {
+                if (response.isSuccessful()){
+
+                    progressDialog.dismiss();
+                    List<com.haloqlinic.haloqlinicapps.model.jamDokter.DataItem> dataJam = response.body().getData();
+
+                    JamJadwalAdapter jamAdapter = new JamJadwalAdapter(AturJadwalActivity.this, dataJam, AturJadwalActivity.this);
+                    rvJamJadwal.setAdapter(jamAdapter);
+
+                }else{
+                    progressDialog.dismiss();
+                    Toast.makeText(AturJadwalActivity.this, "Gagal Memuat Data Jam", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseJamDokter> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(AturJadwalActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void postKonsultasi() {
@@ -108,7 +179,7 @@ public class AturJadwalActivity extends AppCompatActivity {
         progressDialog.setMessage("Mengajukan Permintaan Konsultasi");
         progressDialog.show();
 
-        ConfigRetrofit.service.postKonsultasi(id_customer, id_jadwal, id_dokter, jadwal_dokter, "2").enqueue(new Callback<ResponseKonsultasi>() {
+        ConfigRetrofit.service.postKonsultasi(id_customer, id_jadwal, id_dokter, formatTanggal, "2").enqueue(new Callback<ResponseKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseKonsultasi> call, Response<ResponseKonsultasi> response) {
                 if (response.isSuccessful()){
@@ -121,12 +192,12 @@ public class AturJadwalActivity extends AppCompatActivity {
                     Intent intent = new Intent(AturJadwalActivity.this, CheckoutKonsultasiActivity.class);
                     intent.putExtra("id_dokter", id_dokter);
                     intent.putExtra("id_transaksi", id_transaksi);
-                    intent.putExtra("jadwal_dokter", jadwal_dokter);
+                    intent.putExtra("jadwal_dokter", formatTanggal);
                     intent.putExtra("id_jadwal", id_jadwal);
                     intent.putExtra("biaya", biaya);
                     intent.putExtra("status", "2");
                     Log.d("checkDataJadwal", "onClick: "+id_dokter);
-                    Log.d("checkDataJadwal", "onClick: "+jadwal_dokter);
+                    Log.d("checkDataJadwal", "onClick: "+tanggal);
                     startActivity(intent);
 //                    tampilDialog();
                 }else{
@@ -134,7 +205,7 @@ public class AturJadwalActivity extends AppCompatActivity {
                     Log.d("checkParamKonsultasi", "id_customer: "+id_customer);
                     Log.d("checkParamKonsultasi", "id_jadwal: "+id_jadwal);
                     Log.d("checkParamKonsultasi", "id_dokter: "+id_dokter);
-                    Log.d("checkParamKonsultasi", "jadwal_dokter: "+jadwal_dokter);
+                    Log.d("checkParamKonsultasi", "jadwal_dokter: "+formatTanggal);
                     Toast.makeText(AturJadwalActivity.this, "Gagal mengajulan konsultasi", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -223,8 +294,6 @@ public class AturJadwalActivity extends AppCompatActivity {
                         biaya = dataDokter.get(i).getBiaya();
 
                     }
-
-                    txtKonsultasiDengan.setText("Konsultasi dengan Dr. "+nama_dokter);
 
                     DokterAturJadwalAdapter adapterDokter = new DokterAturJadwalAdapter(AturJadwalActivity.this, dataDokter);
                     rvDokter.setAdapter(adapterDokter);

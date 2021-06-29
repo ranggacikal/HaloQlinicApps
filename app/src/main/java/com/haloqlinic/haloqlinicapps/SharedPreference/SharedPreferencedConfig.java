@@ -30,6 +30,8 @@ public class SharedPreferencedConfig {
     public static final String PREFERENCE_ID_KATEGORI_BAYAR = "prefIdKategoriBayar";
     public static final String PREFERENCE_POSITION_FRAGMENT = "prefPositionFragment";
     public static final String PREFERENCE_TOKEN = "prefToken";
+    public static final String PREFERENCE_TOKEN_DOkTER = "prefTokenDokter";
+    public static final String PREFERENCE_ID_DOKTER = "prefIdDokter";
     public static final String PREFERENCE_IS_LOGIN = "prefIsLogin";
 
     SharedPreferences preferences;
@@ -150,6 +152,14 @@ public class SharedPreferencedConfig {
 
     public String getPreferenceToken(){
         return preferences.getString(PREFERENCE_TOKEN, "");
+    }
+
+    public String getPreferenceTokenDokter(){
+        return preferences.getString(PREFERENCE_TOKEN_DOkTER, "");
+    }
+
+    public String getPreferenceIdDokter(){
+        return preferences.getString(PREFERENCE_ID_DOKTER, "");
     }
 
     public Boolean getPreferenceIsLogin(){

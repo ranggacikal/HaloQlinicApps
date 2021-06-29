@@ -19,7 +19,9 @@
         android:theme="@style/Theme.HaloQlinicApps"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
-        <activity android:name=".ProfileMitraActivity"></activity>
+        <activity android:name=".ListTebusObatActivity"></activity>
+        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".ProfileMitraActivity" />
         <activity android:name=".KategoriActivity" />
         <activity android:name=".SkincareActivity" />
         <activity android:name=".DetailHistoryActivity" />
@@ -86,7 +88,7 @@
 
         <meta-data
             android:name="com.onesignal.NotificationServiceExtension"
-            android:value="com.company.NotificationServiceExtension" />
+            android:value="com.haloqlinic.haloqlinicapps.oneSignal.NotificationServiceExtension" />
     </application>
 
 </manifest>

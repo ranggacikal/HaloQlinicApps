@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ListTebusObatActivity">
+
+    <RelativeLayout
+        android:id="@+id/relative_header_list_tebus_obat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+
+        <ImageView
+            android:id="@+id/img_back_list_tebus_obat"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_arrow_left"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List Tebus Obat"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textSize="18sp"
+            android:fontFamily="@font/robotobold"
+            android:textColor="@color/red"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_tebus_obat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_above="@+id/btn_tebus_obat"
+        android:layout_below="@+id/relative_header_list_tebus_obat"
+        tools:listitem="@layout/item_tebus_obat"/>
+
+    <Button
+        android:id="@+id/btn_tebus_obat"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/background_button_green"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="Tebus Obat"
+        android:textColor="@color/white"
+        android:fontFamily="@font/robotobold"/>
+
+</RelativeLayout>

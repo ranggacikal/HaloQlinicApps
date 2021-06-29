@@ -1,6 +1,7 @@
 package com.haloqlinic.haloqlinicapps.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.haloqlinic.haloqlinicapps.ListTebusObatActivity;
 import com.haloqlinic.haloqlinicapps.R;
 import com.haloqlinic.haloqlinicapps.model.listRecipe.DataItem;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
 
 public class ResepObatAdapter extends RecyclerView.Adapter<ResepObatAdapter.ResepObatViewHolder> {
 
@@ -45,6 +50,17 @@ public class ResepObatAdapter extends RecyclerView.Adapter<ResepObatAdapter.Rese
         holder.txtIdKonsultasi.setText(id_transaksi);
         holder.txtNamaDokter.setText(nama);
         holder.txtJadwal.setText(jadwal);
+
+        PushDownAnim.setPushDownAnimTo(holder.itemView)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, ListTebusObatActivity.class);
+                        intent.putExtra("id_transaksi", id_transaksi);
+                        context.startActivity(intent);
+                    }
+                });
 
     }
 

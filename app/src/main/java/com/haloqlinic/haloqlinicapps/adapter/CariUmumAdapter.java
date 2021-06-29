@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.haloqlinic.haloqlinicapps.model.cariDokter.DataItem;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -43,6 +45,8 @@ public class CariUmumAdapter extends RecyclerView.Adapter<CariUmumAdapter.CariUm
     public void onBindViewHolder(@NonNull @NotNull CariUmumViewHolder holder, int position) {
 
         final String url_image = "https://aplikasicerdas.net/haloqlinic/file/dokter/profile/";
+        int biaya = Integer.parseInt(dataCari.get(position).getBiaya());
+        String pengalaman = (String) dataCari.get(position).getPengalaman();
 
         Glide.with(context)
                 .load(url_image+dataCari.get(position).getImg())
@@ -51,6 +55,14 @@ public class CariUmumAdapter extends RecyclerView.Adapter<CariUmumAdapter.CariUm
 
         holder.txtNamaDokter.setText(dataCari.get(position).getNama());
         holder.txtSpesialisDokter.setText("Spesialis "+dataCari.get(position).getSpesialis());
+        holder.txtHarga.setText("Rp" + NumberFormat.getInstance().format(biaya));
+
+        if (pengalaman != null){
+            holder.txtPengalaman.setText(pengalaman+" tahun");
+        }else{
+            holder.txtPengalaman.setText("null tahun");
+        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +82,16 @@ public class CariUmumAdapter extends RecyclerView.Adapter<CariUmumAdapter.CariUm
 
     public class CariUmumViewHolder extends RecyclerView.ViewHolder {
 
-        CircleImageView imgDokter;
-        TextView txtNamaDokter, txtSpesialisDokter;
+        ImageView imgDokter;
+        TextView txtNamaDokter, txtSpesialisDokter, txtHarga, txtPengalaman;
 
         public CariUmumViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imgDokter = itemView.findViewById(R.id.img_item_dokter);
             txtNamaDokter = itemView.findViewById(R.id.text_item_nama_dokter);
             txtSpesialisDokter = itemView.findViewById(R.id.text_item_spesialis_dokter);
+            txtHarga = itemView.findViewById(R.id.text_harga_dokter);
+            txtPengalaman = itemView.findViewById(R.id.jumlah_tahun_dokter);
         }
     }
 }

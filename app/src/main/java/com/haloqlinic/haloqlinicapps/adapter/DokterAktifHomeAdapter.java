@@ -55,6 +55,7 @@ public class DokterAktifHomeAdapter extends RecyclerView.Adapter<DokterAktifHome
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailDokterActivity.class);
                 intent.putExtra("id_dokter", dokterAktifList.get(position).getIdDokter());
+                intent.putExtra("status", "online");
                 context.startActivity(intent);
             }
         });

@@ -13,6 +13,9 @@ public class DataItem{
 	@SerializedName("id_dokter")
 	private String idDokter;
 
+	@SerializedName("status")
+	private String status;
+
 	public void setImg(String img){
 		this.img = img;
 	}
@@ -37,6 +40,14 @@ public class DataItem{
 		return idDokter;
 	}
 
+	public void setStatus(String status){
+		this.status = status;
+	}
+
+	public String getStatus(){
+		return status;
+	}
+
 	@Override
  	public String toString(){
 		return 
@@ -44,6 +55,7 @@ public class DataItem{
 			"img = '" + img + '\'' + 
 			",nama = '" + nama + '\'' + 
 			",id_dokter = '" + idDokter + '\'' + 
+			",status = '" + status + '\'' + 
 			"}";
 		}
 }

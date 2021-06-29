@@ -1,6 +1,7 @@
 package com.haloqlinic.haloqlinicapps.oneSignal;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.haloqlinic.haloqlinicapps.R;
 import com.onesignal.OSMutableNotification;
@@ -24,7 +25,7 @@ public class NotificationServiceExtension implements OneSignal.OSRemoteNotificat
 
         OSMutableNotification mutableNotification = notification.mutableCopy();
         mutableNotification.setExtender(builder -> builder.setColor(context.getResources().getColor(R.color.colorPrimary)));
-        
+        mutableNotification.setExtender(builder -> builder.setSound((Uri) context.getResources().getXml(R.xml.keep)));
 
         // If complete isn't call within a time period of 25 seconds, OneSignal internal logic will show the original notification
         notificationReceivedEvent.complete(mutableNotification);

@@ -14,11 +14,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.adapter.InvoiceKonsultasiAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.batalkanKonsultasi.ResponseBatalkanKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasi.DataItem;
 import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasi.ResponseInvoiceKonsultasi;
+import com.haloqlinic.haloqlinicapps.model.notifChat.ResponseNotif;
+import com.mesibo.api.Mesibo;
+import com.mesibo.calls.api.MesiboCall;
+import com.mesibo.messaging.MesiboUI;
 
 import net.glxn.qrgen.android.QRCode;
 
@@ -30,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InvoiceKonsultasiActivity extends AppCompatActivity {
+public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesibo.ConnectionListener, Mesibo.MessageListener {
 
     ImageView imgShopee, imgDana, imgOvo, imgLinkAja, imgQris, imgQrCode;
     RecyclerView rvInvoice;
@@ -38,12 +43,35 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
 
     String opsi_bayar = "";
 
-    String id_transaksi, mobile_web, mobile_deeplink, qr_string, status;
+    String id_transaksi, mobile_web, mobile_deeplink, qr_string, status, token_dokter, nama_dokter, player_id_dokter;
+    String id_dokter;
+    public String cekKonsultasi;
+    private SharedPreferencedConfig preferencedConfig;
+
+    class DemoUser {
+        public String token;
+        public String address;
+
+        DemoUser(String token, String address) {
+            this.token = token;
+            this.address = address;
+        }
+    }
+
+    DemoUser mUser1;
+    DemoUser mUser2;
+
+    DemoUser mRemoteUser;
+    Mesibo.UserProfile mProfile;
+    Mesibo.ReadDbSession mReadSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice_konsultasi);
+
+        preferencedConfig = new SharedPreferencedConfig(this);
+
         imgDana = findViewById(R.id.img_dana_invoice_konsultasi);
         imgShopee = findViewById(R.id.img_shopeepay_invoice_konsultasi);
         imgOvo = findViewById(R.id.img_ovo_invoice_konsultasi);
@@ -60,8 +88,19 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
         mobile_deeplink = getIntent().getStringExtra("mobile_deeplink");
         qr_string = getIntent().getStringExtra("qr_string");
         status = getIntent().getStringExtra("status");
+        cekKonsultasi = getIntent().getStringExtra("konsultasi");
+        player_id_dokter = getIntent().getStringExtra("player_id");
+        id_dokter = getIntent().getStringExtra("id_dokter");
 
         Log.d("statusInvoice", "onCreate: "+status);
+
+        token_dokter = getIntent().getStringExtra("token_dokter");
+        nama_dokter = getIntent().getStringExtra("nama_dokter");
+
+        mUser1 = new DemoUser(preferencedConfig.getPreferenceToken(), preferencedConfig.getPreferenceNama());
+        mUser2 = new DemoUser(token_dokter, nama_dokter);
+
+        mesiboInit(mUser1, mUser2);
 
         if (status.equals("2")){
 
@@ -79,6 +118,11 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
         btnPembayaranSelesai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_DOKTER, id_dokter);
+                Toast.makeText(InvoiceKonsultasiActivity.this,
+                        "Pembayaran Berhasil, Silahkan mulai chat dengan dokter", Toast.LENGTH_SHORT).show();
+                MesiboUI.launchMessageView(InvoiceKonsultasiActivity.this, mRemoteUser.address, 0);
+
                 finish();
             }
         });
@@ -91,6 +135,35 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
         });
 
         loadDataInvoice();
+    }
+
+    private void mesiboInit(DemoUser mUser1, DemoUser mUser2) {
+
+        Mesibo api = Mesibo.getInstance();
+        api.init(getApplicationContext());
+
+        Mesibo.addListener(this);
+        Mesibo.setSecureConnection(true);
+        Mesibo.setAccessToken(mUser1.token);
+        Mesibo.setDatabase("mydb", 0);
+        Mesibo.start();
+
+        mRemoteUser = mUser2;
+        mProfile = new Mesibo.UserProfile();
+        mProfile.address = mUser2.address;
+        mProfile.name = mUser2.address;
+        Mesibo.setUserProfile(mProfile, false);
+
+        MesiboCall mesiboCall = MesiboCall.getInstance();
+        mesiboCall.init(this);
+
+
+        // Read receipts are enabled only when App is set to be in foreground
+        Mesibo.setAppInForeground(this, 0, true);
+        mReadSession = new Mesibo.ReadDbSession(mRemoteUser.address, this);
+        mReadSession.enableReadReceipt(true);
+        mReadSession.read(100);
+
     }
 
     private void tampilDialog() {
@@ -155,7 +228,7 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
                         imgQrCode.setImageBitmap(myBitmap);
                     }
 
-                    InvoiceKonsultasiAdapter adapter = new InvoiceKonsultasiAdapter(InvoiceKonsultasiActivity.this, dataInvoice);
+                    InvoiceKonsultasiAdapter adapter = new InvoiceKonsultasiAdapter(InvoiceKonsultasiActivity.this, dataInvoice, InvoiceKonsultasiActivity.this);
                     rvInvoice.setHasFixedSize(true);
                     rvInvoice.setLayoutManager(new LinearLayoutManager(InvoiceKonsultasiActivity.this));
                     rvInvoice.setAdapter(adapter);
@@ -243,6 +316,76 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBatalkanKonsultasi> call, Throwable t) {
                 Toast.makeText(InvoiceKonsultasiActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    @Override
+    public void Mesibo_onConnectionStatus(int i) {
+
+        if (i == 1){
+
+            Log.d("cekKoneksiStatus", "Mesibo_onConnectionStatus: ONLINE");
+
+        }else{
+            Log.d("cekKoneksiStatus", "Mesibo_onConnectionStatus: OFFLINE/GAGAL MENGHUBUNGKAN");
+        }
+
+    }
+
+    @Override
+    public boolean Mesibo_onMessage(Mesibo.MessageParams messageParams, byte[] bytes) {
+        return false;
+    }
+
+    @Override
+    public void Mesibo_onMessageStatus(Mesibo.MessageParams messageParams) {
+        int status = messageParams.getStatus();
+        long id = messageParams.mid;
+        Log.d("cekStatus", "id: " + id);
+        Log.d("cekStatus", "Mesibo_onMessageStatus: " + status);
+        Log.d("cekStatus", "messageParam: " + messageParams.isSavedMessage());
+
+        if (status == 1 && id != 0) {
+            pushNotification();
+        }
+    }
+
+    @Override
+    public void Mesibo_onActivity(Mesibo.MessageParams messageParams, int i) {
+
+    }
+
+    @Override
+    public void Mesibo_onLocation(Mesibo.MessageParams messageParams, Mesibo.Location location) {
+
+    }
+
+    @Override
+    public void Mesibo_onFile(Mesibo.MessageParams messageParams, Mesibo.FileInfo fileInfo) {
+
+    }
+
+    private void pushNotification() {
+
+        ConfigRetrofit.service.notifChat(player_id_dokter).enqueue(new Callback<ResponseNotif>() {
+            @Override
+            public void onResponse(Call<ResponseNotif> call, Response<ResponseNotif> response) {
+                if (response.isSuccessful()) {
+
+                    Log.d("statusNotifChat", "onResponse: " + "Berhasil Push Notification");
+                    Log.d("checkPlayerId", "onResponse: " + player_id_dokter);
+
+
+                } else {
+                    Log.d("statusNotifChat", "onResponse: " + "Gagal Push Notification");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseNotif> call, Throwable t) {
+                Toast.makeText(InvoiceKonsultasiActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +50,8 @@ public class JadwalKonsultasiAdapter extends RecyclerView.Adapter<JadwalKonsulta
         String image = dataKonsultasi.get(position).getImg();
         String spesialis = dataKonsultasi.get(position).getSpesialis();
         String tanggal = dataKonsultasi.get(position).getJadwal();
+        String mulai_konsultasi = dataKonsultasi.get(position).getMulaiKonsultasi();
+        String status_konsultasi = dataKonsultasi.get(position).getStatusTransaksi();
 
         final String url_image = "https://aplikasicerdas.net/haloqlinic/file/dokter/profile/"+image;
 
@@ -66,13 +69,18 @@ public class JadwalKonsultasiAdapter extends RecyclerView.Adapter<JadwalKonsulta
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intentChat = new Intent(context, ChatActivity.class);
-                        intentChat.putExtra("token", dataKonsultasi.get(position).getToken());
-                        intentChat.putExtra("nama_dokter", dataKonsultasi.get(position).getNama());
-                        intentChat.putExtra("image", dataKonsultasi.get(position).getImg());
-                        intentChat.putExtra("spesialis", dataKonsultasi.get(position).getSpesialis());
-                        intentChat.putExtra("player_id", dataKonsultasi.get(position).getPlayerId());
-                        context.startActivity(intentChat);
+
+                        if (mulai_konsultasi != null && status_konsultasi.equals("0")) {
+                            Intent intentChat = new Intent(context, ChatActivity.class);
+                            intentChat.putExtra("token", dataKonsultasi.get(position).getToken());
+                            intentChat.putExtra("nama_dokter", dataKonsultasi.get(position).getNama());
+                            intentChat.putExtra("image", dataKonsultasi.get(position).getImg());
+                            intentChat.putExtra("spesialis", dataKonsultasi.get(position).getSpesialis());
+                            intentChat.putExtra("player_id", dataKonsultasi.get(position).getPlayerId());
+                            context.startActivity(intentChat);
+                        }else{
+                            Toast.makeText(context, "Anda telah menyelesaikan chat ini", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

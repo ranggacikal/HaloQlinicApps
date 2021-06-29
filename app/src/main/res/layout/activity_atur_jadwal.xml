@@ -50,47 +50,132 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp" />
 
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/grey">
+
+                <ImageView
+
+                    android:id="@+id/imgAturJadwal"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_warning" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toRightOf="@+id/imgAturJadwal"
+                    android:fontFamily="@font/robotoreguler"
+                    android:text="@string/aturJadwal"
+                    android:textColor="@color/black" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Pilih Tanggal konsultasi"
+                android:textColor="@color/black"
+                android:fontFamily="@font/robotobold"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_jadwal_konsultasi_atur_jadwal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="7dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp" />
 
-                <LinearLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_pilih_jam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="6dp">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp">
+
+                    <ImageView
+                        android:id="@+id/imgJamJadwal"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/ic_time"/>
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:text="Waktu yang tersedia untuk"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/robotobold"/>
-
-                    <TextView
-                        android:id="@+id/text_konsultasi_dengan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Konsultasi dengan Dr. xxxx"
+                        android:text="Pilih Waktu"
+                        android:textSize="17sp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/robotobold"
-                        android:layout_marginBottom="15dp"/>
+                        android:layout_toRightOf="@+id/imgJamJadwal"
+                        android:layout_marginStart="10dp"
+                        android:layout_centerVertical="true"/>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_jadwal_konsultasi_atur_jadwal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:id="@+id/img_ic_down"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_arrow_down"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"/>
 
-                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/img_ic_up"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_arrow_up"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_jam_jadwal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="6dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_jam_jadwal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -103,13 +188,13 @@
                     android:id="@+id/btn_buat_jadwal"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@drawable/background_circle_button_green"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
+                    android:background="@drawable/background_circle_button_green"
+                    android:fontFamily="@font/robotobold"
                     android:text="Buat Jadwal"
-                    android:textColor="@color/white"
-                    android:layout_alignParentBottom="true"
-                    android:fontFamily="@font/robotobold"/>
+                    android:textColor="@color/white" />
 
             </RelativeLayout>
 

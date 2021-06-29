@@ -44,7 +44,7 @@ public class DokterSpesialisFragment extends Fragment {
 
     }
 
-    RecyclerView rvSpesialisFragment;
+    RecyclerView rvSpesialisFragment, rvCari;
     SearchView searchView;
     private int page = 1;
     private int page_size = 10;
@@ -61,17 +61,25 @@ public class DokterSpesialisFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_dokter_spesialis, container, false);
 
+        if (dataDokter!=null || dataDokter.size()>0){
+            dataDokter.clear();
+        }
+
         rvSpesialisFragment = rootView.findViewById(R.id.recycler_spesialis_fragment);
+        rvCari = rootView.findViewById(R.id.recycler_cari_spesialis_fragment);
         searchView = rootView.findViewById(R.id.search_dokter_spesialis);
         progressBar = rootView.findViewById(R.id.progressbar_dokter);
 
-        manager = new LinearLayoutManager(getActivity());
+        rvCari.setHasFixedSize(true);
+        rvCari.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        manager = new LinearLayoutManager(getContext());
         rvSpesialisFragment.setHasFixedSize(true);
         rvSpesialisFragment.setLayoutManager(manager);
 
         loadDokterSpesialis();
 
-        adapter = new DokterAdapter(getActivity(), dataDokter);
+        adapter = new DokterAdapter(getContext(), dataDokter);
         rvSpesialisFragment.setAdapter(adapter);
 
         rvSpesialisFragment.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -117,7 +125,15 @@ public class DokterSpesialisFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                loadCariDokter(newText);
+                if (newText.equals("") || newText.isEmpty()){
+                    rvCari.setVisibility(View.GONE);
+                    rvSpesialisFragment.setVisibility(View.VISIBLE);
+                }else {
+
+                    rvSpesialisFragment.setVisibility(View.GONE);
+                    rvCari.setVisibility(View.VISIBLE);
+                    loadCariDokter(newText);
+                }
                 return true;
             }
         });
@@ -127,25 +143,26 @@ public class DokterSpesialisFragment extends Fragment {
 
     private void loadCariDokter(String newText) {
 
-        ConfigRetrofit.service.cariDokter("1", newText).enqueue(new Callback<ResponseCariDokter>() {
+        ConfigRetrofit.service.cariDokter(newText, "1", "spesialis").enqueue(new Callback<ResponseCariDokter>() {
             @Override
             public void onResponse(Call<ResponseCariDokter> call, Response<ResponseCariDokter> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     List<com.haloqlinic.haloqlinicapps.model.cariDokter.DataItem> dataCari = response.body().getData();
-                    CariSpesialisAdapter adapterCari = new CariSpesialisAdapter(getActivity(), dataCari);
-                    rvSpesialisFragment.setAdapter(adapterCari);
+                    CariSpesialisAdapter adapterCari = new CariSpesialisAdapter(getContext(), dataCari);
+                    rvCari.setAdapter(adapterCari);
 
-                }else{
-                    Toast.makeText(getActivity(), "Gagal mengambil data", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Gagal mengambil data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseCariDokter> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 
@@ -158,21 +175,20 @@ public class DokterSpesialisFragment extends Fragment {
         ConfigRetrofit.service.dataDokter(status, String.valueOf(page)).enqueue(new Callback<ResponseListDokter>() {
             @Override
             public void onResponse(Call<ResponseListDokter> call, Response<ResponseListDokter> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     progressBar.setVisibility(View.GONE);
 
                     total_page = response.body().getTotalPage();
                     dataDokter = response.body().getData();
-                    Toast.makeText(getActivity(), "berhasil load page ke- "+page, Toast.LENGTH_SHORT).show();
-                    if (dataDokter!=null) {
+                    if (dataDokter != null) {
 
                         adapter.addList(dataDokter);
                     }
                     isLoading = false;
 
-                }else{
-                    Toast.makeText(getActivity(), "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                     isLoading = false;
                 }
@@ -182,7 +198,7 @@ public class DokterSpesialisFragment extends Fragment {
             public void onFailure(Call<ResponseListDokter> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 isLoading = false;
-                Toast.makeText(getActivity(), "Terjadi Kesalahan Di server : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Terjadi Kesalahan Di server : " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

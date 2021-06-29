@@ -8,6 +8,9 @@ public class DataItem{
 	@SerializedName("img")
 	private String img;
 
+	@SerializedName("player_id")
+	private String playerId;
+
 	@SerializedName("id_kategori")
 	private String idKategori;
 
@@ -26,12 +29,23 @@ public class DataItem{
 	@SerializedName("id_dokter")
 	private String idDokter;
 
+	@SerializedName("token")
+	private String token;
+
 	public void setImg(String img){
 		this.img = img;
 	}
 
 	public String getImg(){
 		return img;
+	}
+
+	public void setPlayerId(String playerId){
+		this.playerId = playerId;
+	}
+
+	public String getPlayerId(){
+		return playerId;
 	}
 
 	public void setIdKategori(String idKategori){
@@ -82,17 +96,27 @@ public class DataItem{
 		return idDokter;
 	}
 
+	public void setToken(String token){
+		this.token = token;
+	}
+
+	public String getToken(){
+		return token;
+	}
+
 	@Override
  	public String toString(){
 		return 
 			"DataItem{" + 
 			"img = '" + img + '\'' + 
+			",player_id = '" + playerId + '\'' + 
 			",id_kategori = '" + idKategori + '\'' + 
 			",nama = '" + nama + '\'' + 
 			",biaya = '" + biaya + '\'' + 
 			",spesialis = '" + spesialis + '\'' + 
 			",list = '" + list + '\'' + 
 			",id_dokter = '" + idDokter + '\'' + 
+			",token = '" + token + '\'' + 
 			"}";
 		}
 }
