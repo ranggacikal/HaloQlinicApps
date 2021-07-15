@@ -15,16 +15,18 @@ import com.haloqlinic.haloqlinicapps.R;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.DataItem;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.ProdukItem;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class CheckoutProdukAdapter extends RecyclerView.Adapter<CheckoutProdukAdapter.CheckoutProdukViewHolder> {
 
     Context context;
+    List<ProdukItem> dataProduk;
     List<DataItem> dataPesanan;
 
-    public CheckoutProdukAdapter(Context context, List<DataItem> dataPesanan) {
+    public CheckoutProdukAdapter(Context context, List<ProdukItem> dataProduk) {
         this.context = context;
-        this.dataPesanan = dataPesanan;
+        this.dataProduk = dataProduk;
     }
 
     @NonNull
@@ -37,34 +39,31 @@ public class CheckoutProdukAdapter extends RecyclerView.Adapter<CheckoutProdukAd
     @Override
     public void onBindViewHolder(@NonNull CheckoutProdukViewHolder holder, int position) {
 
-        List<ProdukItem> dataProduk = null;
+        int hargaProduk = Integer.parseInt(dataProduk.get(position).getHarga());
+        int totalHarga = Integer.parseInt(dataProduk.get(position).getSubtotal());
 
-        dataProduk = dataPesanan.get(position).getProduk();
+        holder.txtNamaProduk.setText(dataProduk.get(position).getNamaProduk());
+        holder.txtVariasi.setText(dataProduk.get(position).getVariasi());
+        holder.txtJumlah.setText("x" + dataProduk.get(position).getJumlah());
+        holder.txtHargaProduk.setText("Rp" + NumberFormat.getInstance().format(hargaProduk));
+        holder.txtTotalHarga.setText("Rp" + NumberFormat.getInstance().format(totalHarga));
 
-        for (int i = 0; i<dataProduk.size(); i++){
-
-            holder.txtNamaProduk.setText(dataProduk.get(i).getNamaProduk());
-            holder.txtVariasi.setText(dataProduk.get(i).getVariasi());
-            holder.txtJumlah.setText("x"+dataProduk.get(i).getJumlah());
-
-            Glide.with(context)
-                    .load(dataProduk.get(i).getImg())
-                    .error(R.mipmap.ic_launcher)
-                    .into(holder.imgProduk);
-
-        }
+        Glide.with(context)
+                .load(dataProduk.get(position).getImg())
+                .error(R.mipmap.ic_launcher)
+                .into(holder.imgProduk);
 
     }
 
     @Override
     public int getItemCount() {
-        return dataPesanan.size();
+        return dataProduk.size();
     }
 
     public class CheckoutProdukViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgProduk;
-        TextView txtNamaProduk, txtVariasi, txtJumlah;
+        TextView txtNamaProduk, txtVariasi, txtJumlah, txtHargaProduk, txtTotalHarga;
 
         public CheckoutProdukViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +71,8 @@ public class CheckoutProdukAdapter extends RecyclerView.Adapter<CheckoutProdukAd
             txtNamaProduk = itemView.findViewById(R.id.text_nama_item_checkout);
             txtVariasi = itemView.findViewById(R.id.text_variasi_item_checkout);
             txtJumlah = itemView.findViewById(R.id.text_jumlah_item_checkout);
+            txtHargaProduk = itemView.findViewById(R.id.text_harga_checkout_produk);
+            txtTotalHarga = itemView.findViewById(R.id.text_total_harga_checkout_produk);
         }
     }
 }

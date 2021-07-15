@@ -73,6 +73,8 @@ public class DikirimAdapter extends RecyclerView.Adapter<DikirimAdapter.DikirimV
                 Intent intent = new Intent(context, DetailTransaksiActivity.class);
                 intent.putExtra("id_transaksi", dataDikirim.get(position).getIdTransaksi());
                 intent.putExtra("id_member", dataDikirim.get(position).getIdMember());
+                intent.putExtra("id_pengiriman", dataDikirim.get(position).getIdPengiriman());
+                intent.putExtra("fragmentStatusTransaksi", "dikirim");
                 context.startActivity(intent);
             }
         });

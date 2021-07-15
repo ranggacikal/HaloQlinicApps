@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.haloqlinic.haloqlinicapps.model.detailProduk.DataItem;
 import com.haloqlinic.haloqlinicapps.model.detailProduk.ResponseDetailProduk;
 import com.haloqlinic.haloqlinicapps.model.detailProduk.VariasiItem;
 import com.haloqlinic.haloqlinicapps.model.tambahKeranjang.ResponseTambahKeranjang;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -33,15 +35,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
+
 public class DetailProdukActivity extends AppCompatActivity {
 
     ImageView imgDetailProduk, imgBack, imgKeranjang;
     TextView txtNamaProduk, txtHargaProduk, txtDeskripsiProduk;
     Button btnKeranjang, btnCheckout;
     Spinner spinnerPilihVariasi;
-    LinearLayout linearVariasi, linearStock, linearSpinner;
+    LinearLayout linearVariasi, linearStock, linearSpinner, linearDiskon;
     List<VariasiItem> variasiItems = new ArrayList<>();
-    TextView txtVariasiProduk, txtStockProduk;
+    TextView txtVariasiProduk, txtStockProduk, txtHargaDiskon, txtHargaAwal;
     String id_variasi, stok, variasi, id_product;
     String id_member = "";
     String berat = "";
@@ -61,37 +65,71 @@ public class DetailProdukActivity extends AppCompatActivity {
         txtHargaProduk = findViewById(R.id.text_harga_detail_produk);
         txtDeskripsiProduk = findViewById(R.id.text_deskripsi_produk);
         btnKeranjang = findViewById(R.id.btn_tambah_keranjang);
-        btnCheckout = findViewById(R.id.btn_checkout_keranjang);
+        btnCheckout = findViewById(R.id.btn_checkout_detail_produk);
         linearVariasi = findViewById(R.id.linear_variasi_produk);
         spinnerPilihVariasi = findViewById(R.id.spinner_pilih_variasi);
         txtVariasiProduk = findViewById(R.id.text_variasi_produk);
         linearStock = findViewById(R.id.linear_stock_produk);
         txtStockProduk = findViewById(R.id.text_stock_produk);
         linearSpinner = findViewById(R.id.linear_spinner_variasi);
+        linearDiskon = findViewById(R.id.linear_diskon);
+        txtHargaDiskon = findViewById(R.id.text_harga_detail_produk_diskon);
+        txtHargaAwal = findViewById(R.id.text_harga_detail_produk_awal);
 
         preferencedConfig = new SharedPreferencedConfig(this);
 
+        PushDownAnim.setPushDownAnimTo(imgBack)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        PushDownAnim.setPushDownAnimTo(imgKeranjang)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(DetailProdukActivity.this, KeranjangActivity.class));
+                    }
+                });
 
-        imgKeranjang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(DetailProdukActivity.this, KeranjangActivity.class));
-            }
-        });
+        PushDownAnim.setPushDownAnimTo(btnKeranjang)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-        btnKeranjang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tambahKeranjang();
-            }
-        });
+                        if (Integer.parseInt(stok)<1){
+
+                            Toast.makeText(DetailProdukActivity.this,
+                                    "Stock Kosong, tidak bisa menambahkan ke keranjang",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            tambahKeranjang();
+                        }
+                    }
+                });
+
+        PushDownAnim.setPushDownAnimTo(btnCheckout)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Integer.parseInt(stok)<1){
+
+                            Toast.makeText(DetailProdukActivity.this,
+                                    "Stock Kosong, tidak bisa melakukan proses checkout",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            tambahCheckout();
+                        }
+                    }
+                });
 
         spinnerPilihVariasi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -150,9 +188,39 @@ public class DetailProdukActivity extends AppCompatActivity {
 
     }
 
+    private void tambahCheckout() {
+
+        String jumlah = "1";
+
+        ConfigRetrofit.service.tambahKeranjang(preferencedConfig.getPreferenceIdCustomer(), id_product, id_member, berat, jumlah,
+                harga, id_variasi, variasi).enqueue(new Callback<ResponseTambahKeranjang>() {
+            @Override
+            public void onResponse(Call<ResponseTambahKeranjang> call, Response<ResponseTambahKeranjang> response) {
+                if (response.isSuccessful()){
+
+                    Toast.makeText(DetailProdukActivity.this, "Berhasil menambahkan produk",
+                            Toast.LENGTH_SHORT).show();
+
+                    startActivity(new Intent(DetailProdukActivity.this, KeranjangActivity.class));
+                    finish();
+
+                }else{
+                    Toast.makeText(DetailProdukActivity.this, "Gagal menambah produk", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseTambahKeranjang> call, Throwable t) {
+                Toast.makeText(DetailProdukActivity.this, "Terjadi kesalahan di server: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     private void loadDataDetailProduk() {
 
         String id_produk = getIntent().getStringExtra("id_produk");
+        Log.d("checkIdProduk", "loadDataDetailProduk: "+id_produk);
 
         ProgressDialog progressDialog = new ProgressDialog(DetailProdukActivity.this);
         progressDialog.setMessage("Memuat Data");
@@ -169,6 +237,8 @@ public class DetailProdukActivity extends AppCompatActivity {
                     String nama_produk = "";
                     String harga_produk = "";
                     String deskripsi_produk = "";
+                    String diskon = "";
+                    String harga_jual = "";
 
 
                     for (int i = 0; i<dataItems.size(); i++){
@@ -181,6 +251,8 @@ public class DetailProdukActivity extends AppCompatActivity {
                         berat = dataItems.get(i).getBerat();
                         harga = dataItems.get(i).getHarga();
                         variasiItems = dataItems.get(i).getVariasi();
+                        diskon = dataItems.get(i).getDisc();
+                        harga_jual = dataItems.get(i).getHargaJual();
                     }
 
                     if (variasiItems.size()<1){
@@ -205,7 +277,18 @@ public class DetailProdukActivity extends AppCompatActivity {
                             .into(imgDetailProduk);
 
                     txtNamaProduk.setText(nama_produk);
-                    txtHargaProduk.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga_produk)));
+
+                    if (diskon.equals("0")) {
+                        linearDiskon.setVisibility(View.GONE);
+                        txtHargaProduk.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga_jual)));
+
+                    }else{
+                        linearDiskon.setVisibility(View.VISIBLE);
+                        txtHargaProduk.setVisibility(View.GONE);
+                        txtHargaAwal.setPaintFlags(txtHargaAwal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        txtHargaAwal.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga)));
+                        txtHargaDiskon.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga_jual)));
+                    }
                     txtDeskripsiProduk.setText(deskripsi_produk);
 
                 }else{

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.chatOnline.DataItem;
 import com.haloqlinic.haloqlinicapps.model.chatOnline.ResponseChatOnline;
 import com.haloqlinic.haloqlinicapps.model.notifChat.ResponseNotif;
+import com.haloqlinic.haloqlinicapps.service.MyService;
 import com.mesibo.api.Mesibo;
 import com.mesibo.calls.api.MesiboCall;
 import com.mesibo.messaging.MesiboUI;
@@ -34,7 +36,7 @@ import retrofit2.Response;
 
 import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
 
-public class MainActivity extends AppCompatActivity implements Mesibo.ConnectionListener, Mesibo.MessageListener{
+public class MainActivity extends AppCompatActivity implements Mesibo.ConnectionListener, Mesibo.MessageListener {
 
     public TabLayout tabLayout;
 
@@ -72,6 +74,23 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
     Mesibo.UserProfile mProfile;
     Mesibo.ReadDbSession mReadSession;
 
+    private Handler handler = new Handler();
+
+    // Define the code block to be executed
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            getChatOnline();
+
+            // Repeat every 2 seconds
+            handler.postDelayed(runnable, 2000);
+        }
+    };
+
+    MyService service = new MyService();
+
+    public String status_service;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +106,10 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
         imgKeranjangHome = findViewById(R.id.ic_keranjang_home_fragment);
         imgChat = findViewById(R.id.ic_chat_home_fragment);
 
+        Log.d("statusKonsultasiHandler", "onCreate: " + status_konsultasi);
+
+//        startService(new Intent(getBaseContext(), MyService.class));
+
         tokenUser = getIntent().getStringExtra("tokenUser");
         addressUser = getIntent().getStringExtra("addressUser");
 
@@ -98,16 +121,30 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
         });
 
         PushDownAnim.setPushDownAnimTo(imgChat)
-                .setScale( MODE_SCALE, 0.89f  )
+                .setScale(MODE_SCALE, 0.89f)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MesiboUI.launchMessageView(MainActivity.this, mRemoteUser.address, 0);
+
+                        if (status_konsultasi != null) {
+
+                            if (status_konsultasi.equals("0")) {
+                                MesiboUI.launchMessageView(MainActivity.this, mRemoteUser.address, 0);
+                                handler.removeCallbacks(runnable);
+                            } else if (status_konsultasi.equals("1")) {
+                                Toast.makeText(MainActivity.this, "Konsultasi anda sudah berakhir", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Anda belum memulai konsultasi", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, "Anda belum memulai / memesan konsultasi", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
 
         PushDownAnim.setPushDownAnimTo(imgKeranjangHome)
-                .setScale( MODE_SCALE, 0.89f  )
+                .setScale(MODE_SCALE, 0.89f)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -143,60 +180,71 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
             public void onTabSelected(TabLayout.Tab tab) {
                 setCurrentTabFragment(tab.getPosition());
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
     }
 
-    private void setCurrentTabFragment(int tabPosition)
-    {
-        switch (tabPosition)
-        {
-            case 0 :
+    private void setCurrentTabFragment(int tabPosition) {
+        switch (tabPosition) {
+            case 0:
                 replaceFragment(homeFragment);
                 txtKataPertama.setText("Halo,");
                 txtKataKedua.setText(preferencedConfig.getPreferenceNama());
                 txtKataKedua.setVisibility(View.VISIBLE);
                 imgKeranjang.setVisibility(View.GONE);
-                linearIconHome.setVisibility(View.VISIBLE);
+                linearIconHome.setVisibility(View.VISIBLE);handler.post(runnable);
+
+                if (status_konsultasi!=null) {
+                    if (status_konsultasi.equals("1")) {
+                        handler.removeCallbacks(runnable);
+                    }
+                }
 
                 id_dokter = preferencedConfig.getPreferenceIdDokter();
 
-                Log.d("idDokterHome", "onCreate: "+id_dokter);
+//                startService(new Intent(getBaseContext(), MyService.class));
 
-                if (!id_dokter.equals("") || id_dokter !=null){
+                Log.d("idDokterHome", "onCreate: " + id_dokter);
 
-                getChatOnline();
+                if (!id_dokter.equals("") || id_dokter != null) {
+
+                    getChatOnline();
 
                 }
 
                 break;
-            case 1 :
+            case 1:
                 replaceFragment(dokterFragment);
                 txtKataPertama.setText("Data");
                 txtKataKedua.setText("Dokter");
                 txtKataKedua.setVisibility(View.VISIBLE);
                 imgKeranjang.setVisibility(View.GONE);
                 linearIconHome.setVisibility(View.GONE);
+                handler.removeCallbacks(runnable);
                 break;
-            case 2 :
+            case 2:
                 replaceFragment(produkFragment);
                 txtKataPertama.setText("Produk");
                 txtKataKedua.setText("Kecantikan");
                 txtKataKedua.setVisibility(View.VISIBLE);
                 imgKeranjang.setVisibility(View.VISIBLE);
                 linearIconHome.setVisibility(View.GONE);
+                handler.removeCallbacks(runnable);
                 break;
-            case 3 :
+            case 3:
                 replaceFragment(profileFragment);
                 txtKataPertama.setText("Profile");
                 txtKataKedua.setVisibility(View.GONE);
                 imgKeranjang.setVisibility(View.GONE);
                 linearIconHome.setVisibility(View.GONE);
+                handler.removeCallbacks(runnable);
                 break;
         }
     }
@@ -206,11 +254,11 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
         ConfigRetrofit.service.chatOnline(id_dokter).enqueue(new Callback<ResponseChatOnline>() {
             @Override
             public void onResponse(Call<ResponseChatOnline> call, Response<ResponseChatOnline> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     List<DataItem> dataChat = response.body().getData();
 
-                    for (int i = 0; i<dataChat.size(); i++){
+                    for (int i = 0; i < dataChat.size(); i++) {
 
                         status_konsultasi = dataChat.get(i).getStatusKonsultasi();
                         nama_dokter = dataChat.get(i).getNama();
@@ -220,13 +268,16 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
                     }
 
 
-
                     mUser1 = new DemoUser(preferencedConfig.getPreferenceToken(), preferencedConfig.getPreferenceNama());
                     mUser2 = new DemoUser(token_dokter, nama_dokter);
 
                     mesiboInit(mUser1, mUser2);
 
-                    Log.d("statusKonsultasiHome", "onResponse: "+status_konsultasi);
+                    Log.d("datauser", "pasienToken: " + preferencedConfig.getPreferenceToken());
+                    Log.d("datauser", "pasienNama: " + preferencedConfig.getPreferenceNama());
+                    Log.d("datauser", "dokterToken: " + token_dokter);
+                    Log.d("datauser", "dokterNama: " + nama_dokter);
+                    Log.d("statusKonsultasiHome", "onResponse: " + status_konsultasi);
 
                     if (status_konsultasi != null) {
 
@@ -235,19 +286,18 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
                         }
                     }
 
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "Gagal memuat data chat", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseChatOnline> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
 
 
     private void mesiboInit(DemoUser mUser1, DemoUser mUser2) {
@@ -289,9 +339,9 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
 
     @Override
     public void Mesibo_onConnectionStatus(int i) {
-        if (i == 1){
+        if (i == 1) {
             Log.d("checkKoneksiHome", "Mesibo_onConnectionStatus: ONLINE");
-        }else{
+        } else {
             Log.d("checkKoneksiHome", "Mesibo_onConnectionStatus: OFFLINE");
         }
     }
@@ -358,10 +408,27 @@ public class MainActivity extends AppCompatActivity implements Mesibo.Connection
     @Override
     protected void onResume() {
         super.onResume();
-        if (!id_dokter.equals("") || id_dokter !=null){
+
+        handler.post(runnable);
+
+        if (status_konsultasi!=null) {
+            if (status_konsultasi.equals("1")) {
+                handler.removeCallbacks(runnable);
+            }
+        }
+
+//        startService(new Intent(getBaseContext(), MyService.class));
+        id_dokter = preferencedConfig.getPreferenceIdDokter();
+        if (!id_dokter.equals("") || id_dokter != null) {
 
             getChatOnline();
 
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
     }
 }

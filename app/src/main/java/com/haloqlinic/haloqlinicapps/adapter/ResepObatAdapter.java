@@ -2,6 +2,7 @@ package com.haloqlinic.haloqlinicapps.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class ResepObatAdapter extends RecyclerView.Adapter<ResepObatAdapter.Rese
                     public void onClick(View v) {
                         Intent intent = new Intent(context, ListTebusObatActivity.class);
                         intent.putExtra("id_transaksi", id_transaksi);
+                        Log.d("idTransaksiAdapter", "onClick: "+id_transaksi);
                         context.startActivity(intent);
                     }
                 });

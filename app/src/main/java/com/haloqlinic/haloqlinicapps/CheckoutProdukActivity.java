@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.adapter.CheckoutProdukAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.KategoriBayarAdapter;
+import com.haloqlinic.haloqlinicapps.adapter.MitraCheckoutAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.PilihKurirAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.api.apiRajaOngkir.ConfigRajaOngkir;
@@ -39,6 +40,7 @@ import com.haloqlinic.haloqlinicapps.model.kategoriXendit.ResponseKategoriXendit
 import com.haloqlinic.haloqlinicapps.model.kecamatanRajaOngkir.ResponseKecamatanRajaOngkir;
 import com.haloqlinic.haloqlinicapps.model.kotaRajaOngkir.ResponseKotaRajaOngkir;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.DataItem;
+import com.haloqlinic.haloqlinicapps.model.listPesanan.ProdukItem;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.ResponseListPesanan;
 import com.haloqlinic.haloqlinicapps.model.provinsiRajaOngkir.ResponseProvinsiRajaOngkir;
 import com.haloqlinic.haloqlinicapps.model.provinsiRajaOngkir.ResultsItem;
@@ -166,6 +168,8 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
         id_transaksi = getIntent().getStringExtra("id_transaksi");
 
+        Log.d("idTransaksiPembayaran", "onCreate: "+id_transaksi);
+
         Log.d("checkDataPreference", "idCustomer: "+preferencedConfig.getPreferenceIdCustomer());
         Log.d("checkDataPreference", "idOpsiBayar: "+preferencedConfig.getPreferenceIdOpsiBayar());
 
@@ -236,10 +240,74 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             }
         });
 
-        loadDataProduk();
-        loadPilihKurir();
+//        loadDataProduk();
+//        loadPilihKurir();
+        loadDataMitra();
         loadKategoriBayar();
         loadBiayaAdmin();
+    }
+
+    private void loadDataMitra() {
+
+        rvPesananCheckout.setHasFixedSize(true);
+        rvPesananCheckout.setLayoutManager(new LinearLayoutManager(CheckoutProdukActivity.this));
+
+        ConfigRetrofit.service.listPesanan(id_transaksi).enqueue(new Callback<ResponseListPesanan>() {
+            @Override
+            public void onResponse(Call<ResponseListPesanan> call, Response<ResponseListPesanan> response) {
+                if (response.isSuccessful()){
+
+                    dataPesanan = response.body().getData();
+                    dataItems = response.body().getData();
+                    List<ProdukItem> dataProduk = null;
+
+                    totalPesanan.clear();
+
+                    for (int a = 0; a<dataPesanan.size(); a++){
+                        totalPesanan.add(Integer.parseInt(dataPesanan.get(a).getTotalBelanja()));
+                        dataProduk = dataPesanan.get(a).getProduk();
+
+                    }
+
+                    sumOngkir = Integer.parseInt(response.body().getTotalOngkir());
+
+                    Log.d("checkOngkirData", "onResponse: "+sumOngkir);
+
+                    txtOngkir.setText("Rp" + NumberFormat.getInstance().format(sumOngkir));
+
+//                    for (int numTotal : totalPesanan){
+//                        sumTotalBelanja = sumTotalBelanja + numTotal;
+//                    }
+
+                    sumTotalBelanja = 0;
+                    for(int i = 0; i < totalPesanan.size(); i++) {
+                        sumTotalBelanja += totalPesanan.get(i);
+                    }
+
+                    Log.d("checkTotalPesanan", "size: "+sumTotalBelanja);
+                    txtTotalPesanan.setText("Rp" + NumberFormat.getInstance().format(sumTotalBelanja));
+
+                    MitraCheckoutAdapter adapterMitra = new
+                            MitraCheckoutAdapter(CheckoutProdukActivity.this,
+                            dataPesanan, CheckoutProdukActivity.this);
+
+                    rvPesananCheckout.setAdapter(adapterMitra);
+
+
+
+                }else{
+                    Toast.makeText(CheckoutProdukActivity.this, "Gagal Memuat Data",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseListPesanan> call, Throwable t) {
+                Toast.makeText(CheckoutProdukActivity.this, "Error: "+t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void initMetodeBayarDipilih() {
@@ -248,8 +316,13 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         String urlImage = preferencedConfig.getPreferenceImageOpsiBayar();
         String namaOpsiBayar = preferencedConfig.getPreferenceNamaOpsiBayar();
 
+        Log.d("dataKategoriBayar", "kategoriBayar: "+kategoriOpsiBayar);
+        Log.d("dataKategoriBayar", "image: "+urlImage);
+        Log.d("dataKategoriBayar", "namaOpsi: "+namaOpsiBayar);
+        Log.d("dataKategoriBayar", "kodeOpsi: "+preferencedConfig.getPreferenceKodeOpsiBayar());
+
         if (!namaOpsiBayar.equals("") && !urlImage.equals("") && !kategoriOpsiBayar.equals("") &&
-                !preferencedConfig.getPreferenceIdOpsiBayar().equals("") &&
+                !preferencedConfig.getPreferenceIdOpsiBayar().equals("") ||
                 !preferencedConfig.getPreferenceKodeOpsiBayar().equals("")){
 
             linearMetodeBayarDipilih.setVisibility(View.VISIBLE);
@@ -327,6 +400,24 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ProgressDialog progressDialogQris = new ProgressDialog(CheckoutProdukActivity.this);
         progressDialogQris.setMessage("Melakukan checkout");
         progressDialogQris.show();
+
+        Log.d("cekParamQris", "idCustomer: "+preferencedConfig.getPreferenceIdCustomer());
+        Log.d("cekParamQris", "idTransaksi: "+id_transaksi);
+        Log.d("cekParamQris", "totalSeluruh: "+totalSeluruh);
+        Log.d("cekParamQris", "namaPenrima: "+namaPenerima);
+        Log.d("cekParamQris", "alamat: "+alamat);
+        Log.d("cekParamQris", "kelurahan: "+kelurahan);
+        Log.d("cekParamQris", "id_kecamatan: "+id_kecamatan);
+        Log.d("cekParamQris", "id_kota: "+id_kota);
+        Log.d("cekParamQris", "id_provinsi: "+id_provinsi);
+        Log.d("cekParamQris", "kodePos: "+kodePos);
+        Log.d("cekParamQris", "id_member: "+id_member);
+        Log.d("cekParamQris", "totalBelanja: "+total_belanja);
+        Log.d("cekParamQris", "totalBerat: "+total_berat);
+        Log.d("cekParamQris", "kurir: "+kurir);
+        Log.d("cekParamQris", "layananKurir: "+layanan_kurir);
+        Log.d("cekParamQris", "ongkir: "+ongkir);
+        Log.d("cekParamQris", "biayaAdmin: "+sumBiayaAdmin);
 
         ConfigRetrofit.service.checkoutQris(preferencedConfig.getPreferenceIdCustomer(), id_transaksi, String.valueOf(totalSeluruh),
                 namaPenerima, alamat, kelurahan, id_kecamatan, id_kota, id_provinsi, kodePos, "", "", id_member,
@@ -660,7 +751,8 @@ public class CheckoutProdukActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initMetodeBayarDipilih();
-        loadPilihKurir();
+//        loadPilihKurir();
+        loadDataMitra();
         loadKategoriBayar();
         loadBiayaAdmin();
         Log.d("checkDataPreference", "idCustomer: "+preferencedConfig.getPreferenceIdCustomer());
@@ -729,89 +821,102 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
     }
 
-    private void loadPilihKurir() {
+//    private void loadPilihKurir() {
+//
+//        ConfigRetrofit.service.listPesanan(id_transaksi).enqueue(new Callback<ResponseListPesanan>() {
+//            @Override
+//            public void onResponse(Call<ResponseListPesanan> call, Response<ResponseListPesanan> response) {
+//                if (response.isSuccessful()){
+//
+//                    dataItems = response.body().getData();
+//
+//                    PilihKurirAdapter pilihKurirAdapter = new PilihKurirAdapter(CheckoutProdukActivity.this, dataItems, CheckoutProdukActivity.this);
+//                    rvPilihKurir.setHasFixedSize(true);
+//                    rvPilihKurir.setLayoutManager(new LinearLayoutManager(CheckoutProdukActivity.this));
+//                    rvPilihKurir.setAdapter(pilihKurirAdapter);
+//
+//                    sumOngkir = Integer.parseInt(response.body().getTotalOngkir());
+//
+//                    Log.d("checkOngkirData", "onResponse: "+sumOngkir);
+//
+//                    txtOngkir.setText("Rp" + NumberFormat.getInstance().format(sumOngkir));
+//
+//
+//                }else{
+//                    Toast.makeText(CheckoutProdukActivity.this, "Gagal load data pilih kurir", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseListPesanan> call, Throwable t) {
+//                Toast.makeText(CheckoutProdukActivity.this, "Error : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 
-        ConfigRetrofit.service.listPesanan(id_transaksi).enqueue(new Callback<ResponseListPesanan>() {
-            @Override
-            public void onResponse(Call<ResponseListPesanan> call, Response<ResponseListPesanan> response) {
-                if (response.isSuccessful()){
-
-                    dataItems = response.body().getData();
-
-                    PilihKurirAdapter pilihKurirAdapter = new PilihKurirAdapter(CheckoutProdukActivity.this, dataItems, CheckoutProdukActivity.this);
-                    rvPilihKurir.setHasFixedSize(true);
-                    rvPilihKurir.setLayoutManager(new LinearLayoutManager(CheckoutProdukActivity.this));
-                    rvPilihKurir.setAdapter(pilihKurirAdapter);
-
-                    sumOngkir = Integer.parseInt(response.body().getTotalOngkir());
-
-                    Log.d("checkOngkirData", "onResponse: "+sumOngkir);
-
-                    txtOngkir.setText("Rp" + NumberFormat.getInstance().format(sumOngkir));
-
-
-                }else{
-                    Toast.makeText(CheckoutProdukActivity.this, "Gagal load data pilih kurir", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseListPesanan> call, Throwable t) {
-                Toast.makeText(CheckoutProdukActivity.this, "Error : "+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    private void loadDataProduk() {
-
-        rvPesananCheckout.setHasFixedSize(true);
-        rvPesananCheckout.setLayoutManager(new LinearLayoutManager(CheckoutProdukActivity.this));
-
-
-        totalPesanan.clear();
-
-        LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        ProgressDialog progressDialogProduk = new ProgressDialog(CheckoutProdukActivity.this);
-        progressDialogProduk.setMessage("Memuat data pesanan anda");
-        progressDialogProduk.show();
-
-        ConfigRetrofit.service.listPesanan(id_transaksi).enqueue(new Callback<ResponseListPesanan>() {
-            @Override
-            public void onResponse(Call<ResponseListPesanan> call, Response<ResponseListPesanan> response) {
-                if (response.isSuccessful()){
-
-                    progressDialogProduk.dismiss();
-                    dataPesanan = response.body().getData();
-                    CheckoutProdukAdapter adapterProduk = new CheckoutProdukAdapter(CheckoutProdukActivity.this, dataPesanan);
-
-                    rvPesananCheckout.setAdapter(adapterProduk);
-
-                    for (int i = 0; i<dataPesanan.size(); i++){
-                        totalPesanan.add(Integer.parseInt(dataPesanan.get(i).getTotalBelanja()));
-
-                    }
-
-                    for (int numTotal : totalPesanan){
-                        sumTotalBelanja = sumTotalBelanja + numTotal;
-                    }
-                    txtTotalPesanan.setText("Rp" + NumberFormat.getInstance().format(sumTotalBelanja));
-
-                }else{
-                    progressDialogProduk.dismiss();
-                    Toast.makeText(CheckoutProdukActivity.this, "Gagal memuat data", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseListPesanan> call, Throwable t) {
-                progressDialogProduk.dismiss();
-                Toast.makeText(CheckoutProdukActivity.this, "Error : "+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
+//    private void loadDataProduk() {
+//
+//        rvPesananCheckout.setHasFixedSize(true);
+//        rvPesananCheckout.setLayoutManager(new LinearLayoutManager(CheckoutProdukActivity.this));
+//
+//
+//        totalPesanan.clear();
+//
+//        LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//        ProgressDialog progressDialogProduk = new ProgressDialog(CheckoutProdukActivity.this);
+//        progressDialogProduk.setMessage("Memuat data pesanan anda");
+//        progressDialogProduk.show();
+//
+//        ConfigRetrofit.service.listPesanan(id_transaksi).enqueue(new Callback<ResponseListPesanan>() {
+//            @Override
+//            public void onResponse(Call<ResponseListPesanan> call, Response<ResponseListPesanan> response) {
+//                if (response.isSuccessful()){
+//
+//                    progressDialogProduk.dismiss();
+//                    dataPesanan = response.body().getData();
+//                    List<ProdukItem> dataProduk = null;
+//                    List<ProdukItem> testArray = new ArrayList<ProdukItem>();
+//
+//                    for (int i = 0; i<dataPesanan.size(); i++){
+//                        totalPesanan.add(Integer.parseInt(dataPesanan.get(i).getTotalBelanja()));
+//                        dataProduk = dataPesanan.get(i).getProduk();
+//
+//                        for (int b = 0; b<dataProduk.size(); b++){
+//
+//                            String test = dataProduk.get(b).toString();
+//                            Log.d("testDataProduk", "onResponse: "+test);
+//                            testArray.add(dataProduk.get(b));
+//                            Log.d("testArrayData", "onResponse: "+testArray);
+//
+//                        }
+//
+//                    }
+//
+//                    CheckoutProdukAdapter adapterProduk = new CheckoutProdukAdapter(CheckoutProdukActivity.this, testArray);
+//
+//                    rvPesananCheckout.setAdapter(adapterProduk);
+//
+//                    for (int numTotal : totalPesanan){
+//                        sumTotalBelanja = sumTotalBelanja + numTotal;
+//                    }
+//                    txtTotalPesanan.setText("Rp" + NumberFormat.getInstance().format(sumTotalBelanja));
+//
+//                }else{
+//                    progressDialogProduk.dismiss();
+//                    Toast.makeText(CheckoutProdukActivity.this, "Gagal memuat data", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseListPesanan> call, Throwable t) {
+//                progressDialogProduk.dismiss();
+//                Toast.makeText(CheckoutProdukActivity.this, "Error : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 
     private void initSpinnerKecamatan(String id_kota) {
         ProgressDialog progressDialogKecamatan = new ProgressDialog(CheckoutProdukActivity.this);

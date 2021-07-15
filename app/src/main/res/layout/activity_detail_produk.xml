@@ -73,6 +73,36 @@
                     android:textSize="24sp" />
 
                 <LinearLayout
+                    android:id="@+id/linear_diskon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/text_harga_detail_produk_awal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:textStyle="italic"
+                        android:fontFamily="@font/robotoreguler"
+                        android:text="Rp0.000"
+                        android:textColor="@color/red"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/text_harga_detail_produk_diskon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Rp0.000"
+                        android:textColor="@color/red"
+                        android:textSize="24sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/linear_spinner_variasi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

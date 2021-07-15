@@ -80,16 +80,26 @@ public class DetailPesananActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     progressDialog.dismiss();
 
-//                    List<ProdukItem> dataProduk = null;
                     List<DataItem> dataPesanan = response.body().getData();
+                    List<ProdukItem> dataProduk = null;
+                    List<ProdukItem> testArray = new ArrayList<ProdukItem>();
 
-//                    for (int i = 0; i<dataPesanan.size(); i++){
-//                        dataProduk = dataPesanan.get(i).getProduk();
-//                    }
+                    for (int i = 0; i<dataPesanan.size(); i++){
+                        dataProduk = dataPesanan.get(i).getProduk();
 
-//                    Log.d("cekDataProduk", "onResponse: "+dataProduk);
+                        for (int b = 0; b<dataProduk.size(); b++){
 
-                    DetailPesananAdapter adapter = new DetailPesananAdapter(DetailPesananActivity.this, dataPesanan);
+                            String test = dataProduk.get(b).toString();
+                            Log.d("testDataProduk", "onResponse: "+test);
+                            testArray.add(dataProduk.get(b));
+                            Log.d("testArrayData", "onResponse: "+testArray);
+
+                        }
+
+                    }
+
+
+                    DetailPesananAdapter adapter = new DetailPesananAdapter(DetailPesananActivity.this, testArray);
                     rvDetailPesanan.setHasFixedSize(true);
                     rvDetailPesanan.setLayoutManager(new LinearLayoutManager(DetailPesananActivity.this));
                     rvDetailPesanan.setAdapter(adapter);

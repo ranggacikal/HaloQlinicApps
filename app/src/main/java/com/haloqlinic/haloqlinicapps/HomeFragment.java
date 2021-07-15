@@ -17,12 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
+import com.haloqlinic.haloqlinicapps.adapter.ArtikelHomeAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.DokterAktifAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.DokterAktifHomeAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.MitraHomeAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.UserAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.User;
+import com.haloqlinic.haloqlinicapps.model.artikel.ResponseArtikel;
 import com.haloqlinic.haloqlinicapps.model.getPlayerId.ResponseGetPlayerId;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktif.ResponseDataDokterAktif;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktifHome.DataItem;
@@ -31,6 +33,7 @@ import com.haloqlinic.haloqlinicapps.model.mitraKlinik.ResponseDataMitra;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.ResponseGetUserMesibo;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.UsersItem;
 import com.onesignal.OSDeviceState;
+import com.onesignal.OSPermissionObserver;
 import com.onesignal.OneSignal;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -54,8 +57,8 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    RecyclerView rvDokterOnline, rvMitra;
-    TextView txtLihatSemuaDokterTersedia, txtLihatSemuaMitra;
+    RecyclerView rvDokterOnline, rvMitra, rvArtikel;
+    TextView txtLihatSemuaDokterTersedia, txtLihatSemuaMitra, txtLihatSemuaArtikel;
     LinearLayout linearDokterSpesialis, linearSkincare, linearJadwalKonsultasi;
 
     String token, token_from, user_id, user_id_from;
@@ -77,6 +80,8 @@ public class HomeFragment extends Fragment {
         txtLihatSemuaMitra = rootview.findViewById(R.id.text_lihat_semua_mitra_klinik);
         linearSkincare = rootview.findViewById(R.id.linear_skincare_home);
         linearJadwalKonsultasi = rootview.findViewById(R.id.linear_jadwal_home);
+        rvArtikel = rootview.findViewById(R.id.recycler_artikel_home);
+        txtLihatSemuaArtikel = rootview.findViewById(R.id.text_lihat_semua_artikel);
 
         preferencedConfig = new SharedPreferencedConfig(getActivity());
 
@@ -95,12 +100,16 @@ public class HomeFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManagerMitra = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutArtikel = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
         rvDokterOnline.setHasFixedSize(true);
         rvDokterOnline.setLayoutManager(layoutManager);
 
         rvMitra.setHasFixedSize(true);
         rvMitra.setLayoutManager(layoutManagerMitra);
+
+        rvArtikel.setHasFixedSize(true);
+        rvArtikel.setLayoutManager(layoutArtikel);
 
         PushDownAnim.setPushDownAnimTo(txtLihatSemuaDokterTersedia)
                 .setScale( MODE_SCALE, 0.89f  )
@@ -147,11 +156,45 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        PushDownAnim.setPushDownAnimTo(txtLihatSemuaArtikel)
+                .setScale(MODE_SCALE, 0.89f)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), ArtikelActivity.class));
+                    }
+                });
+
         loadDokterOnline();
         loadMitraKlinik();
+        loadArtikelHome();
 
 
         return rootview;
+    }
+
+    private void loadArtikelHome() {
+
+        ConfigRetrofit.service.getArtikel("1", "1").enqueue(new Callback<ResponseArtikel>() {
+            @Override
+            public void onResponse(Call<ResponseArtikel> call, Response<ResponseArtikel> response) {
+                if (response.isSuccessful()){
+
+                    List<com.haloqlinic.haloqlinicapps.model.artikel.DataItem> dataArtikel = response.body().getData();
+                    ArtikelHomeAdapter adapterArtikel = new ArtikelHomeAdapter(getActivity(), dataArtikel);
+                    rvArtikel.setAdapter(adapterArtikel);
+
+                }else{
+                    Toast.makeText(getContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseArtikel> call, Throwable t) {
+                Toast.makeText(getActivity(), "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void getPlayerId() {

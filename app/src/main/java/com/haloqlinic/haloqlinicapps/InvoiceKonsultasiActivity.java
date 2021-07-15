@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,10 +17,12 @@ import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.adapter.InvoiceKonsultasiAdapter;
+import com.haloqlinic.haloqlinicapps.adapter.InvoiceKonsultasiQrAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.batalkanKonsultasi.ResponseBatalkanKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasi.DataItem;
 import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasi.ResponseInvoiceKonsultasi;
+import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasiQR.ResponseInvoiceKonsultasiQr;
 import com.haloqlinic.haloqlinicapps.model.notifChat.ResponseNotif;
 import com.mesibo.api.Mesibo;
 import com.mesibo.calls.api.MesiboCall;
@@ -44,7 +47,7 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesi
     String opsi_bayar = "";
 
     String id_transaksi, mobile_web, mobile_deeplink, qr_string, status, token_dokter, nama_dokter, player_id_dokter;
-    String id_dokter;
+    String id_dokter, qris, buat_jadwal;
     public String cekKonsultasi;
     private SharedPreferencedConfig preferencedConfig;
 
@@ -81,7 +84,6 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesi
         imgQris = findViewById(R.id.img_qris_invoice_konsultasi);
         btnPembayaranSelesai = findViewById(R.id.btn_pembayaran_selesai_invoice_konsultasi);
         imgQrCode = findViewById(R.id.img_qrcode_invoice_konsultasi);
-        btnBayarNanti = findViewById(R.id.btn_bayar_nanti_invoice_konsultasi);
 
         id_transaksi = getIntent().getStringExtra("id_transaksi");
         mobile_web = getIntent().getStringExtra("mobile_web");
@@ -91,8 +93,11 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesi
         cekKonsultasi = getIntent().getStringExtra("konsultasi");
         player_id_dokter = getIntent().getStringExtra("player_id");
         id_dokter = getIntent().getStringExtra("id_dokter");
+        qris = getIntent().getStringExtra("QRIS");
+        buat_jadwal = getIntent().getStringExtra("buat_jadwal");
 
         Log.d("statusInvoice", "onCreate: "+status);
+        Log.d("QrString", "onCreate: "+qr_string);
 
         token_dokter = getIntent().getStringExtra("token_dokter");
         nama_dokter = getIntent().getStringExtra("nama_dokter");
@@ -104,7 +109,7 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesi
 
         if (status.equals("2")){
 
-            btnBayarNanti.setVisibility(View.VISIBLE);
+
 
         }
 
@@ -120,21 +125,82 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesi
             public void onClick(View v) {
                 preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_DOKTER, id_dokter);
                 Toast.makeText(InvoiceKonsultasiActivity.this,
-                        "Pembayaran Berhasil, Silahkan mulai chat dengan dokter", Toast.LENGTH_SHORT).show();
-                MesiboUI.launchMessageView(InvoiceKonsultasiActivity.this, mRemoteUser.address, 0);
+                        "Pembayaran Berhasil, Silahkan mulai chat dengan dokter / Cek jadwal konsultasi", Toast.LENGTH_SHORT).show();
 
-                finish();
+                if (buat_jadwal != null){
+                    if (buat_jadwal.equals("buatJadwal")){
+
+                        startActivity(new Intent(InvoiceKonsultasiActivity.this, MainActivity.class));
+                        finish();
+
+                    }
+                }else{
+                    MesiboUI.launchMessageView(InvoiceKonsultasiActivity.this, mRemoteUser.address, 0);
+
+                    finish();
+                }
             }
         });
 
-        btnBayarNanti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tampilDialog();
+        if (qris!=null) {
+            if (qris.equals("qris")) {
+                loadInvoiceQr();
             }
-        });
+        }
 
         loadDataInvoice();
+    }
+
+    private void loadInvoiceQr() {
+
+        ProgressDialog progressDialog = new ProgressDialog(InvoiceKonsultasiActivity.this);
+        progressDialog.setMessage("Load Data invoice");
+        progressDialog.show();
+
+        Log.d("checkIdTransaksi", "loadDataInvoice: "+id_transaksi);
+
+        ConfigRetrofit.service.invoiceKonsultasiQr(id_transaksi).enqueue(new Callback<ResponseInvoiceKonsultasiQr>() {
+            @Override
+            public void onResponse(Call<ResponseInvoiceKonsultasiQr> call, Response<ResponseInvoiceKonsultasiQr> response) {
+                if (response.isSuccessful()){
+                    progressDialog.dismiss();
+                    List<com.haloqlinic.haloqlinicapps.model.invoiceKonsultasiQR.DataItem> dataInvoiceQr = response.body().getData();
+
+                    for (int i = 0; i<dataInvoiceQr.size(); i++){
+
+                        opsi_bayar = dataInvoiceQr.get(i).getOpsiBayar();
+
+                    }
+
+                    Log.d("checkOpsiBayar", "onResponse: "+opsi_bayar);
+
+                    if (opsi_bayar.equals("QRIS") || qris.equals("qris")){
+                        imgQris.setVisibility(View.VISIBLE);
+                        btnSelesaikanPembayaran.setVisibility(View.GONE);
+                        btnPembayaranSelesai.setVisibility(View.VISIBLE);
+                        imgQrCode.setVisibility(View.VISIBLE);
+                        Bitmap myBitmap = QRCode.from(qr_string).bitmap();
+                        imgQrCode.setImageBitmap(myBitmap);
+                    }
+
+                    InvoiceKonsultasiQrAdapter adapter = new InvoiceKonsultasiQrAdapter(InvoiceKonsultasiActivity.this, dataInvoiceQr, InvoiceKonsultasiActivity.this);
+                    rvInvoice.setHasFixedSize(true);
+                    rvInvoice.setLayoutManager(new LinearLayoutManager(InvoiceKonsultasiActivity.this));
+                    rvInvoice.setAdapter(adapter);
+
+                }else{
+                    progressDialog.dismiss();
+                    Toast.makeText(InvoiceKonsultasiActivity.this, "Gagal Memuat data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseInvoiceKonsultasiQr> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(InvoiceKonsultasiActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void mesiboInit(DemoUser mUser1, DemoUser mUser2) {
@@ -196,11 +262,17 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesi
 
     private void loadDataInvoice() {
 
+        ProgressDialog progressDialog = new ProgressDialog(InvoiceKonsultasiActivity.this);
+        progressDialog.setMessage("Load Data invoice");
+        progressDialog.show();
+
+        Log.d("checkIdTransaksi", "loadDataInvoice: "+id_transaksi);
+
         ConfigRetrofit.service.invoiceKonsultasi(id_transaksi).enqueue(new Callback<ResponseInvoiceKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseInvoiceKonsultasi> call, Response<ResponseInvoiceKonsultasi> response) {
                 if (response.isSuccessful()){
-
+                    progressDialog.dismiss();
                     List<DataItem> dataInvoice = response.body().getData();
 
                     for (int i = 0; i<dataInvoice.size(); i++){
@@ -208,6 +280,8 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesi
                         opsi_bayar = dataInvoice.get(i).getOpsiBayar();
 
                     }
+
+                    Log.d("checkOpsiBayar", "onResponse: "+opsi_bayar);
 
                     if (opsi_bayar.equals("DANA")){
                         imgDana.setVisibility(View.VISIBLE);
@@ -234,12 +308,14 @@ public class InvoiceKonsultasiActivity extends AppCompatActivity implements Mesi
                     rvInvoice.setAdapter(adapter);
 
                 }else{
+                    progressDialog.dismiss();
                     Toast.makeText(InvoiceKonsultasiActivity.this, "Gagal Memuat data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseInvoiceKonsultasi> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(InvoiceKonsultasiActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

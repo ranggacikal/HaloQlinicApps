@@ -111,7 +111,9 @@ public class DetailDokterActivity extends AppCompatActivity {
 
                     String nama_dokter = "", spesialis_dokter = "", harga_dokter = "",
                             pengalaman = "", nama_kampus = "",
-                            tempat_praktik = "", nomor_str = "";
+                            tempat_praktik = "", nomor_str = "", img="";
+
+                    final String url_image = "https://aplikasicerdas.net/haloqlinic/file/dokter/profile/";
 
                     for (int i = 0; i < dataDokter.size(); i++){
 
@@ -122,6 +124,7 @@ public class DetailDokterActivity extends AppCompatActivity {
                         nama_kampus = (String) dataDokter.get(i).getAlumni();
                         tempat_praktik = (String) dataDokter.get(i).getTempatPraktik();
                         nomor_str = (String) dataDokter.get(i).getStr();
+                        img = dataDokter.get(i).getImg();
 
                     }
 
@@ -129,30 +132,38 @@ public class DetailDokterActivity extends AppCompatActivity {
                     Log.d("checkDataDetail", "tempat_praktik: "+tempat_praktik);
                     Log.d("checkDataDetail", "nomor_str: "+nomor_str);
 
+                    Log.d("checkImageDetail", "onResponse: "+url_image+img);
+
+                    Glide.with(DetailDokterActivity.this)
+                            .load(url_image+img)
+                            .error(R.mipmap.ic_launcher)
+                            .into(binding.imgDetailDokter);
+
+
                     binding.textNamaDetailDokter.setText("Dr. "+nama_dokter);
                     binding.textSpesialisDetailDokter.setText("Spesialis "+spesialis_dokter);
                     binding.textHargaDetailDokter.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga_dokter)));
 
                     if (pengalaman==null){
-                        binding.textTahunDetailDokter.setText("null tahun");
+                        binding.textTahunDetailDokter.setText("-");
                     }else{
                         binding.textTahunDetailDokter.setText(pengalaman+" tahun");
                     }
 
                     if (nama_kampus==null){
-                        binding.textNamaKampusDetailDokter.setText("null kampus");
+                        binding.textNamaKampusDetailDokter.setText("-");
                     }else{
                         binding.textNamaKampusDetailDokter.setText(nama_kampus);
                     }
 
                     if (tempat_praktik==null){
-                        binding.textTempatPraktisDetailDokter.setText("null Tempat Praktik");
+                        binding.textTempatPraktisDetailDokter.setText("-");
                     }else{
                         binding.textTempatPraktisDetailDokter.setText(tempat_praktik);
                     }
 
                     if (nomor_str==null){
-                        binding.textNoStrDetailDokter.setText("null No. STR");
+                        binding.textNoStrDetailDokter.setText("-");
                     }else{
                         binding.textNoStrDetailDokter.setText(nomor_str);
                     }
@@ -229,6 +240,7 @@ public class DetailDokterActivity extends AppCompatActivity {
 
                             progressKonsultasi.dismiss();
                             String id_transaksi = response.body().getIdTransaksi();
+                            String external_id = response.body().getExternalId();
 
                             Log.d("getIdTransaksi", "onResponse: "+id_transaksi);
 
@@ -236,6 +248,7 @@ public class DetailDokterActivity extends AppCompatActivity {
                             Intent intent = new Intent(DetailDokterActivity.this, TungguAccActivity.class);
                             intent.putExtra("id_transaksi", id_transaksi);
                             intent.putExtra("id_dokter", id_dokter);
+                            intent.putExtra("external_id", external_id);
                             startActivity(intent);
                             finish();
 

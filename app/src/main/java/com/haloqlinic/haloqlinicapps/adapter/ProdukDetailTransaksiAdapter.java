@@ -49,6 +49,7 @@ public class ProdukDetailTransaksiAdapter extends RecyclerView.Adapter<ProdukDet
 
         holder.txtNama.setText(dataProduk.get(position).getNamaProduk());
         holder.txtJumlah.setText(dataProduk.get(position).getJumlah());
+        holder.txtVariasi.setText(dataProduk.get(position).getVariasi());
 
     }
 
@@ -60,7 +61,7 @@ public class ProdukDetailTransaksiAdapter extends RecyclerView.Adapter<ProdukDet
     public class ProdukDetailTransaksiViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgProduk;
-        TextView txtNama, txtJumlah;
+        TextView txtNama, txtJumlah, txtVariasi;
 
         public ProdukDetailTransaksiViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -68,6 +69,7 @@ public class ProdukDetailTransaksiAdapter extends RecyclerView.Adapter<ProdukDet
             imgProduk = itemView.findViewById(R.id.img_item_produk_detail_transaksi);
             txtNama = itemView.findViewById(R.id.text_item_nama_detail_transaksi);
             txtJumlah = itemView.findViewById(R.id.text_item_jumlah_detail_transaksi);
+            txtVariasi = itemView.findViewById(R.id.text_item_variasi_detail_transaksi);
         }
     }
 }

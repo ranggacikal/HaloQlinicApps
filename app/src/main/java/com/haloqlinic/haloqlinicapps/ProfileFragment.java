@@ -115,6 +115,20 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), EditAkunActivity.class));
+            }
+        });
+
+        txtNamaUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), EditAkunActivity.class));
+            }
+        });
+
         return rootview;
     }
 

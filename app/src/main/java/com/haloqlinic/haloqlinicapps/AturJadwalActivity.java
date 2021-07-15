@@ -124,6 +124,9 @@ public class AturJadwalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Log.d("checkPostJadwal", "onClick: "+id_jadwal);
+                Log.d("checkPostJadwal", "format_tanggal: "+formatTanggal);
+
                 if (id_jadwal.equals("")){
                     Toast.makeText(AturJadwalActivity.this, "Anda belum memilih jadwal dokter", Toast.LENGTH_SHORT).show();
                 }else {
@@ -179,6 +182,11 @@ public class AturJadwalActivity extends AppCompatActivity {
         progressDialog.setMessage("Mengajukan Permintaan Konsultasi");
         progressDialog.show();
 
+        Log.d("checkParamBuatJadwal", "id_customer: "+id_customer);
+        Log.d("checkParamBuatJadwal", "id_jadwal: "+id_jadwal);
+        Log.d("checkParamBuatJadwal", "id_dokter: "+id_dokter);
+        Log.d("checkParamBuatJadwal", "format_tanggal: "+formatTanggal);
+
         ConfigRetrofit.service.postKonsultasi(id_customer, id_jadwal, id_dokter, formatTanggal, "2").enqueue(new Callback<ResponseKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseKonsultasi> call, Response<ResponseKonsultasi> response) {
@@ -188,6 +196,7 @@ public class AturJadwalActivity extends AppCompatActivity {
                     Toast.makeText(AturJadwalActivity.this, "Berhasil mengajukan konsultasi", Toast.LENGTH_SHORT).show();
 
                     String id_transaksi = response.body().getIdTransaksi();
+                    String external_id = response.body().getExternalId();
 
                     Intent intent = new Intent(AturJadwalActivity.this, CheckoutKonsultasiActivity.class);
                     intent.putExtra("id_dokter", id_dokter);
@@ -196,8 +205,8 @@ public class AturJadwalActivity extends AppCompatActivity {
                     intent.putExtra("id_jadwal", id_jadwal);
                     intent.putExtra("biaya", biaya);
                     intent.putExtra("status", "2");
-                    Log.d("checkDataJadwal", "onClick: "+id_dokter);
-                    Log.d("checkDataJadwal", "onClick: "+tanggal);
+                    intent.putExtra("external_id", external_id);
+                    intent.putExtra("buatJadwal", "buatJadwal");
                     startActivity(intent);
 //                    tampilDialog();
                 }else{

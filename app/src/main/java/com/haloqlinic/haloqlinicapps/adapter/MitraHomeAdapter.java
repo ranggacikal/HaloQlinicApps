@@ -44,10 +44,10 @@ public class MitraHomeAdapter extends RecyclerView.Adapter<MitraHomeAdapter.Mitr
     @Override
     public void onBindViewHolder(@NonNull @NotNull MitraHomeViewHolder holder, int position) {
 
-        String url = (String) dataMitra.get(position).getImg();
+        String url = "https://aplikasicerdas.net/haloqlinic/file/mitra/profile/";
 
         Glide.with(context)
-                .load(url)
+                .load(url+dataMitra.get(position).getImg())
                 .error(R.mipmap.ic_launcher)
                 .into(holder.imgMitra);
 

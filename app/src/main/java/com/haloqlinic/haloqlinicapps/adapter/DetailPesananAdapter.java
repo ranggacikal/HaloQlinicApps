@@ -23,9 +23,9 @@ import java.util.List;
 public class DetailPesananAdapter extends RecyclerView.Adapter<DetailPesananAdapter.DetailPesananViewHolder> {
 
     Context context;
-    List<DataItem> dataListPesanan;
+    List<ProdukItem> dataListPesanan;
 
-    public DetailPesananAdapter(Context context, List<DataItem> dataListPesanan) {
+    public DetailPesananAdapter(Context context, List<ProdukItem> dataListPesanan) {
         this.context = context;
         this.dataListPesanan = dataListPesanan;
     }
@@ -40,25 +40,17 @@ public class DetailPesananAdapter extends RecyclerView.Adapter<DetailPesananAdap
     @Override
     public void onBindViewHolder(@NonNull DetailPesananViewHolder holder, int position) {
 
-        List<ProdukItem> dataProduk = null;
-        
-        dataProduk = dataListPesanan.get(position).getProduk();
 
-        for (int i = 0; i<dataProduk.size(); i++){
+        holder.txtNamaProduk.setText(dataListPesanan.get(position).getNamaProduk());
+        holder.txtJumlah.setText(dataListPesanan.get(position).getJumlah());
+        holder.txtVariasi.setText(dataListPesanan.get(position).getVariasi());
+        holder.txtHarga.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(dataListPesanan.get(position).getHarga())));
+        holder.txtTotalHarga.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(dataListPesanan.get(position).getSubtotal())));
 
-            holder.txtNamaProduk.setText(dataProduk.get(i).getNamaProduk());
-            holder.txtJumlah.setText(dataProduk.get(i).getJumlah());
-            holder.txtVariasi.setText(dataProduk.get(i).getVariasi());
-            holder.txtHarga.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(dataProduk.get(i).getHarga())));
-            holder.txtTotalHarga.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(dataProduk.get(i).getSubtotal())));
-
-            Glide.with(context)
-                    .load(dataProduk.get(i).getImg())
-                    .error(R.mipmap.ic_launcher)
-                    .into(holder.imgProduk);
-        }
-
-        holder.txtNamaToko.setText(dataListPesanan.get(position).getNamaToko());
+        Glide.with(context)
+                .load(dataListPesanan.get(position).getImg())
+                .error(R.mipmap.ic_launcher)
+                .into(holder.imgProduk);
 
     }
 

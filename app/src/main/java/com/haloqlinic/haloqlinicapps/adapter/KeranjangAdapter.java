@@ -85,6 +85,7 @@ public class KeranjangAdapter extends RecyclerView.Adapter<KeranjangAdapter.Kera
 
         holder.txtNamaProduk.setText(dataKeranjang.get(position).getNamaProduk());
         holder.txtHargaProduk.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(dataKeranjang.get(position).getHarga())));
+        holder.txtVariasi.setText(dataKeranjang.get(position).getVariasi());
 
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +143,7 @@ public class KeranjangAdapter extends RecyclerView.Adapter<KeranjangAdapter.Kera
     public class KeranjangViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgKeranjang;
-        TextView txtNamaProduk, txtHargaProduk;
+        TextView txtNamaProduk, txtHargaProduk, txtVariasi;
         ElegantNumberButton numberPicker;
         ImageView imgDelete;
 
@@ -153,6 +154,7 @@ public class KeranjangAdapter extends RecyclerView.Adapter<KeranjangAdapter.Kera
             txtHargaProduk = itemView.findViewById(R.id.text_item_harga_produk_keranjang);
             numberPicker = itemView.findViewById(R.id.elegant_nb_item_keranjang);
             imgDelete = itemView.findViewById(R.id.img_delete_item_keranjang);
+            txtVariasi = itemView.findViewById(R.id.text_item_variasi_keranjang);
         }
     }
 }

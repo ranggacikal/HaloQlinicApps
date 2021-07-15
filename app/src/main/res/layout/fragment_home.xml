@@ -179,6 +179,43 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotobold"
+                    android:text="Artikel"
+                    android:textColor="@color/red"
+                    android:layout_centerVertical="true"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_lihat_semua_artikel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Semua"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/background_circle_button_green"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/robotobold"/>
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_artikel_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
         </LinearLayout>
 
     </ScrollView>

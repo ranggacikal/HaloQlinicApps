@@ -35,6 +35,8 @@ import com.haloqlinic.haloqlinicapps.model.logingoogle.ResponseLoginGoogle;
 import com.haloqlinic.haloqlinicapps.model.loginmesibo.ResponseLoginMesibo;
 import com.haloqlinic.haloqlinicapps.model.loginmesibo.UsersItem;
 import com.onesignal.OSDeviceState;
+import com.onesignal.OSPermissionObserver;
+import com.onesignal.OSPermissionStateChanges;
 import com.onesignal.OSSubscriptionObserver;
 import com.onesignal.OSSubscriptionStateChanges;
 import com.onesignal.OneSignal;
@@ -186,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()){
                     progressDialog.dismiss();
-
+                    Log.d("checkResponse", "onResponse: "+response.message());
                     List<ResponseItem> dataUser = response.body().getResponse();
 
                     String id_customer = "";
@@ -260,6 +262,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                 }else{
+
+                    Log.d("checkResponse", "onResponse: "+response.errorBody());
+                    Log.d("checkResponse", "message: "+response.message());
+                    Log.d("checkResponse", "code: "+response.code());
                     progressDialog.dismiss();
                     Toast.makeText(LoginActivity.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
                 }

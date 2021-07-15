@@ -2,6 +2,7 @@ package com.haloqlinic.haloqlinicapps.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,6 @@ public class JadwalKonsultasiAdapter extends RecyclerView.Adapter<JadwalKonsulta
         String image = dataKonsultasi.get(position).getImg();
         String spesialis = dataKonsultasi.get(position).getSpesialis();
         String tanggal = dataKonsultasi.get(position).getJadwal();
-        String mulai_konsultasi = dataKonsultasi.get(position).getMulaiKonsultasi();
         String status_konsultasi = dataKonsultasi.get(position).getStatusTransaksi();
 
         final String url_image = "https://aplikasicerdas.net/haloqlinic/file/dokter/profile/"+image;
@@ -70,7 +70,18 @@ public class JadwalKonsultasiAdapter extends RecyclerView.Adapter<JadwalKonsulta
                     @Override
                     public void onClick(View v) {
 
-                        if (mulai_konsultasi != null && status_konsultasi.equals("0")) {
+                        String mulai_konsultasi = dataKonsultasi.get(position).getMulaiKonsultasi();
+                        String batas_konsultasi = dataKonsultasi.get(position).getBatasKonsultasi();
+
+                        Log.d("checkWaktuKonsul", "mulai: "+mulai_konsultasi);
+                        Log.d("checkWaktuKonsul", "akhir: "+batas_konsultasi);
+
+                        if (mulai_konsultasi.equals("") && batas_konsultasi.equals("")){
+
+                            Toast.makeText(context, "Jadwal belum terbuka", Toast.LENGTH_SHORT).show();
+
+                        }else if (mulai_konsultasi != null || !mulai_konsultasi.equals("") && batas_konsultasi != null ||
+                                !batas_konsultasi.equals("") && status_konsultasi.equals("0")) {
                             Intent intentChat = new Intent(context, ChatActivity.class);
                             intentChat.putExtra("token", dataKonsultasi.get(position).getToken());
                             intentChat.putExtra("nama_dokter", dataKonsultasi.get(position).getNama());

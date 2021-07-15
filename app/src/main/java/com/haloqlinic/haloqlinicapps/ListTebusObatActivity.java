@@ -12,13 +12,13 @@ import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.adapter.TebusObatAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
-import com.haloqlinic.haloqlinicapps.databinding.ActivityDetailHistoryBinding;
 import com.haloqlinic.haloqlinicapps.databinding.ActivityListTebusObatBinding;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.DataItem;
+import com.haloqlinic.haloqlinicapps.model.listPesanan.ProdukItem;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.ResponseListPesanan;
-import com.haloqlinic.haloqlinicapps.model.listTebusObat.ResponseListTebusObat;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,7 +41,7 @@ public class ListTebusObatActivity extends AppCompatActivity {
         setContentView(view);
 
         PushDownAnim.setPushDownAnimTo(binding.imgBackListTebusObat)
-                .setScale( MODE_SCALE, 0.89f  )
+                .setScale(MODE_SCALE, 0.89f)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -57,7 +57,7 @@ public class ListTebusObatActivity extends AppCompatActivity {
         loadTebusObat();
 
         PushDownAnim.setPushDownAnimTo(binding.btnTebusObat)
-                .setScale( MODE_SCALE, 0.89f  )
+                .setScale(MODE_SCALE, 0.89f)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -82,14 +82,35 @@ public class ListTebusObatActivity extends AppCompatActivity {
         ConfigRetrofit.service.listPesanan(id_transaksi).enqueue(new Callback<ResponseListPesanan>() {
             @Override
             public void onResponse(Call<ResponseListPesanan> call, Response<ResponseListPesanan> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     progressDialog.dismiss();
                     List<DataItem> dataTebusObat = response.body().getData();
-                    TebusObatAdapter adapter = new TebusObatAdapter(ListTebusObatActivity.this, dataTebusObat);
+                    List<ProdukItem> dataProduk = null;
+                    ArrayList<String> dataStringProduk = new ArrayList<>();
+                    List<ProdukItem> testArray = new ArrayList<ProdukItem>();
+
+                    Log.d("cekDataList", "dataTebusObatSize: " + dataTebusObat.size());
+
+                    for (int a = 0; a < dataTebusObat.size(); a++) {
+                        dataProduk = dataTebusObat.get(a).getProduk();
+                        for (int b = 0; b<dataProduk.size(); b++){
+
+                            String test = dataProduk.get(b).toString();
+                            Log.d("testDataProduk", "onResponse: "+test);
+                            testArray.add(dataProduk.get(b));
+                            Log.d("testArrayData", "onResponse: "+testArray);
+
+                        }
+                    }
+
+
+                    Log.d("cekDataList", "dataProduk: " + dataStringProduk);
+                    Log.d("cekDataList", "dataProdukSize: " + dataStringProduk.size());
+                    TebusObatAdapter adapter = new TebusObatAdapter(ListTebusObatActivity.this, testArray);
                     binding.recyclerTebusObat.setAdapter(adapter);
 
-                }else{
+                } else {
                     progressDialog.dismiss();
                     Toast.makeText(ListTebusObatActivity.this, "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
                 }
@@ -98,7 +119,7 @@ public class ListTebusObatActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseListPesanan> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(ListTebusObatActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListTebusObatActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

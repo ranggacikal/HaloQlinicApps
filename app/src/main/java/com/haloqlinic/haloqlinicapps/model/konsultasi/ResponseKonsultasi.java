@@ -7,6 +7,9 @@ public class ResponseKonsultasi{
 	@SerializedName("response")
 	private String response;
 
+	@SerializedName("external_id")
+	private String externalId;
+
 	@SerializedName("id_transaksi")
 	private String idTransaksi;
 
@@ -16,6 +19,14 @@ public class ResponseKonsultasi{
 
 	public String getResponse(){
 		return response;
+	}
+
+	public void setExternalId(String externalId){
+		this.externalId = externalId;
+	}
+
+	public String getExternalId(){
+		return externalId;
 	}
 
 	public void setIdTransaksi(String idTransaksi){
@@ -31,6 +42,7 @@ public class ResponseKonsultasi{
 		return 
 			"ResponseKonsultasi{" + 
 			"response = '" + response + '\'' + 
+			",external_id = '" + externalId + '\'' + 
 			",id_transaksi = '" + idTransaksi + '\'' + 
 			"}";
 		}

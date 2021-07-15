@@ -59,7 +59,6 @@ public class WaktuAturJadwalAdapter extends RecyclerView.Adapter<WaktuAturJadwal
             holder.cardWaktu.setCardBackgroundColor(context.getResources().getColor(R.color.red));
             holder.txtHari.setTextColor(context.getResources().getColor(R.color.white));
             aturJadwalActivity.tanggal = dataJadwal.get(position).getTanggal();
-            aturJadwalActivity.formatTanggal = dataJadwal.get(position).getJadwal();
             aturJadwalActivity.loadJamDokter();
         }
 

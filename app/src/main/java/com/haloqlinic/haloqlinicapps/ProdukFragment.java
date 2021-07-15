@@ -66,14 +66,13 @@ public class ProdukFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_produk, container, false);
 
-        if (list!=null || list.size()>0){
-            list.clear();
-            page = 1;
-        }
-
         rvProduk = rootView.findViewById(R.id.recycler_produk);
         progressBar = rootView.findViewById(R.id.progress_bar_produk);
         searchProduk = rootView.findViewById(R.id.search_produk);
+
+        list.clear();
+
+        getProdukPagination(1);
 
         searchProduk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,8 +85,6 @@ public class ProdukFragment extends Fragment {
         manager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         rvProduk.setHasFixedSize(true);
         rvProduk.setLayoutManager(manager);
-
-        getProdukPagination();
 
         adapter = new ProdukAdapter(getContext(), list);
         rvProduk.setAdapter(adapter);
@@ -111,7 +108,7 @@ public class ProdukFragment extends Fragment {
 
                         page++;
                         Log.d("checkScrolled", "page: " + page);
-                        getProdukPagination();
+                        getProdukPagination(page);
                     }
                 }
             }
@@ -132,14 +129,6 @@ public class ProdukFragment extends Fragment {
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        page = 1;
-        adapter.clear();
-        getProdukPagination();
     }
 
     private void loadSearchProduk(String newText) {
@@ -166,7 +155,7 @@ public class ProdukFragment extends Fragment {
 
     }
 
-    private void getProdukPagination() {
+    private void getProdukPagination(int pageCons) {
 
         progressBar.setVisibility(View.VISIBLE);
         isLoading = true;
@@ -176,7 +165,7 @@ public class ProdukFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ConfigRetrofit.service.dataProduk(String.valueOf(page)).enqueue(new Callback<ResponseDataProduk>() {
+                ConfigRetrofit.service.dataProduk(String.valueOf(pageCons)).enqueue(new Callback<ResponseDataProduk>() {
                     @Override
                     public void onResponse(Call<ResponseDataProduk> call, Response<ResponseDataProduk> response) {
                         if (response.isSuccessful()){

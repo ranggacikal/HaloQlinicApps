@@ -25,6 +25,7 @@ import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.dataEkspedisi.ResponseDataEkspedisi;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.DataItem;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,6 +70,7 @@ public class PilihKurirAdapter extends RecyclerView.Adapter<PilihKurirAdapter.Pi
 
         String kurir = dataPesanan.get(position).getKurir();
         String ongkir = dataPesanan.get(position).getOngkir();
+        int setOngkir = Integer.parseInt(ongkir);
 
         if (ongkir.equals("0")){
             holder.linearDataKurir.setVisibility(View.GONE);
@@ -78,7 +80,7 @@ public class PilihKurirAdapter extends RecyclerView.Adapter<PilihKurirAdapter.Pi
             holder.relativeLayoutPilihKurir.setVisibility(View.GONE);
             holder.txtNamaKurir.setText(dataPesanan.get(position).getEkspedisi());
             holder.txtLayanan.setText(dataPesanan.get(position).getLayananKurir());
-            holder.txtOngkir.setText(dataPesanan.get(position).getOngkir());
+            holder.txtOngkir.setText("Rp" + NumberFormat.getInstance().format(setOngkir));
         }
 
         dataItems = getItemCount();

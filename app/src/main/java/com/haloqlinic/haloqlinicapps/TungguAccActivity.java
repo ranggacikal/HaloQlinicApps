@@ -31,7 +31,7 @@ public class TungguAccActivity extends AppCompatActivity {
     TextView txtWaktu, txtNama, txtSpesialis;
     ImageView imgDokter;
 
-    String id_transaksi, id_dokter, biaya, id_detail_dokter;
+    String id_transaksi, id_dokter, biaya, id_detail_dokter, external_id;
     int status;
     CountDownTimer countDownTimer;
     private long timeMillisSecond = 60000;
@@ -47,6 +47,7 @@ public class TungguAccActivity extends AppCompatActivity {
 
         id_transaksi = getIntent().getStringExtra("id_transaksi");
         id_detail_dokter = getIntent().getStringExtra("id_dokter");
+        external_id = getIntent().getStringExtra("external_id");
 
         getDetailDokter();
 
@@ -63,6 +64,7 @@ public class TungguAccActivity extends AppCompatActivity {
                     intent.putExtra("id_transaksi", id_transaksi);
                     intent.putExtra("id_dokter", id_dokter);
                     intent.putExtra("biaya", biaya);
+                    intent.putExtra("external_id", external_id);
                     intent.putExtra("jadwal_dokter", "");
                     intent.putExtra("status", "1");
                     startActivity(intent);

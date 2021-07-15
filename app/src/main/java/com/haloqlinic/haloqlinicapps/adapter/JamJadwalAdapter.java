@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -55,6 +56,7 @@ public class JamJadwalAdapter extends RecyclerView.Adapter<JamJadwalAdapter.JamJ
             holder.cardJam.setCardBackgroundColor(context.getResources().getColor(R.color.red));
             holder.txtJam.setTextColor(context.getResources().getColor(R.color.white));
             aturJadwalActivity.id_jadwal = datajam.get(position).getId();
+            aturJadwalActivity.formatTanggal = datajam.get(position).getJadwal();
         }
 
         holder.txtJam.setText(datajam.get(position).getJam());

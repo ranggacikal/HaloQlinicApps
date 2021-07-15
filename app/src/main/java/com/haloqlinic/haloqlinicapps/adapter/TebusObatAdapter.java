@@ -1,6 +1,7 @@
 package com.haloqlinic.haloqlinicapps.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +19,17 @@ import com.haloqlinic.haloqlinicapps.model.listPesanan.ProdukItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TebusObatAdapter extends RecyclerView.Adapter<TebusObatAdapter.TebusObatViewHolder> {
 
     Context context;
-    List<com.haloqlinic.haloqlinicapps.model.listPesanan.DataItem> dataObat;
+    List<ProdukItem> dataProduk;
 
-    public TebusObatAdapter(Context context, List<DataItem> dataObat) {
+    public TebusObatAdapter(Context context, List<ProdukItem> dataProduk) {
         this.context = context;
-        this.dataObat = dataObat;
+        this.dataProduk = dataProduk;
     }
 
     @NonNull
@@ -41,36 +43,32 @@ public class TebusObatAdapter extends RecyclerView.Adapter<TebusObatAdapter.Tebu
     @Override
     public void onBindViewHolder(@NonNull @NotNull TebusObatViewHolder holder, int position) {
 
-        List<ProdukItem> dataProduk = null;
+        Log.d("cekPosition", "onBindViewHolder: "+position);
 
-        dataProduk = dataObat.get(position).getProduk();
+        int harga = Integer.parseInt(dataProduk.get(position).getHarga());
 
-        for (int i = 0; i<dataProduk.size(); i++){
+        holder.txtNamaProduk.setText(dataProduk.get(position).getNamaProduk());
+        holder.txtHarga.setText("Rp" + NumberFormat.getInstance().format(harga));
+        holder.txtJumlah.setText("x" + dataProduk.get(position).getJumlah());
+        holder.txtVariasi.setText(dataProduk.get(position).getVariasi());
 
-            int harga = Integer.parseInt(dataProduk.get(i).getHarga());
-
-            holder.txtNamaProduk.setText(dataProduk.get(i).getNamaProduk());
-            holder.txtHarga.setText("Rp" + NumberFormat.getInstance().format(harga));
-            holder.txtJumlah.setText("x"+dataProduk.get(i).getJumlah());
-
-            Glide.with(context)
-                    .load(dataProduk.get(i).getImg())
-                    .error(R.mipmap.ic_launcher)
-                    .into(holder.imgObat);
-        }
+        Glide.with(context)
+                .load(dataProduk.get(position).getImg())
+                .error(R.mipmap.ic_launcher)
+                .into(holder.imgObat);
 
 
     }
 
     @Override
     public int getItemCount() {
-        return dataObat.size();
+        return dataProduk.size();
     }
 
     public class TebusObatViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgObat;
-        TextView txtNamaProduk, txtHarga, txtJumlah;
+        TextView txtNamaProduk, txtHarga, txtJumlah, txtVariasi;
 
         public TebusObatViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -78,6 +76,7 @@ public class TebusObatAdapter extends RecyclerView.Adapter<TebusObatAdapter.Tebu
             txtNamaProduk = itemView.findViewById(R.id.text_item_nama_produk_tebus_obat);
             txtHarga = itemView.findViewById(R.id.text_item_harga_produk_tebus_obat);
             txtJumlah = itemView.findViewById(R.id.text_item_jumlah_produk_tebus_obat);
+            txtVariasi = itemView.findViewById(R.id.text_item_variasi_tebus_obat);
         }
     }
 }

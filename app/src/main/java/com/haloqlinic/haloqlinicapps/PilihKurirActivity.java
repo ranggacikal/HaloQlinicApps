@@ -95,24 +95,48 @@ public class PilihKurirActivity extends AppCompatActivity {
 
                 nama_layanan = dataCosts.get(position).getService();
 
+                ArrayList<String> dataHargaArrayList = new ArrayList<>();
+
                 List<String> dataHarga2 = new ArrayList<>();
                 List<CostItem> dataHargaTest = null;
 
-                for (int a = 0; a<dataCosts.size(); a++){
+                for (int i = 0; i < dataLayanan.size(); i++) {
 
-                    dataharga = dataCosts.get(a).getCost();
-                    dataHargaTest = dataCosts.get(a).getCost();
-                    dataHarga2.add(String.valueOf(dataCosts.get(a).getCost()));
+                    dataCosts = dataLayanan.get(i).getCosts();
+
+                    for (int a = 0; a<dataCosts.size(); a++){
+
+                        dataharga = dataCosts.get(a).getCost();
+
+                        for (int b = 0; b<dataharga.size(); b++){
+                            dataHargaArrayList.add(String.valueOf(dataharga.get(b).getValue()));
+
+                        }
+                    }
 
                 }
 
-                Log.d("checkCost", "onItemSelected: "+dataHargaTest);
+                Log.d("checkDataHarga", "onItemSelected: "+dataHargaArrayList.toString());
 
-                for (int i = 0; i<dataHargaTest.size(); i++){
-                    harga_layanan = String.valueOf(dataHargaTest.get(i).getValue());
-                    Toast.makeText(PilihKurirActivity.this, "index: "+i, Toast.LENGTH_SHORT).show();
+                harga_layanan = dataHargaArrayList.get(position).toString();
 
-                }
+                Log.d("checkDataHarga", "harga_layanan: "+harga_layanan);
+
+//                for (int a = 0; a<dataCosts.size(); a++){
+//
+//                    dataharga = dataCosts.get(a).getCost();
+//                    dataHargaTest = dataCosts.get(a).getCost();
+//                    dataHarga2.add(String.valueOf(dataCosts.get(a).getCost()));
+//
+//                    for (int i = 0; i<dataHargaTest.size(); i++){
+//                        harga_layanan = String.valueOf(dataHargaTest.get(i).getValue());
+//                        Toast.makeText(PilihKurirActivity.this, "index: "+i, Toast.LENGTH_SHORT).show();
+//
+//                    }
+//
+//                }
+
+//                Log.d("checkCost", "onItemSelected: "+dataHargaTest);
 
                 //Toast.makeText(PilihKurirActivity.this, "harga: "+harga_layanan+" nama: "+nama, Toast.LENGTH_SHORT).show();
 
@@ -200,6 +224,7 @@ public class PilihKurirActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     progressDialog.dismiss();
 
+                    Log.d("cekHargaLayanan", "onResponse: "+harga_layanan);
                     Toast.makeText(PilihKurirActivity.this, "Berhasil memilih kurir", Toast.LENGTH_SHORT).show();
                     finish();
 

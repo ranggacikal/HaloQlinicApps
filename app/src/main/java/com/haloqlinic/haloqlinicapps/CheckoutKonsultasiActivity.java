@@ -53,6 +53,7 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
     Button btnCheckout, btnBatal;
     LinearLayout linearBayarPilih;
 
+    String external_id, buat_jadwal;
     private SharedPreferencedConfig preferencedConfig;
 
     @Override
@@ -67,6 +68,8 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
         biaya = Integer.parseInt(getIntent().getStringExtra("biaya"));
         id_transaksi = getIntent().getStringExtra("id_transaksi");
         status = getIntent().getStringExtra("status");
+        external_id = getIntent().getStringExtra("external_id");
+        buat_jadwal = getIntent().getStringExtra("buatJadwal");
 
         rvDokterCheckout = findViewById(R.id.recycler_dokter_pembayaran_konsultasi);
         rvMetodeBayar = findViewById(R.id.recycler_metode_bayar_konsultasi);
@@ -251,12 +254,23 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
         String biayaAdminPost = String.valueOf(biaya_admin);
         String kategori = preferencedConfig.getPreferenceIdKategoriBayar();
 
+
+        Log.d("checkParamQris", "id_transaksi: "+id_transaksi);
+        Log.d("checkParamQris", "id_customer: "+id_customer);
+        Log.d("checkParamQris", "total: "+total);
+        Log.d("checkParamQris", "biaya_admin: "+biayaAdminPost);
+        Log.d("checkParamQris", "id_dokter: "+id_dokter);
+        Log.d("checkParamQris", "kategori: "+kategori);
+        Log.d("checkParamQris", "jadwal_dokter: "+jadwal_dokter);
+        Log.d("checkParamQris", "status: "+status);
+        Log.d("checkParamQris", "external: "+external_id);
+
         ProgressDialog progressDialog = new ProgressDialog(CheckoutKonsultasiActivity.this);
         progressDialog.setMessage("Memproses Checkout");
         progressDialog.show();
 
         ConfigRetrofit.service.qrisKonsultasi(id_transaksi, id_customer, total, biayaAdminPost, id_dokter, kategori,
-                jadwal_dokter, status).enqueue(new Callback<ResponseQrisKonsultasi>() {
+                jadwal_dokter, status, external_id).enqueue(new Callback<ResponseQrisKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseQrisKonsultasi> call, Response<ResponseQrisKonsultasi> response) {
                 if (response.isSuccessful()){
@@ -272,6 +286,8 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
                     preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_NAMA_OPSI_BAYAR, "");
                     preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_IMAGE_OPSI_BAYAR, "");
 
+                    Log.d("checkQrString", "onResponse: "+qr_string);
+
                     Intent intent = new Intent(CheckoutKonsultasiActivity.this, InvoiceKonsultasiActivity.class);
                     intent.putExtra("qr_string", qr_string);
                     intent.putExtra("id_transaksi", id_transaksi);
@@ -281,10 +297,20 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
                     intent.putExtra("nama_dokter", nama_dokter);
                     intent.putExtra("player_id", player_id_dokter);
                     intent.putExtra("id_dokter", id_dokter);
+                    intent.putExtra("QRIS", "qris");
+                    intent.putExtra("buat_jadwal", buat_jadwal);
                     startActivity(intent);
                     finish();
                 }else{
                     progressDialog.dismiss();
+                    Log.d("checkParamQris", "id_transaksi: "+id_transaksi);
+                    Log.d("checkParamQris", "id_customer: "+id_customer);
+                    Log.d("checkParamQris", "total: "+total);
+                    Log.d("checkParamQris", "biaya_admin: "+biayaAdminPost);
+                    Log.d("checkParamQris", "id_dokter: "+id_dokter);
+                    Log.d("checkParamQris", "kategori: "+kategori);
+                    Log.d("checkParamQris", "jadwal_dokter: "+jadwal_dokter);
+                    Log.d("checkParamQris", "status: "+status);
                     Toast.makeText(CheckoutKonsultasiActivity.this, "Gagal checkout", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -339,7 +365,7 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
         Log.d("dataKirimEWallet", "id_transaksi: "+id_transaksi);
 
         ConfigRetrofit.service.ewalletKonsultasi(id_transaksi, id_customer, total, kode, "0", biayaAdminPost,
-                id_dokter, kategori, jadwal_dokter, status).enqueue(new Callback<ResponseEwalletKonsultasi>() {
+                id_dokter, kategori, jadwal_dokter, status, external_id).enqueue(new Callback<ResponseEwalletKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseEwalletKonsultasi> call, Response<ResponseEwalletKonsultasi> response) {
                 if (response.isSuccessful()){
@@ -427,7 +453,7 @@ public class CheckoutKonsultasiActivity extends AppCompatActivity {
 
 
         ConfigRetrofit.service.ewalletKonsultasi(id_transaksi, id_customer, total, kode, nomerTelepon, biayaAdminPost, id_dokter,
-                kategori, jadwal_dokter, status).enqueue(new Callback<ResponseEwalletKonsultasi>() {
+                kategori, jadwal_dokter, status, external_id).enqueue(new Callback<ResponseEwalletKonsultasi>() {
             @Override
             public void onResponse(Call<ResponseEwalletKonsultasi> call, Response<ResponseEwalletKonsultasi> response) {
                 if (response.isSuccessful()){

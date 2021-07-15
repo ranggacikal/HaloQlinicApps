@@ -1,5 +1,6 @@
 package com.haloqlinic.haloqlinicapps.api;
 
+import com.haloqlinic.haloqlinicapps.model.artikel.ResponseArtikel;
 import com.haloqlinic.haloqlinicapps.model.batalkanKonsultasi.ResponseBatalkanKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.biayaAdmin.ResponseBiayaAdmin;
 import com.haloqlinic.haloqlinicapps.model.cariDokter.ResponseCariDokter;
@@ -9,6 +10,7 @@ import com.haloqlinic.haloqlinicapps.model.checkStatus.ResponseCheckStatus;
 import com.haloqlinic.haloqlinicapps.model.daftar.ResponseDaftar;
 import com.haloqlinic.haloqlinicapps.model.dataEkspedisi.ResponseDataEkspedisi;
 import com.haloqlinic.haloqlinicapps.model.dataKeranjang.ResponseDataKeranjang;
+import com.haloqlinic.haloqlinicapps.model.detailArtikel.ResponseDetailArtikel;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.ResponseDetailDokter;
 import com.haloqlinic.haloqlinicapps.model.detailHistory.ResponseDetailHistory;
 import com.haloqlinic.haloqlinicapps.model.detailProduk.ResponseDetailProduk;
@@ -23,6 +25,7 @@ import com.haloqlinic.haloqlinicapps.model.hapusKeranjang.ResponseHapusKeranjang
 import com.haloqlinic.haloqlinicapps.model.historyTransaksi.ResponseHistoryTransaksi;
 import com.haloqlinic.haloqlinicapps.model.invoice.ResponseInvoice;
 import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasi.ResponseInvoiceKonsultasi;
+import com.haloqlinic.haloqlinicapps.model.invoiceKonsultasiQR.ResponseInvoiceKonsultasiQr;
 import com.haloqlinic.haloqlinicapps.model.jadwalDokter.ResponseJadwalDokter;
 import com.haloqlinic.haloqlinicapps.model.jamDokter.ResponseJamDokter;
 import com.haloqlinic.haloqlinicapps.model.kategoriProduk.ResponseKategoriProduk;
@@ -56,6 +59,7 @@ import com.haloqlinic.haloqlinicapps.model.tambahKeranjang.ResponseTambahKeranja
 import com.haloqlinic.haloqlinicapps.model.updateKeranjang.ResponseUpdateKeranjang;
 import com.haloqlinic.haloqlinicapps.model.updateKonsultasi.ResponseUpdateKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.updateKurir.ResponseUpdateKurir;
+import com.haloqlinic.haloqlinicapps.model.updatePengiriman.ResponseUpdatePengiriman;
 import com.haloqlinic.haloqlinicapps.model.updatePhoto.ResponseUpdatePhoto;
 import com.haloqlinic.haloqlinicapps.model.userMesibo.ResponseGetUserMesibo;
 import com.haloqlinic.haloqlinicapps.model.xenditQris.ResponseQris;
@@ -321,7 +325,8 @@ public interface ApiService {
                                                       @Field("id_dokter") String id_dokter,
                                                       @Field("id_kategori") String id_kategori,
                                                       @Field("jadwal") String jadwal,
-                                                      @Field("status") String status);
+                                                      @Field("status") String status,
+                                                      @Field("external_id") String external_id);
 
     @FormUrlEncoded
     @POST("list_mitra.php")
@@ -336,11 +341,16 @@ public interface ApiService {
                                                 @Field("id_dokter") String id_dokter,
                                                 @Field("id_kategori") String id_kategori,
                                                 @Field("jadwal") String jadwal,
-                                                @Field("status") String status);
+                                                @Field("status") String status,
+                                                @Field("external_id") String external_id);
 
     @FormUrlEncoded
     @POST("invoice_konsultasi.php")
     Call<ResponseInvoiceKonsultasi> invoiceKonsultasi(@Field("id_transaksi") String id_transaksi);
+
+    @FormUrlEncoded
+    @POST("invoice_konsultasi.php")
+    Call<ResponseInvoiceKonsultasiQr> invoiceKonsultasiQr(@Field("external_id") String external_id);
 
     @FormUrlEncoded
     @POST("konsultasi.php")
@@ -427,5 +437,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("list_pesan.php")
     Call<ResponseListTebusObat> listTebusObat(@Field("id_transaksi") String id_transaksi);
+
+    @FormUrlEncoded
+    @POST("update_pengiriman.php")
+    Call<ResponseUpdatePengiriman> updatePengiriman(@Field("id_pengiriman") String id_pengiriman);
+
+    @GET("list_artikel.php")
+    Call<ResponseArtikel> getArtikel(@Query("jenis") String jenis,
+                                     @Query("page") String page);
+
+    @FormUrlEncoded
+    @POST("detail_artikel.php")
+    Call<ResponseDetailArtikel> detailArtikel(@Field("id_artikel") String id_artikel);
 
 }
