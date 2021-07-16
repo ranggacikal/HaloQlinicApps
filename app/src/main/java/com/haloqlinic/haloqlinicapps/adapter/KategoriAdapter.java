@@ -45,12 +45,14 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
     @Override
     public void onBindViewHolder(@NonNull @NotNull KategoriViewHolder holder, int position) {
 
+        String link = "https://aplikasicerdas.net/haloqlinic/img/kategori/";
+
         String img = dataKategori.get(position).getIcon();
         String nama = dataKategori.get(position).getKategori();
         String id_kategori = dataKategori.get(position).getIdKategori();
 
         Glide.with(context)
-                .load(img)
+                .load(link+img)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.imgKategori);
 

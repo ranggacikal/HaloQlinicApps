@@ -70,7 +70,9 @@ public class ProdukFragment extends Fragment {
         progressBar = rootView.findViewById(R.id.progress_bar_produk);
         searchProduk = rootView.findViewById(R.id.search_produk);
 
-        list.clear();
+        if (list!=null) {
+            list.clear();
+        }
 
         getProdukPagination(1);
 
