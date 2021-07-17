@@ -23,6 +23,7 @@
                 android:id="@+id/img_detail_dokter"
                 android:layout_width="match_parent"
                 android:layout_height="270dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher" />
 
             <ImageView
@@ -198,7 +199,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/icon_nomor_str"
                         android:fontFamily="@font/robotobold"
-                        android:text="Nomor STR"
+                        android:text="Nomor SIP"
                         android:textColor="@color/red"
                         android:textSize="17sp" />
 
