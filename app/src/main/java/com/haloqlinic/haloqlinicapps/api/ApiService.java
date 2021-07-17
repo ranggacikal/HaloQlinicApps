@@ -56,6 +56,7 @@ import com.haloqlinic.haloqlinicapps.model.provinsi.ResponseDataProvinsi;
 import com.haloqlinic.haloqlinicapps.model.qriskonsultasi.ResponseQrisKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.statusTransaksiModel.ResponseStatusTransaksi;
 import com.haloqlinic.haloqlinicapps.model.tambahKeranjang.ResponseTambahKeranjang;
+import com.haloqlinic.haloqlinicapps.model.ubahPassword.ResponseUbahPassword;
 import com.haloqlinic.haloqlinicapps.model.updateKeranjang.ResponseUpdateKeranjang;
 import com.haloqlinic.haloqlinicapps.model.updateKonsultasi.ResponseUpdateKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.updateKurir.ResponseUpdateKurir;
@@ -449,5 +450,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("detail_artikel.php")
     Call<ResponseDetailArtikel> detailArtikel(@Field("id_artikel") String id_artikel);
+
+    @FormUrlEncoded
+    @POST("update_password.php")
+    Call<ResponseUbahPassword> ubahPassword(@Field("id_customer") String id_customer,
+                                            @Field("password1") String password1,
+                                            @Field("password2") String password2);
 
 }

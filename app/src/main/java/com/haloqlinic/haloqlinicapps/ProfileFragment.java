@@ -31,7 +31,7 @@ public class ProfileFragment extends Fragment {
     }
 
     RelativeLayout relativeEditProfile, relativeLogout, relativeKeranjang, relativeHistory, relativeHistoryChat,
-    relativeRecipe;
+    relativeRecipe, relativeUbahPassword;
     private SharedPreferencedConfig preferencedConfig;
     TextView txtNamaUser;
     ImageView imgProfile;
@@ -52,6 +52,7 @@ public class ProfileFragment extends Fragment {
         relativeHistoryChat = rootview.findViewById(R.id.relative_history_konsultasi);
         relativeRecipe = rootview.findViewById(R.id.relative_recipe);
         imgProfile = rootview.findViewById(R.id.img_profile_user);
+        relativeUbahPassword = rootview.findViewById(R.id.relative_ubah_password);
 
         txtNamaUser.setText(preferencedConfig.getPreferenceNama());
 
@@ -89,6 +90,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), HistoryKonsultasiActivity.class));
+            }
+        });
+
+        relativeUbahPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), UbahPasswordActivity.class));
             }
         });
 
