@@ -15,6 +15,7 @@ import com.haloqlinic.haloqlinicapps.model.detailDokter.ResponseDetailDokter;
 import com.haloqlinic.haloqlinicapps.model.detailHistory.ResponseDetailHistory;
 import com.haloqlinic.haloqlinicapps.model.detailProduk.ResponseDetailProduk;
 import com.haloqlinic.haloqlinicapps.model.detailTransaksi.ResponseDetailTransaksi;
+import com.haloqlinic.haloqlinicapps.model.dokterMitra.ResponseDokterMitra;
 import com.haloqlinic.haloqlinicapps.model.dokterSpesialis.ResponseDokterSpesialis;
 import com.haloqlinic.haloqlinicapps.model.editAkun.ResponseEditAkun;
 import com.haloqlinic.haloqlinicapps.model.ewallet.ResponseEwallet;
@@ -37,6 +38,7 @@ import com.haloqlinic.haloqlinicapps.model.listDokter.ResponseListDokter;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktif.ResponseDataDokterAktif;
 import com.haloqlinic.haloqlinicapps.model.listDokterAktifHome.ResponseDokterAktifHome;
 import com.haloqlinic.haloqlinicapps.model.listDokterTersedia.ResponseDokterTersedia;
+import com.haloqlinic.haloqlinicapps.model.listDokterumum.ResponseDataDokterUmum;
 import com.haloqlinic.haloqlinicapps.model.listKonsultasi.ResponseListKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.listPesanan.ResponseListPesanan;
 import com.haloqlinic.haloqlinicapps.model.listRecipe.ResponseListRecipe;
@@ -45,6 +47,7 @@ import com.haloqlinic.haloqlinicapps.model.loginapi.ResponseLoginUser;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.Response;
 import com.haloqlinic.haloqlinicapps.model.logingoogle.ResponseLoginGoogle;
 import com.haloqlinic.haloqlinicapps.model.loginmesibo.ResponseLoginMesibo;
+import com.haloqlinic.haloqlinicapps.model.lupaPassword.ResponseLupaPassword;
 import com.haloqlinic.haloqlinicapps.model.mitraKlinik.ResponseDataMitra;
 import com.haloqlinic.haloqlinicapps.model.notifChat.ResponseNotif;
 import com.haloqlinic.haloqlinicapps.model.opsiBayar.ResponseOpsiBayar;
@@ -52,6 +55,7 @@ import com.haloqlinic.haloqlinicapps.model.produk.ResponseDataProduk;
 import com.haloqlinic.haloqlinicapps.model.produkKategori.ResponseProdukKategori;
 import com.haloqlinic.haloqlinicapps.model.produkMitra.ResponseProdukMitra;
 import com.haloqlinic.haloqlinicapps.model.profileMitra.ResponseProfileMitra;
+import com.haloqlinic.haloqlinicapps.model.promoMitra.ResponsePromoMitra;
 import com.haloqlinic.haloqlinicapps.model.provinsi.ResponseDataProvinsi;
 import com.haloqlinic.haloqlinicapps.model.qriskonsultasi.ResponseQrisKonsultasi;
 import com.haloqlinic.haloqlinicapps.model.statusTransaksiModel.ResponseStatusTransaksi;
@@ -456,5 +460,19 @@ public interface ApiService {
     Call<ResponseUbahPassword> ubahPassword(@Field("id_customer") String id_customer,
                                             @Field("password1") String password1,
                                             @Field("password2") String password2);
+
+    @GET("list_dokter.php")
+    Call<ResponseDataDokterUmum> dataDokterUmum(@Query("status") String status,
+                                                @Query("page") String page);
+
+    @GET("list_dokter_mitra.php")
+    Call<ResponseDokterMitra> dataDokterMitra(@Query("kode") String kode);
+
+    @FormUrlEncoded
+    @POST("forgot_password.php")
+    Call<ResponseLupaPassword> lupaPassword(@Field("email") String email);
+
+    @GET("promo.php")
+    Call<ResponsePromoMitra> promoMitra(@Query("id_member") String id_member);
 
 }

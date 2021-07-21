@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,11 +16,14 @@ import com.bumptech.glide.Glide;
 import com.haloqlinic.haloqlinicapps.DetailDokterActivity;
 import com.haloqlinic.haloqlinicapps.R;
 import com.haloqlinic.haloqlinicapps.model.listDokter.DataItem;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.text.NumberFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
 
 public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.DokterViewHolder> {
 
@@ -61,14 +65,30 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.DokterView
             holder.txtPengalaman.setText("null tahun");
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DetailDokterActivity.class);
-                intent.putExtra("id_dokter", dokterList.get(position).getIdDokter());
-                context.startActivity(intent);
-            }
-        });
+        PushDownAnim.setPushDownAnimTo(holder.itemView)
+                .setScale(MODE_SCALE, 0.89f)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(context, DetailDokterActivity.class);
+                        intent.putExtra("id_dokter", dokterList.get(position).getIdDokter());
+                        intent.putExtra("status", "offline");
+                        context.startActivity(intent);
+                    }
+                });
+
+        PushDownAnim.setPushDownAnimTo(holder.btnChat)
+                .setScale(MODE_SCALE, 0.89f)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, DetailDokterActivity.class);
+                        intent.putExtra("id_dokter", dokterList.get(position).getIdDokter());
+                        intent.putExtra("status", "offline");
+                        context.startActivity(intent);
+                    }
+                });
 
     }
 
@@ -91,6 +111,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.DokterView
 
         ImageView imgDokter;
         TextView txtNamaDokter, txtSpesialisDokter, txtHarga, txtPengalaman;
+        Button btnChat;
 
         public DokterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,6 +120,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.DokterView
             txtSpesialisDokter = itemView.findViewById(R.id.text_item_spesialis_dokter);
             txtHarga = itemView.findViewById(R.id.text_harga_dokter);
             txtPengalaman = itemView.findViewById(R.id.jumlah_tahun_dokter);
+            btnChat = itemView.findViewById(R.id.btn_item_chat_dokter);
         }
     }
 }

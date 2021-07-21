@@ -79,4 +79,10 @@ public class MitraKlinikActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadMitraKlinik();
+    }
 }

@@ -63,12 +63,16 @@ public class DetailDokterActivity extends AppCompatActivity {
         id_dokter = getIntent().getStringExtra("id_dokter");
         status = getIntent().getStringExtra("status");
 
-        if (status.equals("offline")){
-            binding.btnChatDetailDokter.setVisibility(View.GONE);
-            binding.btnBuatJadwalDetailDokter.setVisibility(View.VISIBLE);
-        }else{
-            binding.btnBuatJadwalDetailDokter.setVisibility(View.GONE);
-            binding.btnChatDetailDokter.setVisibility(View.VISIBLE);
+        if (status!=null) {
+
+            if (status.equals("offline")) {
+                binding.btnChatDetailDokter.setVisibility(View.GONE);
+                binding.btnBuatJadwalDetailDokter.setVisibility(View.VISIBLE);
+            } else {
+                binding.btnBuatJadwalDetailDokter.setVisibility(View.GONE);
+                binding.btnChatDetailDokter.setVisibility(View.VISIBLE);
+            }
+
         }
 
         loadDataDetailDokter(id_dokter);

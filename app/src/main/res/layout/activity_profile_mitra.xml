@@ -32,6 +32,7 @@
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_profile_mitra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -41,7 +42,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -49,68 +49,71 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nama Toko"
-                android:textColor="@color/black"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="#f57b28"
+                android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textAlignment="center"
                 android:fontFamily="@font/robotobold"/>
 
-            <RelativeLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Alamat : "
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/robotobold"/>
-
-                <TextView
-                    android:id="@+id/text_alamat_profile_mitra"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Alamat toko"
-                    android:layout_alignParentEnd="true"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/robotoreguler"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:text="TREATMENT"
+                android:gravity="center"
+                android:textSize="13sp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp">
+                android:textColor="@color/red"
+                android:fontFamily="@font/robotobold"
+                android:textStyle="italic"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No Handphone : "
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/robotobold"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_treatment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"/>
 
-                <TextView
-                    android:id="@+id/text_no_hp_profile_mitra"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="00000000"
-                    android:layout_alignParentEnd="true"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/robotoreguler"/>
-
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/text_lihat_list_dokter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/green"
+                android:text="Konsultasi Dokter"
+                android:textColor="@color/black"
+                android:fontFamily="@font/robotobold"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"/>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Produk Kami"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:fontFamily="@font/robotobold"
+        android:gravity="center"/>
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="2dp"
+        android:background="#000000"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="3dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_promo_mitra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"/>
 
 </LinearLayout>

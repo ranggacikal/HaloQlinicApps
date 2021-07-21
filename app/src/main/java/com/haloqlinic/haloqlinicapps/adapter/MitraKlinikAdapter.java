@@ -58,8 +58,10 @@ public class MitraKlinikAdapter extends RecyclerView.Adapter<MitraKlinikAdapter.
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String kode = dataMitra.get(position).getKode();
                         Intent intent = new Intent(context, ProfileMitraActivity.class);
                         intent.putExtra("id_member", dataMitra.get(position).getIdMember());
+                        intent.putExtra("kode", kode);
                         context.startActivity(intent);
                     }
                 });

@@ -19,7 +19,9 @@
         android:theme="@style/Theme.HaloQlinicApps"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
-        <activity android:name=".UbahPasswordActivity"></activity>
+        <activity android:name=".LupaPasswordActivity"></activity>
+        <activity android:name=".DokterMitraActivity" />
+        <activity android:name=".UbahPasswordActivity" />
         <activity android:name=".DetailArtikelActivity" />
         <activity android:name=".ArtikelActivity" />
         <activity android:name=".ListTebusObatActivity" />

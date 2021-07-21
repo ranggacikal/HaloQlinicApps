@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -40,6 +41,7 @@ import com.onesignal.OSPermissionStateChanges;
 import com.onesignal.OSSubscriptionObserver;
 import com.onesignal.OSSubscriptionStateChanges;
 import com.onesignal.OneSignal;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +50,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
+
 public class LoginActivity extends AppCompatActivity {
 
     Button btnSignup;
     EditText edtEmail, edtPassword;
     Button btnLogin;
+    TextView txtLupaPassword;
 
     ImageView showPassBtn, btnLoginGoogle;
 
@@ -86,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.login_password);
         showPassBtn = findViewById(R.id.img_hide_password_login);
         btnLoginGoogle = findViewById(R.id.img_login_google);
+        txtLupaPassword = findViewById(R.id.text_lupa_password);
 
         OneSignal.initWithContext(this);
         OneSignal.setAppId(ONESIGNAL_APP_ID);
@@ -125,6 +131,15 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
+
+        PushDownAnim.setPushDownAnimTo(txtLupaPassword)
+                .setScale( MODE_SCALE, 0.89f  )
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(LoginActivity.this, LupaPasswordActivity.class));
+                    }
+                });
 
         showHidePass(showPassBtn);
     }
