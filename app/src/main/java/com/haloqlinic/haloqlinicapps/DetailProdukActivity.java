@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -289,7 +290,7 @@ public class DetailProdukActivity extends AppCompatActivity {
                         txtHargaAwal.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga)));
                         txtHargaDiskon.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga_jual)));
                     }
-                    txtDeskripsiProduk.setText(deskripsi_produk);
+                    txtDeskripsiProduk.setText(Html.fromHtml(deskripsi_produk));
 
                 }else{
                     progressDialog.dismiss();
