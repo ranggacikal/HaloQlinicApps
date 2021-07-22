@@ -1,5 +1,6 @@
-package com.haloqlinic.haloqlinicapps.model.promoMitra;
+package com.haloqlinic.haloqlinicapps.model.detailProdukMitra;
 
+import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class DataItem{
@@ -27,6 +28,18 @@ public class DataItem{
 
 	@SerializedName("id_member")
 	private String idMember;
+
+	@SerializedName("variasi")
+	private List<VariasiItem> variasi;
+
+	@SerializedName("disc")
+	private String disc;
+
+	@SerializedName("deskripsi")
+	private String deskripsi;
+
+	@SerializedName("harga_jual")
+	private String hargaJual;
 
 	public void setIdProduk(String idProduk){
 		this.idProduk = idProduk;
@@ -92,6 +105,38 @@ public class DataItem{
 		return idMember;
 	}
 
+	public void setVariasi(List<VariasiItem> variasi){
+		this.variasi = variasi;
+	}
+
+	public List<VariasiItem> getVariasi(){
+		return variasi;
+	}
+
+	public void setDisc(String disc){
+		this.disc = disc;
+	}
+
+	public String getDisc(){
+		return disc;
+	}
+
+	public void setDeskripsi(String deskripsi){
+		this.deskripsi = deskripsi;
+	}
+
+	public String getDeskripsi(){
+		return deskripsi;
+	}
+
+	public void setHargaJual(String hargaJual){
+		this.hargaJual = hargaJual;
+	}
+
+	public String getHargaJual(){
+		return hargaJual;
+	}
+
 	@Override
  	public String toString(){
 		return 
@@ -104,6 +149,10 @@ public class DataItem{
 			",berat = '" + berat + '\'' + 
 			",kode = '" + kode + '\'' + 
 			",id_member = '" + idMember + '\'' + 
+			",variasi = '" + variasi + '\'' + 
+			",disc = '" + disc + '\'' + 
+			",deskripsi = '" + deskripsi + '\'' + 
+			",harga_jual = '" + hargaJual + '\'' + 
 			"}";
 		}
 }

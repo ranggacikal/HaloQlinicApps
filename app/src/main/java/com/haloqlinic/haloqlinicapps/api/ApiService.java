@@ -14,6 +14,7 @@ import com.haloqlinic.haloqlinicapps.model.detailArtikel.ResponseDetailArtikel;
 import com.haloqlinic.haloqlinicapps.model.detailDokter.ResponseDetailDokter;
 import com.haloqlinic.haloqlinicapps.model.detailHistory.ResponseDetailHistory;
 import com.haloqlinic.haloqlinicapps.model.detailProduk.ResponseDetailProduk;
+import com.haloqlinic.haloqlinicapps.model.detailProdukMitra.ResponseDetailProdukMitra;
 import com.haloqlinic.haloqlinicapps.model.detailTransaksi.ResponseDetailTransaksi;
 import com.haloqlinic.haloqlinicapps.model.dokterMitra.ResponseDokterMitra;
 import com.haloqlinic.haloqlinicapps.model.dokterSpesialis.ResponseDokterSpesialis;
@@ -474,5 +475,9 @@ public interface ApiService {
 
     @GET("promo.php")
     Call<ResponsePromoMitra> promoMitra(@Query("id_member") String id_member);
+
+    @FormUrlEncoded
+    @POST("detail_produk_promo.php")
+    Call<ResponseDetailProdukMitra> detailProdukMitra(@Field("id_produk") String id_produk);
 
 }

@@ -44,6 +44,40 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"/>
 
+        <LinearLayout
+            android:id="@+id/linear_item_diskon_produk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_item_harga_produk_awal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/robotoreguler"
+                android:text="Rp0.000"
+                android:textColor="@color/red"
+                android:textSize="18sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/text_item_harga_produk_diskon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:gravity="center"
+                android:fontFamily="@font/robotobold"
+                android:text="Rp0.000"
+                android:textColor="@color/red"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
