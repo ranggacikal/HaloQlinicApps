@@ -48,6 +48,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_cari_skincare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"/>
+
     <ProgressBar
         android:id="@+id/progress_bar_skincare"
         android:layout_width="wrap_content"

@@ -46,81 +46,210 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="250dp"
-                android:background="@drawable/background_white_30"
+                android:layout_below="@+id/img_detail_produk_mitra"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/text_nama_produk_detail_mitra"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="@font/robotobold"
-                    android:text="Nama Produk"
-                    android:textColor="@color/black"
-                    android:textSize="27sp" />
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="5dp">
 
-                <LinearLayout
-                    android:id="@+id/linear_diskon_produk_mitra"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/text_nama_produk_detail__mitra"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:fontFamily="@font/robotobold"
+                            android:text="Nama Produk"
+                            android:textColor="@color/black"
+                            android:textSize="27sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/text_harga_detail_produk_mitra"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/robotobold"
+                                android:text="Rp0.000"
+                                android:textColor="@color/red"
+                                android:textSize="24sp" />
+
+                            <LinearLayout
+                                android:id="@+id/linear_stock_produk_mitra"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:fontFamily="@font/robotoreguler"
+                                    android:text="Stock Tersisa : "
+                                    android:textColor="@color/red"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/text_stock_produk_mitra"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginEnd="15dp"
+                                    android:fontFamily="@font/robotoblack"
+                                    android:text="Variasi"
+                                    android:textColor="@color/red"
+                                    android:textSize="15sp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linear_diskon_mitra"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/text_harga_detail_produk_awal_mitra"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/robotoreguler"
+                                android:text="Rp0.000"
+                                android:textColor="@color/red"
+                                android:textSize="18sp"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/text_harga_detail_produk_diskon_mitra"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/robotobold"
+                                android:text="Rp0.000"
+                                android:textColor="@color/red"
+                                android:textSize="24sp" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp">
+
+                            <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                                android:id="@+id/elegant_number_produk_mitra"
+                                android:layout_width="150dp"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="5dp"
+                                app:backGroundColor="@color/green"
+                                app:textColor="@color/black"/>
+                            <Button
+                                android:id="@+id/btn_tambah_keranjang_mitra"
+                                android:layout_width="170dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/background_button_red"
+                                android:fontFamily="@font/robotobold"
+                                android:text="Tambah Keranjang"
+                                android:textColor="@color/white"
+                                android:textSize="11sp" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/robotoreguler"
+                                android:text="Penjual : "
+                                android:textColor="@color/black"
+                                android:textSize="17sp" />
+
+                            <TextView
+                                android:id="@+id/text_nama_penjual_detail_produk_mitra"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/robotoreguler"
+                                android:text="Nama Penjual"
+                                android:textColor="@color/black"
+                                android:textSize="17sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_spinner_variasi_detail_produk_mitra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="5dp">
 
-                    <TextView
-                        android:id="@+id/text_harga_detail_produk_awal_mitra"
+                    <LinearLayout
+                        android:id="@+id/linear_spinner_variasi_mitra"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:fontFamily="@font/robotoreguler"
-                        android:text="Rp0.000"
-                        android:textColor="@color/red"
-                        android:textSize="18sp"
-                        android:textStyle="italic" />
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/text_harga_detail_produk_diskon_mitra"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:fontFamily="@font/robotobold"
-                        android:text="Rp0.000"
-                        android:textColor="@color/red"
-                        android:textSize="24sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/robotoblack"
+                            android:text="Pilih Variasi"
+                            android:textColor="@color/red"
+                            android:textSize="14sp" />
 
-                </LinearLayout>
+                        <Spinner
+                            android:id="@+id/spinner_pilih_variasi_mitra"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/bg_edit_text_border"
+                            android:fontFamily="@font/robotobold"
+                            android:paddingStart="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="17sp" />
 
-                <LinearLayout
-                    android:id="@+id/linear_spinner_variasi_produk_mitra"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/robotoblack"
-                        android:text="Pilih Variasi"
-                        android:textColor="@color/red"
-                        android:textSize="14sp" />
-
-                    <Spinner
-                        android:id="@+id/spinner_pilih_variasi_produk_mitra"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="15dp"
-                        android:background="@drawable/bg_edit_text_border"
-                        android:fontFamily="@font/robotobold"
-                        android:paddingStart="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="17sp" />
-
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:id="@+id/linear_variasi_produk_mitra"
@@ -153,78 +282,56 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/linear_stock_produk_mitra"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="20dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="5dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/robotoblack"
-                        android:text="Stock Produk"
-                        android:textColor="@color/red"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/text_stock_produk_mitra"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
-                        android:fontFamily="@font/robotoreguler"
-                        android:text="Variasi"
-                        android:textColor="@color/red"
-                        android:textSize="15sp" />
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="15dp"
+                            android:fontFamily="@font/robotoblack"
+                            android:text="Deskripsi Produk"
+                            android:textColor="@color/red"
+                            android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/robotoblack"
-                    android:text="Deskripsi Produk"
-                    android:textColor="@color/red"
-                    android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/text_deskripsi_produk_mitra"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/robotoreguler"
+                            android:text="@string/lorem_ipsum"
+                            android:textColor="@color/red"
+                            android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/text_deskripsi_produk_mitra"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/robotoreguler"
-                    android:text="@string/lorem_ipsum"
-                    android:textColor="@color/red"
-                    android:textSize="11sp" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="20dp">
-
-                    <Button
-                        android:id="@+id/btn_tambah_keranjang_produk_mitra"
-                        android:layout_width="200dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@drawable/background_button_red"
-                        android:fontFamily="@font/robotobold"
-                        android:text="Tambah Keranjang"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
+                    android:layout_marginBottom="20dp"
+                    android:visibility="gone">
 
                     <Button
                         android:id="@+id/btn_checkout_detail_produk_mitra"
@@ -232,7 +339,7 @@
                         android:layout_height="50dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="15dp"
-                        android:layout_toRightOf="@+id/btn_tambah_keranjang_produk_mitra"
+                        android:layout_toRightOf="@+id/btn_tambah_keranjang_mitra"
                         android:background="@drawable/background_button_red"
                         android:fontFamily="@font/robotobold"
                         android:text="Checkout"

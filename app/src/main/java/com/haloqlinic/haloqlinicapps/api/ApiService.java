@@ -5,6 +5,7 @@ import com.haloqlinic.haloqlinicapps.model.batalkanKonsultasi.ResponseBatalkanKo
 import com.haloqlinic.haloqlinicapps.model.biayaAdmin.ResponseBiayaAdmin;
 import com.haloqlinic.haloqlinicapps.model.cariDokter.ResponseCariDokter;
 import com.haloqlinic.haloqlinicapps.model.cariProduk.ResponseCariProduk;
+import com.haloqlinic.haloqlinicapps.model.cariProdukKategori.ResponseCariProdukKategori;
 import com.haloqlinic.haloqlinicapps.model.chatOnline.ResponseChatOnline;
 import com.haloqlinic.haloqlinicapps.model.checkStatus.ResponseCheckStatus;
 import com.haloqlinic.haloqlinicapps.model.daftar.ResponseDaftar;
@@ -479,5 +480,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("detail_produk_promo.php")
     Call<ResponseDetailProdukMitra> detailProdukMitra(@Field("id_produk") String id_produk);
+
+    @FormUrlEncoded
+    @POST("cari_produk.php")
+    Call<ResponseCariProdukKategori> cariProdukKategori(@Field("nama_produk") String nama_produk,
+                                                        @Field("id_kategori") String id_kategori);
 
 }

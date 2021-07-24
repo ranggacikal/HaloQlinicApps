@@ -8,11 +8,23 @@ public class DataItem{
 	@SerializedName("id_produk")
 	private String idProduk;
 
+	@SerializedName("img")
+	private String img;
+
+	@SerializedName("harga_promo")
+	private String hargaPromo;
+
+	@SerializedName("id_member")
+	private String idMember;
+
+	@SerializedName("variasi")
+	private List<VariasiItem> variasi;
+
 	@SerializedName("nama_produk")
 	private String namaProduk;
 
-	@SerializedName("img")
-	private String img;
+	@SerializedName("nama_member")
+	private String namaMember;
 
 	@SerializedName("harga")
 	private String harga;
@@ -22,12 +34,6 @@ public class DataItem{
 
 	@SerializedName("kode")
 	private String kode;
-
-	@SerializedName("id_member")
-	private String idMember;
-
-	@SerializedName("variasi")
-	private List<VariasiItem> variasi;
 
 	@SerializedName("disc")
 	private String disc;
@@ -46,6 +52,38 @@ public class DataItem{
 		return idProduk;
 	}
 
+	public void setImg(String img){
+		this.img = img;
+	}
+
+	public String getImg(){
+		return img;
+	}
+
+	public void setHargaPromo(String hargaPromo){
+		this.hargaPromo = hargaPromo;
+	}
+
+	public String getHargaPromo(){
+		return hargaPromo;
+	}
+
+	public void setIdMember(String idMember){
+		this.idMember = idMember;
+	}
+
+	public String getIdMember(){
+		return idMember;
+	}
+
+	public void setVariasi(List<VariasiItem> variasi){
+		this.variasi = variasi;
+	}
+
+	public List<VariasiItem> getVariasi(){
+		return variasi;
+	}
+
 	public void setNamaProduk(String namaProduk){
 		this.namaProduk = namaProduk;
 	}
@@ -54,12 +92,12 @@ public class DataItem{
 		return namaProduk;
 	}
 
-	public void setImg(String img){
-		this.img = img;
+	public void setNamaMember(String namaMember){
+		this.namaMember = namaMember;
 	}
 
-	public String getImg(){
-		return img;
+	public String getNamaMember(){
+		return namaMember;
 	}
 
 	public void setHarga(String harga){
@@ -84,22 +122,6 @@ public class DataItem{
 
 	public String getKode(){
 		return kode;
-	}
-
-	public void setIdMember(String idMember){
-		this.idMember = idMember;
-	}
-
-	public String getIdMember(){
-		return idMember;
-	}
-
-	public void setVariasi(List<VariasiItem> variasi){
-		this.variasi = variasi;
-	}
-
-	public List<VariasiItem> getVariasi(){
-		return variasi;
 	}
 
 	public void setDisc(String disc){
@@ -131,13 +153,15 @@ public class DataItem{
 		return 
 			"DataItem{" + 
 			"id_produk = '" + idProduk + '\'' + 
-			",nama_produk = '" + namaProduk + '\'' + 
 			",img = '" + img + '\'' + 
+			",harga_promo = '" + hargaPromo + '\'' + 
+			",id_member = '" + idMember + '\'' + 
+			",variasi = '" + variasi + '\'' + 
+			",nama_produk = '" + namaProduk + '\'' + 
+			",nama_member = '" + namaMember + '\'' + 
 			",harga = '" + harga + '\'' + 
 			",berat = '" + berat + '\'' + 
 			",kode = '" + kode + '\'' + 
-			",id_member = '" + idMember + '\'' + 
-			",variasi = '" + variasi + '\'' + 
 			",disc = '" + disc + '\'' + 
 			",deskripsi = '" + deskripsi + '\'' + 
 			",harga_jual = '" + hargaJual + '\'' + 

@@ -12,12 +12,14 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.haloqlinic.haloqlinicapps.adapter.CariProdukAdapter;
+import com.haloqlinic.haloqlinicapps.adapter.CariProdukKategoriAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.ProdukAdapter;
 import com.haloqlinic.haloqlinicapps.adapter.ProdukKategoriAdapter;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.databinding.ActivityDetailHistoryBinding;
 import com.haloqlinic.haloqlinicapps.databinding.ActivitySkincareBinding;
 import com.haloqlinic.haloqlinicapps.model.cariProduk.ResponseCariProduk;
+import com.haloqlinic.haloqlinicapps.model.cariProdukKategori.ResponseCariProdukKategori;
 import com.haloqlinic.haloqlinicapps.model.produk.ResponseDataProduk;
 import com.haloqlinic.haloqlinicapps.model.produkKategori.DataItem;
 import com.haloqlinic.haloqlinicapps.model.produkKategori.ResponseProdukKategori;
@@ -39,6 +41,7 @@ public class SkincareActivity extends AppCompatActivity {
     private  int page_size = 5;
     private List<DataItem> list = new ArrayList<>();
     GridLayoutManager manager;
+    GridLayoutManager managerSearch;
     ProdukKategoriAdapter adapter;
 
     private boolean isLastPage;
@@ -76,6 +79,11 @@ public class SkincareActivity extends AppCompatActivity {
         manager = new GridLayoutManager(SkincareActivity.this, 2, GridLayoutManager.VERTICAL, false);
         binding.recyclerSkincare.setHasFixedSize(true);
         binding.recyclerSkincare.setLayoutManager(manager);
+
+        managerSearch = new GridLayoutManager(SkincareActivity.this, 2,
+                GridLayoutManager.VERTICAL, false);
+        binding.recyclerCariSkincare.setHasFixedSize(true);
+        binding.recyclerCariSkincare.setLayoutManager(managerSearch);
 
         page = 1;
 
@@ -127,7 +135,50 @@ public class SkincareActivity extends AppCompatActivity {
 
     private void loadSearchSkincare(String newText) {
 
+        if (newText.equals("")){
 
+            binding.recyclerSkincare.setVisibility(View.VISIBLE);
+            binding.recyclerCariSkincare.setVisibility(View.GONE);
+
+        }else {
+
+            ConfigRetrofit.service.cariProdukKategori(newText, id_kategori).enqueue(new Callback<ResponseCariProdukKategori>() {
+                @Override
+                public void onResponse(Call<ResponseCariProdukKategori> call, Response<ResponseCariProdukKategori> response) {
+                    if (response.isSuccessful()) {
+
+                        binding.recyclerSkincare.setVisibility(View.GONE);
+                        binding.recyclerCariSkincare.setVisibility(View.VISIBLE);
+
+                        if (response.body() != null) {
+
+                            List<com.haloqlinic.haloqlinicapps.model.cariProdukKategori.DataItem> dataCari = response
+                                    .body().getData();
+
+                            CariProdukKategoriAdapter adapterCari = new CariProdukKategoriAdapter(SkincareActivity.this,
+                                    dataCari);
+
+                            binding.recyclerCariSkincare.setAdapter(adapterCari);
+
+                        } else {
+                            Toast.makeText(SkincareActivity.this, "Data Kosong",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Toast.makeText(SkincareActivity.this, "Response Gagal",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseCariProdukKategori> call, Throwable t) {
+                    Toast.makeText(SkincareActivity.this, "Error : " + t.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
 
     }
 

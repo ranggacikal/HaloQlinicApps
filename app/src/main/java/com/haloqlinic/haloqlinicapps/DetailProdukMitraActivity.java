@@ -15,13 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.databinding.ActivityDetailProdukMitraBinding;
 import com.haloqlinic.haloqlinicapps.databinding.ActivityJadwalKonsultasiBinding;
-import com.haloqlinic.haloqlinicapps.model.detailProdukMitra.DataItem;
+import com.haloqlinic.haloqlinicapps.model.detailProduk.DataItem;
+import com.haloqlinic.haloqlinicapps.model.detailProduk.ResponseDetailProduk;
+import com.haloqlinic.haloqlinicapps.model.detailProduk.VariasiItem;
 import com.haloqlinic.haloqlinicapps.model.detailProdukMitra.ResponseDetailProdukMitra;
-import com.haloqlinic.haloqlinicapps.model.detailProdukMitra.VariasiItem;
 import com.haloqlinic.haloqlinicapps.model.tambahKeranjang.ResponseTambahKeranjang;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -45,6 +47,7 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
     String id_member = "";
     String berat = "";
     String harga = "";
+    String jumlah = "";
 
 
     @Override
@@ -55,6 +58,24 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
         setContentView(view);
 
         preferencedConfig = new SharedPreferencedConfig(this);
+
+        binding.elegantNumberProdukMitra.setNumber("1");
+
+        binding.elegantNumberProdukMitra.setOnClickListener(new ElegantNumberButton.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jumlah = binding.elegantNumberProdukMitra.getNumber();
+
+                if (Integer.parseInt(jumlah)<1){
+                    Toast.makeText(DetailProdukMitraActivity.this, "Jumlah tidak boleh kurang dari 1 (satu)", Toast.LENGTH_SHORT).show();
+                    binding.elegantNumberProdukMitra.setNumber("1");
+                }else if (Integer.parseInt(jumlah)>Integer.parseInt(stok)){
+                    Toast.makeText(DetailProdukMitraActivity.this, "Stok tidak cukup", Toast.LENGTH_SHORT).show();
+                    binding.elegantNumberProdukMitra.setNumber(stok);
+                }
+
+            }
+        });
 
         PushDownAnim.setPushDownAnimTo(binding.imgBackDetailProdukMitra)
                 .setScale(MODE_SCALE, 0.89f)
@@ -75,7 +96,7 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
                     }
                 });
 
-        PushDownAnim.setPushDownAnimTo(binding.btnTambahKeranjangProdukMitra)
+        PushDownAnim.setPushDownAnimTo(binding.btnTambahKeranjangMitra)
                 .setScale(MODE_SCALE, 0.89f)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -110,7 +131,7 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
                     }
                 });
 
-        binding.spinnerPilihVariasiProdukMitra.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinnerPilihVariasiMitra.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 id_variasi = dataVariasi.get(position).getId();
@@ -118,14 +139,14 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
                 variasi = dataVariasi.get(position).getVariasi();
 
                 if (!variasi.equals("")||!variasi.isEmpty()) {
-                    binding.linearVariasiProdukMitra.setVisibility(View.VISIBLE);
+                    binding.linearVariasiProdukMitra.setVisibility(View.GONE);
                     binding.linearStockProdukMitra.setVisibility(View.VISIBLE);
                     binding.textVariasiProdukMitra.setText(variasi);
                     binding.textStockProdukMitra.setText(stok);
                 }else{
                     binding.linearVariasiProdukMitra.setVisibility(View.GONE);
                     binding.linearStockProdukMitra.setVisibility(View.VISIBLE);
-                    binding.linearSpinnerVariasiProdukMitra.setVisibility(View.GONE);
+                    binding.linearSpinnerVariasiMitra.setVisibility(View.GONE);
                     binding.textStockProdukMitra.setText(stok);
                 }
             }
@@ -149,9 +170,9 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
         progressDialog.setMessage("Memuat Data");
         progressDialog.show();
 
-        ConfigRetrofit.service.detailProdukMitra(id_produk).enqueue(new Callback<ResponseDetailProdukMitra>() {
+        ConfigRetrofit.service.detailProduk(id_produk).enqueue(new Callback<ResponseDetailProduk>() {
             @Override
-            public void onResponse(Call<ResponseDetailProdukMitra> call, Response<ResponseDetailProdukMitra> response) {
+            public void onResponse(Call<ResponseDetailProduk> call, Response<ResponseDetailProduk> response) {
                 if (response.isSuccessful()) {
                     progressDialog.dismiss();
 
@@ -163,6 +184,7 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
                     String diskon = "";
                     String harga_jual = "";
                     String harga_diskon = "";
+                    String nama_penjual = "";
 
 
                     for (int i = 0; i < dataItems.size(); i++) {
@@ -178,10 +200,11 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
                         diskon = dataItems.get(i).getDisc();
                         harga_jual = dataItems.get(i).getHargaJual();
                         harga_diskon = dataItems.get(i).getHargaPromo();
+                        nama_penjual = dataItems.get(i).getNamaMember();
                     }
 
                     if (dataItems.size() < 1) {
-                        binding.linearSpinnerVariasiProdukMitra.setVisibility(View.GONE);
+                        binding.linearSpinnerVariasiMitra.setVisibility(View.GONE);
                     }
 
                     Log.d("checkDataVariasiItems", "onResponse: " + dataVariasi.toString());
@@ -194,23 +217,33 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
                     ArrayAdapter<String> adapterVariasi = new ArrayAdapter<String>(DetailProdukMitraActivity.this,
                             android.R.layout.simple_spinner_item, listSpinnerVariasi);
                     adapterVariasi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    binding.spinnerPilihVariasiProdukMitra.setAdapter(adapterVariasi);
+                    binding.spinnerPilihVariasiMitra.setAdapter(adapterVariasi);
 
                     Glide.with(DetailProdukMitraActivity.this)
                             .load(url_image)
                             .error(R.mipmap.ic_launcher)
                             .into(binding.imgDetailProdukMitra);
 
+                    if (!harga_diskon.equals("0")){
+                        binding.textHargaDetailProdukMitra.setVisibility(View.GONE);
+                        binding.linearDiskonMitra.setVisibility(View.VISIBLE);
+                        binding.textHargaDetailProdukAwalMitra.setText("Rp" + NumberFormat.getInstance().
+                                format(Integer.parseInt(harga)));
+                        binding.textHargaDetailProdukDiskonMitra.setText("Rp" + NumberFormat.getInstance().
+                                format(Integer.parseInt(harga_diskon)));
+                        binding.textHargaDetailProdukAwalMitra
+                                .setPaintFlags(binding.textHargaDetailProdukAwalMitra.getPaintFlags()
+                                        | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                    }else{
+                        binding.linearDiskonMitra.setVisibility(View.GONE);
+                    }
+
                     binding.textNamaProdukDetailMitra.setText(nama_produk);
-                    binding.textHargaDetailProdukAwalMitra
-                            .setPaintFlags(binding.textHargaDetailProdukAwalMitra.getPaintFlags()
-                                    | Paint.STRIKE_THRU_TEXT_FLAG);
-                    binding.textHargaDetailProdukAwalMitra.setText("Rp" + NumberFormat.getInstance().
-                            format(Integer.parseInt(harga)));
-                    binding.textHargaDetailProdukDiskonMitra.setText("Rp" + NumberFormat.getInstance().
-                            format(Integer.parseInt(harga_diskon)));
+
 
                     binding.textDeskripsiProdukMitra.setText(Html.fromHtml(deskripsi_produk));
+                    binding.textNamaPenjualDetailProdukMitra.setText(nama_penjual);
 
                 } else {
                     progressDialog.dismiss();
@@ -220,7 +253,7 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseDetailProdukMitra> call, Throwable t) {
+            public void onFailure(Call<ResponseDetailProduk> call, Throwable t) {
                 progressDialog.dismiss();
                 Toast.makeText(DetailProdukMitraActivity.this, "Error: "+t.getMessage(),
                         Toast.LENGTH_SHORT).show();
@@ -263,7 +296,7 @@ public class DetailProdukMitraActivity extends AppCompatActivity {
 
     private void tambahKeranjang() {
 
-        String jumlah = "1";
+//        String jumlah = "1";
 
         ConfigRetrofit.service.tambahKeranjang(preferencedConfig.getPreferenceIdCustomer(), id_product, id_member, berat, jumlah,
                 harga, id_variasi, variasi).enqueue(new Callback<ResponseTambahKeranjang>() {

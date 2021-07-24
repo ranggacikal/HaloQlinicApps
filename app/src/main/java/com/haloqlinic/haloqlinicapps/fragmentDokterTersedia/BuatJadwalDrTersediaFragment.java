@@ -137,7 +137,7 @@ public class BuatJadwalDrTersediaFragment extends Fragment {
 
                     List<com.haloqlinic.haloqlinicapps.model.cariDokter.DataItem> dataCari = response.body().getData();
                     CariJadwalTersediaAdapter adapterCari = new CariJadwalTersediaAdapter(getActivity(), dataCari);
-                    rvDokterBuatJadwal.setAdapter(adapter);
+                    rvDokterBuatJadwal.setAdapter(adapterCari);
 
                 }else{
                     Toast.makeText(getActivity(), "Gagal memuat data", Toast.LENGTH_SHORT).show();

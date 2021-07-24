@@ -1,6 +1,7 @@
 package com.haloqlinic.haloqlinicapps;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.haloqlinic.haloqlinicapps.SharedPreference.SharedPreferencedConfig;
 import com.haloqlinic.haloqlinicapps.api.ConfigRetrofit;
 import com.haloqlinic.haloqlinicapps.model.detailProduk.DataItem;
@@ -46,11 +48,14 @@ public class DetailProdukActivity extends AppCompatActivity {
     Spinner spinnerPilihVariasi;
     LinearLayout linearVariasi, linearStock, linearSpinner, linearDiskon;
     List<VariasiItem> variasiItems = new ArrayList<>();
-    TextView txtVariasiProduk, txtStockProduk, txtHargaDiskon, txtHargaAwal;
+    TextView txtVariasiProduk, txtStockProduk, txtHargaDiskon, txtHargaAwal, txtNamaPenjual;
     String id_variasi, stok, variasi, id_product;
     String id_member = "";
     String berat = "";
     String harga = "";
+    String jumlah= "";
+    CardView cardSpinnerVariasi;
+    ElegantNumberButton elegantNumber;
 
     private SharedPreferencedConfig preferencedConfig;
 
@@ -76,8 +81,30 @@ public class DetailProdukActivity extends AppCompatActivity {
         linearDiskon = findViewById(R.id.linear_diskon);
         txtHargaDiskon = findViewById(R.id.text_harga_detail_produk_diskon);
         txtHargaAwal = findViewById(R.id.text_harga_detail_produk_awal);
+        cardSpinnerVariasi = findViewById(R.id.card_spinner_variasi_detail_produk);
+        txtNamaPenjual = findViewById(R.id.text_nama_penjual_detail_produk);
+        elegantNumber = findViewById(R.id.elegant_number_detail_produk);
 
         preferencedConfig = new SharedPreferencedConfig(this);
+
+        elegantNumber.setNumber("1");
+
+        elegantNumber.setOnClickListener(new ElegantNumberButton.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jumlah = elegantNumber.getNumber();
+
+                if (Integer.parseInt(jumlah)<1){
+
+                    Toast.makeText(DetailProdukActivity.this, "Jumlah tidak boleh kurang dari 1", Toast.LENGTH_SHORT).show();
+                    elegantNumber.setNumber("1");
+
+                }else if (Integer.parseInt(jumlah) > Integer.parseInt(stok)){
+                    Toast.makeText(DetailProdukActivity.this, "Stock tidak cukup", Toast.LENGTH_SHORT).show();
+                    elegantNumber.setNumber(stok);
+                }
+            }
+        });
 
         PushDownAnim.setPushDownAnimTo(imgBack)
                 .setScale( MODE_SCALE, 0.89f  )
@@ -140,7 +167,7 @@ public class DetailProdukActivity extends AppCompatActivity {
                 variasi = variasiItems.get(position).getVariasi();
 
                 if (!variasi.equals("")||!variasi.isEmpty()) {
-                    linearVariasi.setVisibility(View.VISIBLE);
+                    linearVariasi.setVisibility(View.GONE);
                     linearStock.setVisibility(View.VISIBLE);
                     txtVariasiProduk.setText(variasi);
                     txtStockProduk.setText(stok);
@@ -163,7 +190,7 @@ public class DetailProdukActivity extends AppCompatActivity {
 
     private void tambahKeranjang() {
 
-        String jumlah = "1";
+//        String jumlah = "1";
 
         ConfigRetrofit.service.tambahKeranjang(preferencedConfig.getPreferenceIdCustomer(), id_product, id_member, berat, jumlah,
                 harga, id_variasi, variasi).enqueue(new Callback<ResponseTambahKeranjang>() {
@@ -240,6 +267,7 @@ public class DetailProdukActivity extends AppCompatActivity {
                     String deskripsi_produk = "";
                     String diskon = "";
                     String harga_jual = "";
+                    String nama_penjual = "";
 
 
                     for (int i = 0; i<dataItems.size(); i++){
@@ -254,10 +282,12 @@ public class DetailProdukActivity extends AppCompatActivity {
                         variasiItems = dataItems.get(i).getVariasi();
                         diskon = dataItems.get(i).getDisc();
                         harga_jual = dataItems.get(i).getHargaJual();
+                        nama_penjual = dataItems.get(i).getNamaMember();
                     }
 
                     if (variasiItems.size()<1){
                         linearSpinner.setVisibility(View.GONE);
+                        cardSpinnerVariasi.setVisibility(View.GONE);
                     }
 
                     Log.d("checkDataVariasiItems", "onResponse: "+variasiItems.toString());
@@ -278,6 +308,7 @@ public class DetailProdukActivity extends AppCompatActivity {
                             .into(imgDetailProduk);
 
                     txtNamaProduk.setText(nama_produk);
+                    txtNamaPenjual.setText(nama_penjual);
 
                     if (diskon.equals("0")) {
                         linearDiskon.setVisibility(View.GONE);
