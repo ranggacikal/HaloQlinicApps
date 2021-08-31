@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/text_item_obat_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Obat"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/robotobold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/text_item_jumlah_obat_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jumlah"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotomedium"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:layout_marginHorizontal="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotomedium"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:id="@+id/text_item_aturan_pakai_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aturan Pakai"
+            android:textColor="@color/black"
+            android:fontFamily="@font/robotomedium"
+            android:textSize="17sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

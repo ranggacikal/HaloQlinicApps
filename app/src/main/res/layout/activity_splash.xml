@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/green"
     android:orientation="vertical"
-    tools:context=".SplashActivity">
+    tools:context="id.luvie.luvieapps.SplashActivity">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
-        app:cardCornerRadius="50dp">
+        android:layout_marginTop="60dp"
+        android:background="@drawable/background_white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:id="@+id/relative_welcome"
-                android:layout_marginTop="70dp">
+                android:layout_marginTop="80dp">
 
                 <TextView
                     android:id="@+id/welcome"
@@ -53,7 +52,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_toRightOf="@+id/to"
                     android:fontFamily="@font/robotoblack"
-                    android:text="Halo Qlinic"
+                    android:text="Luvie"
                     android:textColor="@color/green"
                     android:textSize="36sp" />
 
@@ -76,11 +75,11 @@
                 android:layout_below="@+id/relative_welcome"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="50dp"
                 android:src="@drawable/imagesplash"/>
 
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
 </LinearLayout>

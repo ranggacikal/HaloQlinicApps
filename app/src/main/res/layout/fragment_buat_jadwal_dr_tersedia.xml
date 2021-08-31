@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragmentDokterTersedia.BuatJadwalDrTersediaFragment">
+    tools:context="id.luvie.luvieapps.fragmentDokterTersedia.BuatJadwalDrTersediaFragment">
 
     <SearchView
         android:id="@+id/cari_dokter_tersedia_buat_jadwal"

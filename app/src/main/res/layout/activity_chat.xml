@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/green"
     android:orientation="vertical"
-    tools:context=".ChatActivity">
+    tools:context="id.luvie.luvieapps.ChatActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -101,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
             <Button
@@ -121,10 +122,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_button_white"
+                android:visibility="gone"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="20dp"
                 android:onClick="onVideoCall"
                 android:fontFamily="@font/robotobold"
                 android:text="Mulai Video Call">

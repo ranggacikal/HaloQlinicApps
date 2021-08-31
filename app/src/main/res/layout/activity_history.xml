@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".HistoryActivity">
+    tools:context="id.luvie.luvieapps.HistoryActivity">
 
     <RelativeLayout
         android:id="@+id/relative_header_history"
@@ -40,10 +40,10 @@
         android:layout_height="wrap_content"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabTextAppearance="@style/MineCustomTabText"
+        app:tabTextAppearance="@style/MineCustomTabTextStatus"
         app:tabIndicatorColor="@color/green"
         app:tabSelectedTextColor="@color/red"
-        style="@style/MineCustomTabText"
+        style="@style/MineCustomTabTextStatus"
         android:background="@android:color/white" />
 
     <ScrollView

@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="Nama Dokter"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:fontFamily="@font/robotobold"/>
 
             <TextView
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="Spesialis Dokter"
                 android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:fontFamily="@font/robotoreguler"/>
 
             <LinearLayout
@@ -59,8 +59,9 @@
 
                     <ImageView
                         android:id="@+id/imgbag"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="10dp"
                         android:src="@drawable/icon_bag"/>
 
@@ -70,6 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/imgbag"
                         android:layout_centerVertical="true"
+                        android:textSize="15sp"
                         android:text="0 Tahun"
                         android:fontFamily="@font/robotoreguler"/>
 
@@ -87,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Harga Dokter"
-                    android:textSize="12sp"
+                    android:textSize="17sp"
                     android:textColor="@color/red"
                     android:fontFamily="@font/robotobold"
                     android:layout_alignParentBottom="true"

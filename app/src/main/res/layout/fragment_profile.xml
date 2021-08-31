@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ProfileFragment">
+    tools:context="id.luvie.luvieapps.ProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_profile_user"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:src="@mipmap/ic_launcher"
             app:civ_border_color="@color/red"
             app:civ_border_width="1dp"
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nama User"
-            android:textSize="24sp"
+            android:textSize="29sp"
             android:textColor="@color/red"
             android:fontFamily="@font/robotobold"
             android:gravity="center"
@@ -46,8 +46,9 @@
 
             <ImageView
                 android:id="@+id/icon_edit_akun"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
                 android:src="@drawable/ic_edit_akun"
                 android:layout_marginStart="15dp"/>
 
@@ -59,13 +60,14 @@
                 android:layout_toRightOf="@+id/icon_edit_akun"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
+                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>
 
@@ -85,8 +87,8 @@
 
             <ImageView
                 android:id="@+id/icon_keranjang_anda"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_keranjang"
                 android:layout_marginStart="15dp"/>
 
@@ -98,12 +100,12 @@
                 android:layout_toRightOf="@+id/icon_keranjang_anda"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>
@@ -124,8 +126,8 @@
 
             <ImageView
                 android:id="@+id/icon_history"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_history"
                 android:layout_marginStart="15dp"/>
 
@@ -137,12 +139,12 @@
                 android:layout_toRightOf="@+id/icon_history"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>
@@ -163,8 +165,8 @@
 
             <ImageView
                 android:id="@+id/icon_history_konsultasi"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_history_konsultasi"
                 android:layout_marginStart="15dp"/>
 
@@ -176,12 +178,12 @@
                 android:layout_toRightOf="@+id/icon_history_konsultasi"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>
@@ -202,8 +204,8 @@
 
             <ImageView
                 android:id="@+id/icon_recipe_profile"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_recipe"
                 android:layout_marginStart="15dp"/>
 
@@ -215,12 +217,12 @@
                 android:layout_toRightOf="@+id/icon_recipe_profile"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>
@@ -241,8 +243,8 @@
 
             <ImageView
                 android:id="@+id/icon_ubah_password"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_edit_password"
                 android:layout_marginStart="15dp"/>
 
@@ -254,12 +256,12 @@
                 android:layout_toRightOf="@+id/icon_ubah_password"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>
@@ -280,8 +282,8 @@
 
             <ImageView
                 android:id="@+id/icon_bantuan"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_bantuan"
                 android:layout_marginStart="15dp"/>
 
@@ -293,12 +295,12 @@
                 android:layout_toRightOf="@+id/icon_bantuan"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>
@@ -312,32 +314,32 @@
             android:layout_marginTop="20dp"/>
 
         <RelativeLayout
-            android:id="@+id/relative_nilai_kami_profile"
+            android:id="@+id/relative_alergi_obat_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
 
             <ImageView
                 android:id="@+id/icon_nilai_kami"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_ratings"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_alergi"
                 android:layout_marginStart="15dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nilai kami"
+                android:text="Alergi Obat"
                 android:textColor="@color/black"
                 android:layout_toRightOf="@+id/icon_nilai_kami"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>
@@ -358,8 +360,8 @@
 
             <ImageView
                 android:id="@+id/icon_keluar"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_logout"
                 android:layout_marginStart="15dp"/>
 
@@ -371,12 +373,12 @@
                 android:layout_toRightOf="@+id/icon_keluar"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 android:fontFamily="@font/robotobold"/>
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"/>

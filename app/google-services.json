@@ -41,6 +41,96 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290553239417:android:7ea9c0d5a0adc22ea541a8",
+        "android_client_info": {
+          "package_name": "com.haloqlinic.tanyadokter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290553239417-lit7bai73m8ps9kqqu3houagu8vt5tq1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haloqlinic.tanyadokter",
+            "certificate_hash": "bad21c8c7de588bdc54a0bde89c83983155739ec"
+          }
+        },
+        {
+          "client_id": "290553239417-ubv94aj7l6fg6et3p9cmeisgl984ptjn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haloqlinic.tanyadokter",
+            "certificate_hash": "3d380ffbb7d93ab21a86e0ece21fda135ff5a9d4"
+          }
+        },
+        {
+          "client_id": "290553239417-ukdvdjkbt2pflcq2dpg5hhha81gm25j8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haloqlinic.tanyadokter",
+            "certificate_hash": "a53507b3e532072a1072707c0df62cfed959632f"
+          }
+        },
+        {
+          "client_id": "290553239417-afpbju37eitq6dquf5tuh7u98k47f30t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt5ZMJY54rD8HnxEGC-XyeOqlIqRk5XFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290553239417-afpbju37eitq6dquf5tuh7u98k47f30t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290553239417:android:524eeb337ddc68a8a541a8",
+        "android_client_info": {
+          "package_name": "id.luvie.luvieapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290553239417-04hc3kbcm1or97rfgd7sli8p0t7i85g9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.luvie.luvieapps",
+            "certificate_hash": "bad21c8c7de588bdc54a0bde89c83983155739ec"
+          }
+        },
+        {
+          "client_id": "290553239417-afpbju37eitq6dquf5tuh7u98k47f30t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt5ZMJY54rD8HnxEGC-XyeOqlIqRk5XFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290553239417-afpbju37eitq6dquf5tuh7u98k47f30t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

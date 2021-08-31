@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HistoryKonsultasiFragment">
+    tools:context="id.luvie.luvieapps.HistoryKonsultasiFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

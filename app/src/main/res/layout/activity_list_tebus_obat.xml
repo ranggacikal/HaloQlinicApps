@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListTebusObatActivity">
+    tools:context="id.luvie.luvieapps.ListTebusObatActivity">
 
     <RelativeLayout
         android:id="@+id/relative_header_list_tebus_obat"
@@ -36,10 +36,22 @@
         android:id="@+id/recycler_tebus_obat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_above="@+id/btn_tebus_obat"
         android:layout_below="@+id/relative_header_list_tebus_obat"
-        tools:listitem="@layout/item_tebus_obat"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_tebus_tindakan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_tebus_obat"
+        android:layout_below="@+id/recycler_tebus_obat"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
 
     <Button
         android:id="@+id/btn_tebus_obat"

@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/card_item_opsi_bayar"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
     app:cardElevation="10dp"
@@ -14,9 +15,10 @@
 
         <ImageView
             android:id="@+id/img_icon_opsi_bayar"
-            android:layout_width="70dp"
+            android:layout_width="120dp"
             android:layout_height="70dp"
             android:layout_margin="10dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher"
             android:layout_marginEnd="15dp"/>
 

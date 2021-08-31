@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
-    tools:context=".HomeFragment">
+    tools:context="id.luvie.luvieapps.HomeFragment">
 
     <ScrollView
         android:layout_width="match_parent"

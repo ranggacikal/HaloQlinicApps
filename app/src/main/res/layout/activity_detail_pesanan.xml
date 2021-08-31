@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DetailPesananActivity">
+    tools:context="id.luvie.luvieapps.DetailPesananActivity">
     
     <RelativeLayout
         android:layout_width="match_parent"

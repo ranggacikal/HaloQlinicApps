@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ArtikelActivity">
+    tools:context="id.luvie.luvieapps.ArtikelActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

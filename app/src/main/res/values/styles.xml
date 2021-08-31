@@ -2,7 +2,13 @@
 <resources>
 
     <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+    <style name="MineCustomTabTextStatus" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
         <item name="textAllCaps">false</item>
         <item name="android:padding">2dp</item>
     </style>
@@ -15,7 +21,5 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <!--<item name="android:windowAnimationStyle">@style/DialogAnimation</item>-->
     </style>
-
-
 
 </resources>

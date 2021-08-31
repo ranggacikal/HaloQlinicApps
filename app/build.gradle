@@ -61,9 +61,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 
     //Mesibo API
-    implementation 'com.mesibo.api:mesibo:1.2.89'
-    implementation 'com.mesibo.api:calls:1.2.89'
-    implementation 'com.mesibo.api:ui:1.2.89'
+    implementation 'com.mesibo.api:mesibo:1.6.4'
+    implementation 'com.mesibo.api:calls:1.6.4'
+    implementation 'com.mesibo.api:ui:1.6.4'
 
     implementation 'com.android.support:multidex:1.0.3'
 
@@ -81,12 +81,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
 
     //google
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     //facebook
-    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
-    implementation 'com.facebook.android:facebook-login:[4.5)'
-    implementation 'com.google.firebase:firebase-auth:20.0.1'
+    implementation 'com.facebook.android:facebook-android-sdk:4.42.0'
+    implementation 'com.facebook.android:facebook-login:4.42.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
 
     //pagging
     implementation 'androidx.paging:paging-runtime:2.1.0'

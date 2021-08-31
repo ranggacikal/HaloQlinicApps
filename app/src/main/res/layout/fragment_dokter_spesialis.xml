@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DokterSpesialisFragment">
+    tools:context="id.luvie.luvieapps.DokterSpesialisFragment">
 
     <SearchView
         android:id="@+id/search_dokter_spesialis"
@@ -18,14 +18,14 @@
         android:id="@+id/recycler_spesialis_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"/>
+        android:layout_margin="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_cari_spesialis_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_margin="15dp"/>
+        android:layout_margin="10dp"/>
 
     <ProgressBar
         android:id="@+id/progressbar_dokter"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".statusTransaksi.BelumBayarFragment">
+    tools:context="id.luvie.luvieapps.statusTransaksi.BelumBayarFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_status_belum_bayar"

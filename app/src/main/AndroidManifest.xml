@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.haloqlinic.haloqlinicapps">
+    package="id.luvie.luvieapps">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,17 +9,27 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+<!--    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>-->
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_luvie"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_luvie"
         android:supportsRtl="true"
         android:theme="@style/Theme.HaloQlinicApps"
         android:usesCleartextTraffic="true"
-        tools:replace="android:theme">
-        <activity android:name=".DetailProdukMitraActivity"></activity>
+        tools:replace="android:icon,android:theme">
+        <activity
+            android:name=".SummaryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".DetailAlergiActivity"
+            android:exported="true" />
+        <activity android:name=".TambahAlergiObatActivity" />
+        <activity android:name=".AlergiObatActivity" />
+        <activity android:name=".KebijakanPrivasiActivity" />
+        <activity android:name=".DetailProdukMitraActivity" />
         <activity android:name=".LupaPasswordActivity" />
         <activity android:name=".DokterMitraActivity" />
         <activity android:name=".UbahPasswordActivity" />
@@ -42,7 +52,6 @@
         <activity android:name=".CheckoutKonsultasiActivity" />
         <activity android:name=".AturJadwalActivity" />
         <activity android:name=".DetailTransaksiActivity" />
-        <activity android:name=".CreateTokenActivity" />
         <activity android:name=".InvoiceActivity" />
         <activity android:name=".OpsiBayarActivity" />
         <activity
@@ -94,7 +103,7 @@
 
         <meta-data
             android:name="com.onesignal.NotificationServiceExtension"
-            android:value="com.haloqlinic.haloqlinicapps.oneSignal.NotificationServiceExtension" />
+            android:value="id.luvie.luvieapps.oneSignal.NotificationServiceExtension" />
 
         <service android:name=".service.MyService" />
     </application>
