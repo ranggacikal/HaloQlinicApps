@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,13 +22,19 @@ import id.luvie.luvieapps.R;
 import id.luvie.luvieapps.SharedPreference.SharedPreferencedConfig;
 import id.luvie.luvieapps.adapter.ArtikelHomeAdapter;
 import id.luvie.luvieapps.adapter.DokterAktifHomeAdapter;
+import id.luvie.luvieapps.adapter.MenuHomeAdapter;
 import id.luvie.luvieapps.adapter.MitraHomeAdapter;
 import id.luvie.luvieapps.api.ConfigRetrofit;
+import id.luvie.luvieapps.model.MenuHome;
 import id.luvie.luvieapps.model.artikel.ResponseArtikel;
 import id.luvie.luvieapps.model.getPlayerId.ResponseGetPlayerId;
 import id.luvie.luvieapps.model.listDokterAktifHome.ResponseDokterAktifHome;
 import id.luvie.luvieapps.model.mitraKlinik.ResponseDataMitra;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.onesignal.OSDeviceState;
 import com.onesignal.OneSignal;
 import com.thekhaeng.pushdownanim.PushDownAnim;
@@ -64,7 +71,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    RecyclerView rvDokterOnline, rvMitra, rvArtikel;
+    RecyclerView rvDokterOnline, rvMitra, rvArtikel,rv_menu;
     TextView txtLihatSemuaDokterTersedia, txtLihatSemuaMitra, txtLihatSemuaArtikel;
     LinearLayout linearDokterSpesialis, linearSkincare, linearJadwalKonsultasi;
 
@@ -82,6 +89,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_home, container, false);
 
+        rv_menu = rootview.findViewById(R.id.rv_menu);
         rvDokterOnline = rootview.findViewById(R.id.recycler_dokter_online_home);
         txtLihatSemuaDokterTersedia = rootview.findViewById(R.id.text_lihat_semua_dokter_tersedia);
         linearDokterSpesialis = rootview.findViewById(R.id.linear_dokter_spesialis_home);
@@ -109,9 +117,13 @@ public class HomeFragment extends Fragment {
         Log.d("checkOneSignal", "token: "+token);
         Log.d("checkOneSignal", "user_id: "+user_id);
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManagerMitra = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutArtikel = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        rv_menu.setHasFixedSize(true);
+        rv_menu.setLayoutManager(gridLayoutManager);
 
         rvDokterOnline.setHasFixedSize(true);
         rvDokterOnline.setLayoutManager(layoutManager);
@@ -176,12 +188,30 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        loadMenu();
         loadDokterOnline();
         loadMitraKlinik();
         loadArtikelHome();
 
 
         return rootview;
+    }
+
+    private void loadMenu(){
+        String host = "https://luvie.co.id/android/customer/menu.php";
+        AndroidNetworking.get(host).setPriority(Priority.HIGH)
+                .build().getAsObject(MenuHome.class, new ParsedRequestListener<MenuHome>() {
+            @Override
+            public void onResponse(MenuHome response) {
+                MenuHomeAdapter adapter = new MenuHomeAdapter(getActivity(),response.getItems());
+                rv_menu.setAdapter(adapter);
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                Toast.makeText(getActivity(), "Error: "+anError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadArtikelHome() {

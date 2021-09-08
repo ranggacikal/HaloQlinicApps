@@ -24,8 +24,12 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="horizontal">
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_menu"/>
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linear_dokter_spesialis_home"
                     android:layout_width="105dp"
                     android:layout_height="105dp"
@@ -51,6 +55,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linear_skincare_home"
                     android:layout_width="105dp"
                     android:layout_height="105dp"
@@ -77,6 +82,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linear_jadwal_home"
                     android:layout_width="105dp"
                     android:layout_height="105dp"

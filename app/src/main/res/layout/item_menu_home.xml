@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llmain"
+    android:layout_width="105dp"
+    android:layout_height="105dp"
+    android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:background="@drawable/background_borde_circle_navy"
+    android:gravity="center"
+    >
+
+    <ImageView
+        android:id="@+id/img_main"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_dokter_spesialis" />
+
+    <TextView
+        android:id="@+id/text_nama_mitra_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nama mitra"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/robotobold"
+        android:textSize="15sp"
+        android:gravity="center"/>
+
+</LinearLayout>
