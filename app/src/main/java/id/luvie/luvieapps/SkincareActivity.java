@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import id.luvie.luvieapps.adapter.CariProdukKategoriAdapter;
 import id.luvie.luvieapps.adapter.ProdukKategoriAdapter;
 import id.luvie.luvieapps.api.ConfigRetrofit;
@@ -42,7 +44,7 @@ public class SkincareActivity extends AppCompatActivity {
     private boolean isLastPage;
     private boolean isLoading;
 
-    String id_kategori, nama_kategori;
+    String id_kategori, nama_kategori, img_kategori;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,14 @@ public class SkincareActivity extends AppCompatActivity {
 
         id_kategori = getIntent().getStringExtra("id_kategori");
         nama_kategori = getIntent().getStringExtra("nama_kategori");
+        img_kategori = getIntent().getStringExtra("img_kategori");
 
         binding.textNamaProdukKategori.setText(nama_kategori);
+
+        Glide.with(this)
+                .load(img_kategori)
+                .error(R.mipmap.ic_launcher)
+                .into(binding.imgHeaderSkincare);
 
         binding.imgBackSkincare.setOnClickListener(new View.OnClickListener() {
             @Override

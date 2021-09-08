@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="7dp"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,11 +61,10 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_marginTop="5dp"
+            <RelativeLayout
+                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -79,12 +81,14 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/robotoreguler"
                     android:text="variasi"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -102,14 +106,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
                     android:fontFamily="@font/robotoreguler"
                     android:text="jumlah"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -127,14 +133,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
                     android:fontFamily="@font/robotoreguler"
                     android:text="jumlah"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -142,7 +150,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoreguler"
+                    android:fontFamily="@font/robotobold"
                     android:text="Total Harga :"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
@@ -152,21 +160,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/robotoreguler"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/robotobold"
                     android:text="jumlah"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_marginTop="5dp"/>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

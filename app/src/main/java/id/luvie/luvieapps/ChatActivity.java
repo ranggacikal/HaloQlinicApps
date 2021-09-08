@@ -311,7 +311,7 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
 
                         handler.removeCallbacks(runnable);
 
-                        long duration = TimeUnit.MINUTES.toMillis(1);
+                        long duration = TimeUnit.MINUTES.toMillis(3);
 
                         cdTimer = new CountDownTimer(duration, 1000) {
                             @Override

@@ -57,7 +57,7 @@
                         android:id="@+id/text_nama_profile_mitra"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#f57b28"
+                        android:background="@color/green"
                         android:fontFamily="@font/robotobold"
                         android:paddingStart="10dp"
                         android:paddingTop="10dp"
@@ -65,7 +65,7 @@
                         android:paddingBottom="10dp"
                         android:text="Nama Toko"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="17sp" />
 
                     <TextView
@@ -85,27 +85,71 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp" />
 
-                    <TextView
-                        android:id="@+id/text_lihat_list_dokter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:background="@color/green"
-                        android:fontFamily="@font/robotobold"
-                        android:gravity="center"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp"
-                        android:text="Konsultasi Dokter"
-                        android:textColor="@color/black" />
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/robotobold"
+                    android:text="Dokter Kami"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_lihat_semua_dokter_mitra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/background_circle_button_green"
+                    android:fontFamily="@font/robotobold"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="Lihat Semua"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list_dokter_mitra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp">
+
+                <Button
+                    android:id="@+id/btn_lihat_semua_dokter_mitra"
+                    android:layout_width="160dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:visibility="gone"
+                    android:background="@drawable/background_button_green"
+                    android:fontFamily="@font/robotobold"
+                    android:text="Lihat Semua Dokter"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+
+            </RelativeLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/robotobold"
                 android:gravity="center"
                 android:text="Produk Kami"
@@ -113,7 +157,7 @@
                 android:textSize="17sp" />
 
             <View
-                android:layout_width="200dp"
+                android:layout_width="130dp"
                 android:layout_height="2dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="3dp"

@@ -73,8 +73,8 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.DokterView
                         String status = dokterList.get(position).getStatus();
 
                         if (status.equals("2")){
-                            Toast.makeText(context, "Dokter yang anda pilih sudah full booked, silahkan pilih dokter yang lain",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Jadwal Belum Tersedia",
+                                    Toast.LENGTH_LONG).show();
                         }else {
 
                             Intent intent = new Intent(context, DetailDokterActivity.class);

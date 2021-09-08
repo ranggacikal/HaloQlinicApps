@@ -32,12 +32,12 @@ public class KategoriActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        binding.imgBackKategori.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        binding.imgBackKategori.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
 
 
         GridLayoutManager manager = new GridLayoutManager(KategoriActivity.this, 2, GridLayoutManager.VERTICAL, false);

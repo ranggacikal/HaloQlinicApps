@@ -122,16 +122,16 @@
                     android:id="@+id/text_lihat_semua_dokter_tersedia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lihat Semua"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/background_circle_button_green"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
+                    android:fontFamily="@font/robotobold"
                     android:paddingStart="10dp"
+                    android:paddingTop="5dp"
                     android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="Lihat Semua"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/robotobold"/>
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
@@ -160,16 +160,16 @@
                     android:id="@+id/text_lihat_semua_mitra_klinik"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lihat Semua"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/background_circle_button_green"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
+                    android:fontFamily="@font/robotobold"
                     android:paddingStart="10dp"
+                    android:paddingTop="5dp"
                     android:paddingEnd="10dp"
-                    android:textSize="15sp"
+                    android:paddingBottom="5dp"
+                    android:text="Lihat Semua"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/robotobold"/>
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 

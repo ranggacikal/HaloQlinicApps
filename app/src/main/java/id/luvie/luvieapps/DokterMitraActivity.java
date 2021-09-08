@@ -1,10 +1,12 @@
 package id.luvie.luvieapps;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -37,7 +39,9 @@ public class DokterMitraActivity extends AppCompatActivity {
         kode = getIntent().getStringExtra("kode");
 
         binding.recyclerDokterMitra.setHasFixedSize(true);
-        binding.recyclerDokterMitra.setLayoutManager(new LinearLayoutManager(DokterMitraActivity.this));
+        GridLayoutManager managerGrid = new GridLayoutManager(DokterMitraActivity.this,
+                2, GridLayoutManager.VERTICAL, false);
+        binding.recyclerDokterMitra.setLayoutManager(managerGrid);
 
         loadDokterMitra();
 
@@ -48,6 +52,9 @@ public class DokterMitraActivity extends AppCompatActivity {
         ProgressDialog progressDialog = new ProgressDialog(DokterMitraActivity.this);
         progressDialog.setMessage("load data dokter mitra");
         progressDialog.show();
+
+
+        Log.d("kodeDokterMitra", "onCreate: "+kode);
 
         ConfigRetrofit.service.dataDokterMitra(kode).enqueue(new Callback<ResponseDokterMitra>() {
             @Override

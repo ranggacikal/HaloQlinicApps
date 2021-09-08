@@ -2,6 +2,7 @@ package id.luvie.luvieapps.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -58,6 +60,8 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
 
         holder.txtKategori.setText(nama);
 
+        holder.cardKategori.setCardBackgroundColor(Color.parseColor(dataKategori.get(position).getColor()));
+
         PushDownAnim.setPushDownAnimTo(holder.itemView)
                 .setScale( MODE_SCALE, 0.89f  )
                 .setOnClickListener(new View.OnClickListener() {
@@ -66,6 +70,7 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
                         Intent intent = new Intent(context, SkincareActivity.class);
                         intent.putExtra("id_kategori", id_kategori);
                         intent.putExtra("nama_kategori", nama);
+                        intent.putExtra("img_kategori", link+img);
                         context.startActivity(intent);
                     }
                 });
@@ -81,11 +86,13 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
 
         ImageView imgKategori;
         TextView txtKategori;
+        CardView cardKategori;
 
         public KategoriViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imgKategori = itemView.findViewById(R.id.img_item_kategori);
             txtKategori = itemView.findViewById(R.id.text_item_nama_kategori);
+            cardKategori = itemView.findViewById(R.id.card_kategori_produk);
         }
     }
 }

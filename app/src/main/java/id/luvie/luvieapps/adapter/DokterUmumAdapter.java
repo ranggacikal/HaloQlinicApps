@@ -77,7 +77,7 @@ public class DokterUmumAdapter extends RecyclerView.Adapter<DokterUmumAdapter.Do
                         String status = dokterList.get(position).getStatus();
 
                         if (status.equals("2")){
-                            Toast.makeText(context, "Dokter yang anda pilih sudah full booked, silahkan pilih dokter yang lain",
+                            Toast.makeText(context, "Jadwal Belum tersedia",
                                     Toast.LENGTH_SHORT).show();
                         }else {
 

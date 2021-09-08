@@ -14,10 +14,13 @@ public class DataItem{
 	private String biaya;
 
 	@SerializedName("pengalaman")
-	private Object pengalaman;
+	private String pengalaman;
 
 	@SerializedName("spesialis")
 	private String spesialis;
+
+	@SerializedName("jumlah_jadwal")
+	private String jumlahJadwal;
 
 	@SerializedName("id_dokter")
 	private String idDokter;
@@ -49,11 +52,11 @@ public class DataItem{
 		return biaya;
 	}
 
-	public void setPengalaman(Object pengalaman){
+	public void setPengalaman(String pengalaman){
 		this.pengalaman = pengalaman;
 	}
 
-	public Object getPengalaman(){
+	public String getPengalaman(){
 		return pengalaman;
 	}
 
@@ -63,6 +66,14 @@ public class DataItem{
 
 	public String getSpesialis(){
 		return spesialis;
+	}
+
+	public void setJumlahJadwal(String jumlahJadwal){
+		this.jumlahJadwal = jumlahJadwal;
+	}
+
+	public String getJumlahJadwal(){
+		return jumlahJadwal;
 	}
 
 	public void setIdDokter(String idDokter){
@@ -90,6 +101,7 @@ public class DataItem{
 			",biaya = '" + biaya + '\'' + 
 			",pengalaman = '" + pengalaman + '\'' + 
 			",spesialis = '" + spesialis + '\'' + 
+			",jumlah_jadwal = '" + jumlahJadwal + '\'' + 
 			",id_dokter = '" + idDokter + '\'' + 
 			",status = '" + status + '\'' + 
 			"}";

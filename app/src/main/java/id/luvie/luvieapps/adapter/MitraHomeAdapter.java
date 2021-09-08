@@ -60,6 +60,7 @@ public class MitraHomeAdapter extends RecyclerView.Adapter<MitraHomeAdapter.Mitr
                     public void onClick(View v) {
                         Intent intent = new Intent(context, ProfileMitraActivity.class);
                         intent.putExtra("id_member", dataMitra.get(position).getIdMember());
+                        intent.putExtra("kode", dataMitra.get(position).getKode());
                         context.startActivity(intent);
                     }
                 });

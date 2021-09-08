@@ -7,6 +7,9 @@ public class DataItem{
 	@SerializedName("id_kategori")
 	private String idKategori;
 
+	@SerializedName("color")
+	private String color;
+
 	@SerializedName("icon")
 	private String icon;
 
@@ -22,6 +25,14 @@ public class DataItem{
 
 	public String getIdKategori(){
 		return idKategori;
+	}
+
+	public void setColor(String color){
+		this.color = color;
+	}
+
+	public String getColor(){
+		return color;
 	}
 
 	public void setIcon(String icon){
@@ -53,6 +64,7 @@ public class DataItem{
 		return 
 			"DataItem{" + 
 			"id_kategori = '" + idKategori + '\'' + 
+			",color = '" + color + '\'' + 
 			",icon = '" + icon + '\'' + 
 			",created_at = '" + createdAt + '\'' + 
 			",kategori = '" + kategori + '\'' + 

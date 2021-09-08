@@ -14,7 +14,7 @@ public class DataItem{
 	private String biaya;
 
 	@SerializedName("pengalaman")
-	private Object pengalaman;
+	private String pengalaman;
 
 	@SerializedName("spesialis")
 	private String spesialis;
@@ -49,11 +49,11 @@ public class DataItem{
 		return biaya;
 	}
 
-	public void setPengalaman(Object pengalaman){
+	public void setPengalaman(String pengalaman){
 		this.pengalaman = pengalaman;
 	}
 
-	public Object getPengalaman(){
+	public String getPengalaman(){
 		return pengalaman;
 	}
 

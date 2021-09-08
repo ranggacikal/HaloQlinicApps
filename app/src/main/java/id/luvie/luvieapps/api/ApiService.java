@@ -38,6 +38,7 @@ import id.luvie.luvieapps.model.kategoriProduk.ResponseKategoriProduk;
 import id.luvie.luvieapps.model.kategoriXendit.ResponseKategoriXendit;
 import id.luvie.luvieapps.model.kebijakanPrivasi.ResponseKebijakanPrivasi;
 import id.luvie.luvieapps.model.kecamatan.ResponseDataKecamatan;
+import id.luvie.luvieapps.model.kelurahan.ResponseKelurahan;
 import id.luvie.luvieapps.model.konsultasi.ResponseKonsultasi;
 import id.luvie.luvieapps.model.kota.ResponseDataKota;
 import id.luvie.luvieapps.model.listAlergiObat.ResponseListAlergiObat;
@@ -531,5 +532,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("check_recipe.php")
     Call<ResponseCheckRecipe> checkRecipe(@Field("id_transaksi") String id_transaksi);
+
+    @FormUrlEncoded
+    @POST("village.php")
+    Call<ResponseKelurahan> dataKelurahan(@Field("subdistrict_id") String subdistrict_id);
 
 }

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
 import id.luvie.luvieapps.R;
 
 import id.luvie.luvieapps.SharedPreference.SharedPreferencedConfig;
@@ -40,6 +41,8 @@ import id.luvie.luvieapps.model.ewalletOvo.ResponseOvo;
 import id.luvie.luvieapps.model.kategoriXendit.DataItem;
 import id.luvie.luvieapps.model.kategoriXendit.ResponseKategoriXendit;
 import id.luvie.luvieapps.model.kecamatanRajaOngkir.ResponseKecamatanRajaOngkir;
+import id.luvie.luvieapps.model.kelurahan.ResponseItem;
+import id.luvie.luvieapps.model.kelurahan.ResponseKelurahan;
 import id.luvie.luvieapps.model.kotaRajaOngkir.ResponseKotaRajaOngkir;
 import id.luvie.luvieapps.model.listPesanan.ProdukItem;
 import id.luvie.luvieapps.model.listPesanan.ResponseListPesanan;
@@ -48,6 +51,7 @@ import id.luvie.luvieapps.model.provinsiRajaOngkir.ResultsItem;
 import id.luvie.luvieapps.model.resepTindakan.ResponseResepTindakan;
 import id.luvie.luvieapps.model.resepTindakan.TindakanItem;
 import id.luvie.luvieapps.model.xenditQris.ResponseQris;
+
 import com.xendit.Models.Card;
 import com.xendit.Models.Token;
 import com.xendit.Models.XenditError;
@@ -64,7 +68,7 @@ import retrofit2.Response;
 
 public class CheckoutProdukActivity extends AppCompatActivity {
 
-    Spinner spinnerProvinsi, spinnerKota, spinnerKecamatan;
+    Spinner spinnerProvinsi, spinnerKota, spinnerKecamatan, spinnerKelurahan;
     Button btnLanjutkanDataPenerima;
     EditText edtNamaPenerima, edtAlamat, edtKodepos, edtKelurahan;
     ScrollView scrollDataPenerima, scrollPembayaran;
@@ -83,6 +87,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
     List<ResultsItem> dataProvinsi;
     List<id.luvie.luvieapps.model.kotaRajaOngkir.ResultsItem> dataKota;
     List<id.luvie.luvieapps.model.kecamatanRajaOngkir.ResultsItem> dataKecamatan;
+    List<ResponseItem> dataKelurahan;
 
     ProgressDialog progressDialog;
 
@@ -108,7 +113,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
     ArrayList<Integer> ongkirData;
     ArrayList<Integer> totalPesanan = new ArrayList<Integer>();
 
-    public CheckoutProdukActivity(){
+    public CheckoutProdukActivity() {
 
     }
 
@@ -140,6 +145,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         txtBiayaAdmin = findViewById(R.id.text_biaya_admin);
         txtTotalBayar = findViewById(R.id.text_total_bayar_pembayaran);
         btnCheckout = findViewById(R.id.btn_checkout_produk);
+//        edtKelurahan = findViewById(R.id.edt_kelurahan_pembayaran);
         edtKelurahan = findViewById(R.id.edt_kelurahan_pembayaran);
         imgBack = findViewById(R.id.img_back_pembayaran);
         linearMetodeBayarDipilih = findViewById(R.id.linear_metode_bayar_dipilih);
@@ -166,14 +172,14 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             }
         });
 
-        Log.d("checkData", "id_customer: "+preferencedConfig.getPreferenceIdCustomer());
+        Log.d("checkData", "id_customer: " + preferencedConfig.getPreferenceIdCustomer());
 
         id_transaksi = getIntent().getStringExtra("id_transaksi");
 
-        Log.d("idTransaksiPembayaran", "onCreate: "+id_transaksi);
+        Log.d("idTransaksiPembayaran", "onCreate: " + id_transaksi);
 
-        Log.d("checkDataPreference", "idCustomer: "+preferencedConfig.getPreferenceIdCustomer());
-        Log.d("checkDataPreference", "idOpsiBayar: "+preferencedConfig.getPreferenceIdOpsiBayar());
+        Log.d("checkDataPreference", "idCustomer: " + preferencedConfig.getPreferenceIdCustomer());
+        Log.d("checkDataPreference", "idOpsiBayar: " + preferencedConfig.getPreferenceIdOpsiBayar());
 
         progressDialog = new ProgressDialog(CheckoutProdukActivity.this);
         progressDialog.setMessage("Memuat Data Provinsi");
@@ -183,7 +189,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 id_provinsi = dataProvinsi.get(position).getProvinceId();
-                Log.d("checkData", "provinsi: "+id_provinsi);
+                Log.d("checkData", "provinsi: " + id_provinsi);
                 initSpinnerKota(id_provinsi);
             }
 
@@ -197,7 +203,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 id_kota = dataKota.get(position).getCityId();
-                Log.d("checkData", "kota: "+id_kota);
+                Log.d("checkData", "kota: " + id_kota);
                 initSpinnerKecamatan(id_kota);
             }
 
@@ -211,7 +217,8 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 id_kecamatan = dataKecamatan.get(position).getSubdistrictId();
-                Log.d("checkData", "kecamatan: "+id_kecamatan);
+                Log.d("checkData", "kecamatan: " + id_kecamatan);
+//                initSpinnerKelurahan(id_kecamatan);
             }
 
             @Override
@@ -253,19 +260,60 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         loadBiayaAdmin();
     }
 
+    private void initSpinnerKelurahan(String id_kecamatan) {
+
+        ProgressDialog progressDialogKelurahan = new ProgressDialog(CheckoutProdukActivity.this);
+        progressDialogKelurahan.setMessage("Memuat data kelurahan");
+        progressDialogKelurahan.show();
+
+        Log.d("cekIdKecamatan", "initSpinnerKelurahan: "+id_kecamatan);
+
+        ConfigRetrofit.service.dataKelurahan(id_kecamatan).enqueue(new Callback<ResponseKelurahan>() {
+            @Override
+            public void onResponse(Call<ResponseKelurahan> call, Response<ResponseKelurahan> response) {
+                if (response.isSuccessful()) {
+                    progressDialogKelurahan.dismiss();
+                    dataKelurahan = response.body().getResponse();
+                    List<String> listSpinnerKelurahan = new ArrayList<String>();
+
+                    for (int i = 0; i < dataKelurahan.size(); i++) {
+                        listSpinnerKelurahan.add(dataKelurahan.get(i).getVillageName());
+                    }
+
+                    ArrayAdapter<String> adapterKelurahan = new ArrayAdapter<String>(CheckoutProdukActivity.this,
+                            R.layout.spinner_item, listSpinnerKelurahan);
+
+                    adapterKelurahan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerKelurahan.setAdapter(adapterKelurahan);
+                } else {
+                    progressDialogKelurahan.dismiss();
+                    Toast.makeText(CheckoutProdukActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseKelurahan> call, Throwable t) {
+                progressDialogKelurahan.dismiss();
+                Toast.makeText(CheckoutProdukActivity.this, "Koneksi Error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     private void cekJumlahProduk() {
 
         ConfigRetrofit.service.checkRecipe(id_transaksi).enqueue(new Callback<ResponseCheckRecipe>() {
             @Override
             public void onResponse(Call<ResponseCheckRecipe> call, Response<ResponseCheckRecipe> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     int tindakan = response.body().getTindakan();
                     int produk = response.body().getProduk();
 
-                    if (tindakan == 0){
+                    if (tindakan == 0) {
                         rvTindakanCheckout.setVisibility(View.GONE);
-                    }else if(produk==0){
+                    } else if (produk == 0) {
                         rvPesananCheckout.setVisibility(View.GONE);
                     }
 
@@ -319,7 +367,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                             CheckoutProdukActivity.this);
                     rvTindakanCheckout.setAdapter(adapter);
 
-                }else{
+                } else {
                     progressDialogTindakan.dismiss();
                     Toast.makeText(CheckoutProdukActivity.this, "Data Tindakan Kosong", Toast.LENGTH_SHORT).show();
                 }
@@ -328,7 +376,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseResepTindakan> call, Throwable t) {
                 progressDialogTindakan.dismiss();
-                Toast.makeText(CheckoutProdukActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutProdukActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -343,7 +391,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ConfigRetrofit.service.listPesanan(id_transaksi).enqueue(new Callback<ResponseListPesanan>() {
             @Override
             public void onResponse(Call<ResponseListPesanan> call, Response<ResponseListPesanan> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     dataPesanan = response.body().getData();
                     dataItems = response.body().getData();
@@ -351,7 +399,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
                     totalPesanan.clear();
 
-                    for (int a = 0; a<dataPesanan.size(); a++){
+                    for (int a = 0; a < dataPesanan.size(); a++) {
                         totalPesanan.add(Integer.parseInt(dataPesanan.get(a).getTotalBelanja()));
                         dataProduk = dataPesanan.get(a).getProduk();
 
@@ -359,7 +407,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
                     sumOngkir = Integer.parseInt(response.body().getTotalOngkir());
 
-                    Log.d("checkOngkirData", "onResponse: "+sumOngkir);
+                    Log.d("checkOngkirData", "onResponse: " + sumOngkir);
 
                     txtOngkir.setText("Rp" + NumberFormat.getInstance().format(sumOngkir));
 
@@ -368,11 +416,11 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 //                    }
 
                     sumTotalBelanja = 0;
-                    for(int i = 0; i < totalPesanan.size(); i++) {
+                    for (int i = 0; i < totalPesanan.size(); i++) {
                         sumTotalBelanja += totalPesanan.get(i);
                     }
 
-                    Log.d("checkTotalPesanan", "size: "+sumTotalBelanja);
+                    Log.d("checkTotalPesanan", "size: " + sumTotalBelanja);
                     txtTotalPesanan.setText("Rp" + NumberFormat.getInstance().format(sumTotalBelanja));
 
                     MitraCheckoutAdapter adapterMitra = new
@@ -382,8 +430,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                     rvPesananCheckout.setAdapter(adapterMitra);
 
 
-
-                }else{
+                } else {
                     Toast.makeText(CheckoutProdukActivity.this, "Gagal Memuat Data",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -391,7 +438,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseListPesanan> call, Throwable t) {
-                Toast.makeText(CheckoutProdukActivity.this, "Error: "+t.getMessage(),
+                Toast.makeText(CheckoutProdukActivity.this, "Error: " + t.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -404,14 +451,14 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         String urlImage = preferencedConfig.getPreferenceImageOpsiBayar();
         String namaOpsiBayar = preferencedConfig.getPreferenceNamaOpsiBayar();
 
-        Log.d("dataKategoriBayar", "kategoriBayar: "+kategoriOpsiBayar);
-        Log.d("dataKategoriBayar", "image: "+urlImage);
-        Log.d("dataKategoriBayar", "namaOpsi: "+namaOpsiBayar);
-        Log.d("dataKategoriBayar", "kodeOpsi: "+preferencedConfig.getPreferenceKodeOpsiBayar());
+        Log.d("dataKategoriBayar", "kategoriBayar: " + kategoriOpsiBayar);
+        Log.d("dataKategoriBayar", "image: " + urlImage);
+        Log.d("dataKategoriBayar", "namaOpsi: " + namaOpsiBayar);
+        Log.d("dataKategoriBayar", "kodeOpsi: " + preferencedConfig.getPreferenceKodeOpsiBayar());
 
         if (!namaOpsiBayar.equals("") && !urlImage.equals("") && !kategoriOpsiBayar.equals("") &&
                 !preferencedConfig.getPreferenceIdOpsiBayar().equals("") ||
-                !preferencedConfig.getPreferenceKodeOpsiBayar().equals("")){
+                !preferencedConfig.getPreferenceKodeOpsiBayar().equals("")) {
 
             linearMetodeBayarDipilih.setVisibility(View.VISIBLE);
             rvKategoriBayar.setVisibility(View.GONE);
@@ -421,7 +468,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             Glide.with(CheckoutProdukActivity.this).load(urlImage)
                     .into(imgOpsiBayar);
 
-        }else{
+        } else {
             linearMetodeBayarDipilih.setVisibility(View.GONE);
             rvKategoriBayar.setVisibility(View.VISIBLE);
         }
@@ -444,23 +491,22 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
         String kategori_bayar = preferencedConfig.getPreferenceKategoriBayar();
 
-        if (kategori_bayar.equals("")){
+        if (kategori_bayar.equals("")) {
             Toast.makeText(this, "Anda belum memilih kategori pembayaran", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (kategori_bayar.equals("E-Wallets")){
+        if (kategori_bayar.equals("E-Wallets")) {
             checkoutEwallet();
-        }else if(kategori_bayar.equals("Kartu Kredit/Debit")){
+        } else if (kategori_bayar.equals("Kartu Kredit/Debit")) {
 
             tampilDialogKartuKredit();
 
-        }else if (kategori_bayar.equals("QR Code")){
+        } else if (kategori_bayar.equals("QR Code")) {
 
             checkOutQris();
 
         }
-
 
 
     }
@@ -474,7 +520,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ArrayList<String> layanan_kurir = new ArrayList<>();
         ArrayList<String> ongkir = new ArrayList<>();
 
-        for (int a = 0; a<dataItems.size(); a++){
+        for (int a = 0; a < dataItems.size(); a++) {
 
             id_member.add(dataItems.get(a).getIdMember());
             total_belanja.add(dataItems.get(a).getTotalBelanja());
@@ -489,61 +535,60 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         progressDialogQris.setMessage("Melakukan checkout");
         progressDialogQris.show();
 
-        Log.d("cekParamQris", "idCustomer: "+preferencedConfig.getPreferenceIdCustomer());
-        Log.d("cekParamQris", "idTransaksi: "+id_transaksi);
-        Log.d("cekParamQris", "totalSeluruh: "+totalSeluruh);
-        Log.d("cekParamQris", "namaPenrima: "+namaPenerima);
-        Log.d("cekParamQris", "alamat: "+alamat);
-        Log.d("cekParamQris", "kelurahan: "+kelurahan);
-        Log.d("cekParamQris", "id_kecamatan: "+id_kecamatan);
-        Log.d("cekParamQris", "id_kota: "+id_kota);
-        Log.d("cekParamQris", "id_provinsi: "+id_provinsi);
-        Log.d("cekParamQris", "kodePos: "+kodePos);
-        Log.d("cekParamQris", "id_member: "+id_member);
-        Log.d("cekParamQris", "totalBelanja: "+total_belanja);
-        Log.d("cekParamQris", "totalBerat: "+total_berat);
-        Log.d("cekParamQris", "kurir: "+kurir);
-        Log.d("cekParamQris", "layananKurir: "+layanan_kurir);
-        Log.d("cekParamQris", "ongkir: "+ongkir);
-        Log.d("cekParamQris", "biayaAdmin: "+sumBiayaAdmin);
+        Log.d("cekParamQris", "idCustomer: " + preferencedConfig.getPreferenceIdCustomer());
+        Log.d("cekParamQris", "idTransaksi: " + id_transaksi);
+        Log.d("cekParamQris", "totalSeluruh: " + totalSeluruh);
+        Log.d("cekParamQris", "namaPenrima: " + namaPenerima);
+        Log.d("cekParamQris", "alamat: " + alamat);
+        Log.d("cekParamQris", "kelurahan: " + kelurahan);
+        Log.d("cekParamQris", "id_kecamatan: " + id_kecamatan);
+        Log.d("cekParamQris", "id_kota: " + id_kota);
+        Log.d("cekParamQris", "id_provinsi: " + id_provinsi);
+        Log.d("cekParamQris", "kodePos: " + kodePos);
+        Log.d("cekParamQris", "id_member: " + id_member);
+        Log.d("cekParamQris", "totalBelanja: " + total_belanja);
+        Log.d("cekParamQris", "totalBerat: " + total_berat);
+        Log.d("cekParamQris", "kurir: " + kurir);
+        Log.d("cekParamQris", "layananKurir: " + layanan_kurir);
+        Log.d("cekParamQris", "ongkir: " + ongkir);
+        Log.d("cekParamQris", "biayaAdmin: " + sumBiayaAdmin);
 
         ConfigRetrofit.service.checkoutQris(preferencedConfig.getPreferenceIdCustomer(), id_transaksi, String.valueOf(totalSeluruh),
                 namaPenerima, alamat, kelurahan, id_kecamatan, id_kota, id_provinsi, kodePos, "", "", id_member,
                 total_belanja, total_berat, kurir, layanan_kurir, ongkir, String.valueOf(sumBiayaAdmin))
                 .enqueue(new Callback<ResponseQris>() {
-            @Override
-            public void onResponse(Call<ResponseQris> call, Response<ResponseQris> response) {
+                    @Override
+                    public void onResponse(Call<ResponseQris> call, Response<ResponseQris> response) {
 
-                if (response.isSuccessful()){
-                    progressDialogQris.dismiss();
+                        if (response.isSuccessful()) {
+                            progressDialogQris.dismiss();
 
-                    String qr_string = response.body().getQrString();
+                            String qr_string = response.body().getQrString();
 
-                    Toast.makeText(CheckoutProdukActivity.this, "Berhasil checkout Qris", Toast.LENGTH_SHORT).show();
-                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_OPSI_BAYAR, "");
-                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KATEGORI_BAYAR, "");
-                    preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KODE_OPSI_BAYAR, "");
+                            Toast.makeText(CheckoutProdukActivity.this, "Berhasil checkout Qris", Toast.LENGTH_SHORT).show();
+                            preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_OPSI_BAYAR, "");
+                            preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KATEGORI_BAYAR, "");
+                            preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KODE_OPSI_BAYAR, "");
 
-                    Intent intent = new Intent(CheckoutProdukActivity.this, InvoiceActivity.class);
-                    intent.putExtra("qr_string", qr_string);
-                    intent.putExtra("id_transaksi", id_transaksi);
-                    startActivity(intent);
-                    finish();
+                            Intent intent = new Intent(CheckoutProdukActivity.this, InvoiceActivity.class);
+                            intent.putExtra("qr_string", qr_string);
+                            intent.putExtra("id_transaksi", id_transaksi);
+                            startActivity(intent);
+                            finish();
 
-                }else{
-                    progressDialogQris.dismiss();
-                    Toast.makeText(CheckoutProdukActivity.this, "Gagal melakukan checkout", Toast.LENGTH_SHORT).show();
-                }
+                        } else {
+                            progressDialogQris.dismiss();
+                            Toast.makeText(CheckoutProdukActivity.this, "Gagal melakukan checkout", Toast.LENGTH_SHORT).show();
+                        }
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<ResponseQris> call, Throwable t) {
-                progressDialogQris.dismiss();
-                Toast.makeText(CheckoutProdukActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+                    @Override
+                    public void onFailure(Call<ResponseQris> call, Throwable t) {
+                        progressDialogQris.dismiss();
+                        Toast.makeText(CheckoutProdukActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
     }
@@ -570,25 +615,25 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                 String validYears = edtValidYears.getText().toString();
                 String cvv = edtCvv.getText().toString();
 
-                if (cardNumber.isEmpty()){
+                if (cardNumber.isEmpty()) {
                     edtCardNumber.setError("card number tidak boleh kosong");
                     edtCardNumber.requestFocus();
                     return;
                 }
 
-                if (validMonth.isEmpty()){
+                if (validMonth.isEmpty()) {
                     edtValidMonth.setError("Valid month tidak boleh kosong");
                     edtValidMonth.requestFocus();
                     return;
                 }
 
-                if (validYears.isEmpty()){
+                if (validYears.isEmpty()) {
                     edtValidYears.setError("Valid years tidak boleh kosong");
                     edtValidYears.requestFocus();
                     return;
                 }
 
-                if (cvv.isEmpty()){
+                if (cvv.isEmpty()) {
                     edtCvv.setError("CVV tidak boleh kosong");
                     edtCvv.requestFocus();
                     return;
@@ -607,17 +652,17 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
         Card card = new Card(cardNumber, validMonth, validYears, cvv);
 
-        Log.d("checkCard", "createToken: "+card);
+        Log.d("checkCard", "createToken: " + card);
 
-        xendit.createSingleUseToken(card, totalSeluruh, true, "" , new TokenCallback() {
+        xendit.createSingleUseToken(card, totalSeluruh, true, "", new TokenCallback() {
             @Override
             public void onSuccess(Token token) {
-                Toast.makeText(CheckoutProdukActivity.this, "token: "+token.getId(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutProdukActivity.this, "token: " + token.getId(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(XenditError error) {
-                Log.d("tokenXendit", "onError: "+error);
+                Log.d("tokenXendit", "onError: " + error);
             }
         });
 
@@ -625,11 +670,11 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
     private void checkoutEwallet() {
 
-        if (preferencedConfig.getPreferenceKodeOpsiBayar().equals("ID_OVO")){
+        if (preferencedConfig.getPreferenceKodeOpsiBayar().equals("ID_OVO")) {
 
             tampilDialogNomor();
 
-        }else{
+        } else {
 
             checkoutEwalletLainnya();
 
@@ -647,7 +692,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ArrayList<String> layanan_kurir = new ArrayList<>();
         ArrayList<String> ongkir = new ArrayList<>();
 
-        for (int a = 0; a<dataItems.size(); a++){
+        for (int a = 0; a < dataItems.size(); a++) {
 
             id_member.add(dataItems.get(a).getIdMember());
             total_belanja.add(dataItems.get(a).getTotalBelanja());
@@ -659,11 +704,10 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         }
 
 
-
-        Log.d("checkDataKirim", "ongkir: "+ongkir);
-        Log.d("checkDataKirim", "biayaAdmin: "+biayaAdmin);
-        Log.d("checkDataKirim", "jumlahBayar: "+totalSeluruh);
-        Log.d("checkDataKirim", "dataPesanan: "+dataPesanan);
+        Log.d("checkDataKirim", "ongkir: " + ongkir);
+        Log.d("checkDataKirim", "biayaAdmin: " + biayaAdmin);
+        Log.d("checkDataKirim", "jumlahBayar: " + totalSeluruh);
+        Log.d("checkDataKirim", "dataPesanan: " + dataPesanan);
 
         ProgressDialog progressDialog = new ProgressDialog(CheckoutProdukActivity.this);
         progressDialog.setMessage("Melakukan checkout");
@@ -675,15 +719,15 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                 .enqueue(new Callback<ResponseEwallet>() {
                     @Override
                     public void onResponse(Call<ResponseEwallet> call, Response<ResponseEwallet> response) {
-                        if (response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             progressDialog.dismiss();
 
                             Actions actions = response.body().getActions();
                             String deeplink = (String) actions.getMobileDeeplinkCheckoutUrl();
                             String mobileUrl = actions.getMobileWebCheckoutUrl();
 
-                            Log.d("checkUrlCheckout", "deeplink: "+deeplink);
-                            Log.d("checkUrlCheckout", "mobileWeb: "+mobileUrl);
+                            Log.d("checkUrlCheckout", "deeplink: " + deeplink);
+                            Log.d("checkUrlCheckout", "mobileWeb: " + mobileUrl);
 
                             Toast.makeText(CheckoutProdukActivity.this, "Berhasil checkout", Toast.LENGTH_SHORT).show();
                             preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_ID_OPSI_BAYAR, "");
@@ -696,14 +740,14 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
 
-                        }else{
+                        } else {
                             Toast.makeText(CheckoutProdukActivity.this, "Checkout gagal, terjadi kesalahan", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseEwallet> call, Throwable t) {
-                        Toast.makeText(CheckoutProdukActivity.this, "error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CheckoutProdukActivity.this, "error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -723,9 +767,9 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String nomor = edtNomor.getText().toString();
-                nomerTelepon = "+62"+edtNomor.getText().toString();
+                nomerTelepon = "+62" + edtNomor.getText().toString();
 
-                if (nomor.isEmpty()){
+                if (nomor.isEmpty()) {
                     edtNomor.setError("nomor tidak boleh kosong");
                     edtNomor.requestFocus();
                     return;
@@ -747,7 +791,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ArrayList<String> layanan_kurir = new ArrayList<>();
         ArrayList<String> ongkir = new ArrayList<>();
 
-        for (int a = 0; a<dataItems.size(); a++){
+        for (int a = 0; a < dataItems.size(); a++) {
 
             id_member.add(dataItems.get(a).getIdMember());
             total_belanja.add(dataItems.get(a).getTotalBelanja());
@@ -762,15 +806,15 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         progressDialog.setMessage("Melakukan checkout");
         progressDialog.show();
 
-        Toast.makeText(this, "kodeBayar: "+preferencedConfig.getPreferenceKodeOpsiBayar(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "nomer: "+nomerTelepon, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "kodeBayar: " + preferencedConfig.getPreferenceKodeOpsiBayar(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "nomer: " + nomerTelepon, Toast.LENGTH_SHORT).show();
 
         ConfigRetrofit.service.checkOutOvo(preferencedConfig.getPreferenceIdCustomer(), id_transaksi, String.valueOf(totalSeluruh), preferencedConfig.getPreferenceKodeOpsiBayar(),
                 namaPenerima, alamat, kelurahan, id_kecamatan, id_kota, id_provinsi, kodePos, nomerTelepon, keterangan, id_member,
                 total_belanja, total_berat, kurir, layanan_kurir, ongkir, String.valueOf(sumBiayaAdmin)).enqueue(new Callback<ResponseOvo>() {
             @Override
             public void onResponse(Call<ResponseOvo> call, Response<ResponseOvo> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     progressDialog.dismiss();
 
@@ -783,7 +827,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
 
-                }else{
+                } else {
                     progressDialog.dismiss();
                     Toast.makeText(CheckoutProdukActivity.this, "Checkout gagal", Toast.LENGTH_SHORT).show();
                 }
@@ -792,7 +836,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseOvo> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(CheckoutProdukActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutProdukActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -808,27 +852,27 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ConfigRetrofit.service.biayaAdmin(preferencedConfig.getPreferenceIdOpsiBayar(), totalPost).enqueue(new Callback<ResponseBiayaAdmin>() {
             @Override
             public void onResponse(Call<ResponseBiayaAdmin> call, Response<ResponseBiayaAdmin> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     sumBiayaAdmin = response.body().getBiayaAdmin();
 
-                    if (sumBiayaAdmin!=0){
+                    if (sumBiayaAdmin != 0) {
                         relativeBiayaAdmin.setVisibility(View.VISIBLE);
                         txtBiayaAdmin.setText("Rp" + NumberFormat.getInstance().format(sumBiayaAdmin));
-                    }else if (sumBiayaAdmin==0){
+                    } else if (sumBiayaAdmin == 0) {
                         relativeBiayaAdmin.setVisibility(View.GONE);
                     }
 
                     totalSeluruh = sumTotalBelanja + sumBiayaAdmin + sumOngkir;
                     txtTotalBayar.setText("Rp" + NumberFormat.getInstance().format(totalSeluruh));
-                }else{
+                } else {
                     Toast.makeText(CheckoutProdukActivity.this, "Gagal mengambil biaya admin", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBiayaAdmin> call, Throwable t) {
-                Toast.makeText(CheckoutProdukActivity.this, "error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutProdukActivity.this, "error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -843,8 +887,8 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         loadDataMitra();
         loadKategoriBayar();
         loadBiayaAdmin();
-        Log.d("checkDataPreference", "idCustomer: "+preferencedConfig.getPreferenceIdCustomer());
-        Log.d("checkDataPreference", "idOpsiBayar: "+preferencedConfig.getPreferenceIdOpsiBayar());
+        Log.d("checkDataPreference", "idCustomer: " + preferencedConfig.getPreferenceIdCustomer());
+        Log.d("checkDataPreference", "idOpsiBayar: " + preferencedConfig.getPreferenceIdOpsiBayar());
     }
 
     private void loadKategoriBayar() {
@@ -852,7 +896,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ConfigRetrofit.service.kategoriXendit().enqueue(new Callback<ResponseKategoriXendit>() {
             @Override
             public void onResponse(Call<ResponseKategoriXendit> call, Response<ResponseKategoriXendit> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     List<DataItem> dataKategori = response.body().getData();
                     KategoriBayarAdapter kategoriBayarAdapter = new KategoriBayarAdapter(CheckoutProdukActivity.this, dataKategori);
@@ -860,14 +904,14 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                     rvKategoriBayar.setLayoutManager(new LinearLayoutManager(CheckoutProdukActivity.this));
                     rvKategoriBayar.setAdapter(kategoriBayarAdapter);
 
-                }else{
+                } else {
                     Toast.makeText(CheckoutProdukActivity.this, "Gagal memuat data metode pembayaran", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseKategoriXendit> call, Throwable t) {
-                Toast.makeText(CheckoutProdukActivity.this, "error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutProdukActivity.this, "error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -880,25 +924,25 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         kodePos = edtKodepos.getText().toString();
         kelurahan = edtKelurahan.getText().toString();
 
-        if (namaPenerima.isEmpty()){
+        if (namaPenerima.isEmpty()) {
             edtNamaPenerima.setError("Nama Penerima tidak boleh kosong");
             edtNamaPenerima.requestFocus();
             return;
         }
 
-        if (alamat.isEmpty()){
+        if (alamat.isEmpty()) {
             edtAlamat.setError("Alamat tidak boleh kosong");
             edtAlamat.requestFocus();
             return;
         }
 
-        if (kodePos.isEmpty()){
+        if (kodePos.isEmpty()) {
             edtKodepos.setError("Kode pos tidak boleh kosong");
             edtKodepos.requestFocus();
             return;
         }
 
-        if (kelurahan.isEmpty()){
+        if (kelurahan.isEmpty()) {
             edtKelurahan.setError("Kelurahan tidak boleh kosong");
             edtKelurahan.requestFocus();
             return;
@@ -1014,18 +1058,18 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ConfigRajaOngkir.serviceRajaOngkir.getKecamatan(key, id_kota).enqueue(new Callback<ResponseKecamatanRajaOngkir>() {
             @Override
             public void onResponse(Call<ResponseKecamatanRajaOngkir> call, Response<ResponseKecamatanRajaOngkir> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     progressDialogKecamatan.dismiss();
 
                     int status = response.body().getRajaongkir().getStatus().getCode();
 
-                    if (status == 200){
+                    if (status == 200) {
 
                         progressDialogKecamatan.dismiss();
                         dataKecamatan = response.body().getRajaongkir().getResults();
                         List<String> listSpinnerKecamatan = new ArrayList<String>();
 
-                        for (int i = 0; i<dataKecamatan.size(); i++){
+                        for (int i = 0; i < dataKecamatan.size(); i++) {
                             listSpinnerKecamatan.add(dataKecamatan.get(i).getSubdistrictName());
                         }
 
@@ -1035,11 +1079,11 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                         adapterKecamatan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinnerKecamatan.setAdapter(adapterKecamatan);
 
-                    }else{
+                    } else {
                         progressDialogKecamatan.dismiss();
                         Toast.makeText(CheckoutProdukActivity.this, "Gagal Memuat Data", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     progressDialogKecamatan.dismiss();
                     Toast.makeText(CheckoutProdukActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
                 }
@@ -1048,7 +1092,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseKecamatanRajaOngkir> call, Throwable t) {
                 progressDialogKecamatan.dismiss();
-                Toast.makeText(CheckoutProdukActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutProdukActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1063,18 +1107,18 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         ConfigRajaOngkir.serviceRajaOngkir.getKota(key, id_provinsi).enqueue(new Callback<ResponseKotaRajaOngkir>() {
             @Override
             public void onResponse(Call<ResponseKotaRajaOngkir> call, Response<ResponseKotaRajaOngkir> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     progressDialogKota.dismiss();
 
                     int status = response.body().getRajaongkir().getStatus().getCode();
 
-                    if (status==200){
+                    if (status == 200) {
 
                         dataKota = response.body().getRajaongkir().getResults();
                         List<String> listSpinnerKota = new ArrayList<String>();
 
-                        for (int i = 0; i<dataKota.size(); i++){
-                            listSpinnerKota.add(dataKota.get(i).getCityName());
+                        for (int i = 0; i < dataKota.size(); i++) {
+                            listSpinnerKota.add(dataKota.get(i).getType()+" "+dataKota.get(i).getCityName());
                         }
 
                         ArrayAdapter<String> adapterKota = new ArrayAdapter<String>(CheckoutProdukActivity.this,
@@ -1083,10 +1127,10 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                         adapterKota.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinnerKota.setAdapter(adapterKota);
 
-                    }else{
+                    } else {
                         Toast.makeText(CheckoutProdukActivity.this, "Gagal memuat data", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     progressDialogKota.dismiss();
                     Toast.makeText(CheckoutProdukActivity.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
                 }
@@ -1095,7 +1139,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseKotaRajaOngkir> call, Throwable t) {
                 progressDialogKota.dismiss();
-                Toast.makeText(CheckoutProdukActivity.this, "error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutProdukActivity.this, "error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1104,20 +1148,19 @@ public class CheckoutProdukActivity extends AppCompatActivity {
     private void initSpinnerProvinsi() {
 
 
-
         ConfigRajaOngkir.serviceRajaOngkir.getProvinsi(key).enqueue(new Callback<ResponseProvinsiRajaOngkir>() {
             @Override
             public void onResponse(Call<ResponseProvinsiRajaOngkir> call, Response<ResponseProvinsiRajaOngkir> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     int status = response.body().getRajaongkir().getStatus().getCode();
 
-                    if (status==200){
+                    if (status == 200) {
                         progressDialog.dismiss();
 
                         dataProvinsi = response.body().getRajaongkir().getResults();
                         List<String> listSpinnerProvinsi = new ArrayList<String>();
-                        for (int i = 0; i<dataProvinsi.size(); i++){
+                        for (int i = 0; i < dataProvinsi.size(); i++) {
                             listSpinnerProvinsi.add(dataProvinsi.get(i).getProvince());
                         }
 
@@ -1126,18 +1169,18 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                         adapterProvinsi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinnerProvinsi.setAdapter(adapterProvinsi);
 
-                    }else{
+                    } else {
                         Toast.makeText(CheckoutProdukActivity.this, "Data Gagal dimuat", Toast.LENGTH_SHORT).show();
                     }
 
-                }else{
+                } else {
                     Toast.makeText(CheckoutProdukActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseProvinsiRajaOngkir> call, Throwable t) {
-                Toast.makeText(CheckoutProdukActivity.this, "Terjadi Kesalahan: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutProdukActivity.this, "Terjadi Kesalahan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

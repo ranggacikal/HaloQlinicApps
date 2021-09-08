@@ -1,5 +1,6 @@
 package id.luvie.luvieapps.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -47,7 +48,8 @@ public class BuatJadwalTersediaAdapter extends RecyclerView.Adapter<BuatJadwalTe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull BuatJadwalTersediaViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull BuatJadwalTersediaViewHolder holder,
+                                 @SuppressLint("RecyclerView") int position) {
 
         String link = "https://luvie.co.id/file/dokter/profile/";
         String image = dataDokter.get(position).getImg();
@@ -82,9 +84,10 @@ public class BuatJadwalTersediaAdapter extends RecyclerView.Adapter<BuatJadwalTe
                     public void onClick(View v) {
 
                         String status = dataDokter.get(position).getStatus();
+                        String jumlah_jadwal = dataDokter.get(position).getJumlahJadwal();
 
-                        if (status.equals("2")){
-                            Toast.makeText(context, "Dokter Sudah Full Booked, Silahkan pilih dokter yg lain"
+                        if (jumlah_jadwal.equals("0")){
+                            Toast.makeText(context, "Dokter Not Available"
                                     , Toast.LENGTH_SHORT).show();
                         }else {
 
@@ -104,9 +107,10 @@ public class BuatJadwalTersediaAdapter extends RecyclerView.Adapter<BuatJadwalTe
                     public void onClick(View v) {
 
                         String status = dataDokter.get(position).getStatus();
+                        String jumlah_jadwal = dataDokter.get(position).getJumlahJadwal();
 
-                        if (status.equals("2")){
-                            Toast.makeText(context, "Dokter Sudah Full Booked, Silahkan pilih dokter yg lain"
+                        if (jumlah_jadwal.equals("0")){
+                            Toast.makeText(context, "Dokter Not Available"
                                     , Toast.LENGTH_SHORT).show();
                         }else {
 
