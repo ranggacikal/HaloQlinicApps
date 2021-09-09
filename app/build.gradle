@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.haloqlinic.haloqlinicapps"
+        applicationId "id.luvie.luvieapps"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

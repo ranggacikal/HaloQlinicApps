@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/fragment_home.xml" value="0.20925925925925926" />
+        <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/item_menu_home.xml" value="0.2546875" />
         <entry key="app/src/main/res/drawable/background_gold.xml" value="0.16574074074074074" />
         <entry key="app/src/main/res/drawable/background_white.xml" value="0.16574074074074074" />
         <entry key="app/src/main/res/layout/activity_alergi_obat.xml" value="0.1" />
