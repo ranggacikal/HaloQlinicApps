@@ -8,6 +8,9 @@ public class DataItem{
 	@SerializedName("id_member")
 	private String idMember;
 
+	@SerializedName("kode")
+	private String kode;
+
 	@SerializedName("list")
 	private List<ListItem> list;
 
@@ -20,6 +23,14 @@ public class DataItem{
 
 	public String getIdMember(){
 		return idMember;
+	}
+
+	public void setKode(String kode){
+		this.kode = kode;
+	}
+
+	public String getKode(){
+		return kode;
 	}
 
 	public void setList(List<ListItem> list){
@@ -43,6 +54,7 @@ public class DataItem{
 		return 
 			"DataItem{" + 
 			"id_member = '" + idMember + '\'' + 
+			",kode = '" + kode + '\'' + 
 			",list = '" + list + '\'' + 
 			",nama_toko = '" + namaToko + '\'' + 
 			"}";

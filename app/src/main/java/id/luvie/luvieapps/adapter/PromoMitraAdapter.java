@@ -1,5 +1,6 @@
 package id.luvie.luvieapps.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -17,7 +18,8 @@ import com.bumptech.glide.Glide;
 
 import id.luvie.luvieapps.DetailProdukMitraActivity;
 import id.luvie.luvieapps.R;
-import id.luvie.luvieapps.model.promoMitra.DataItem;
+import id.luvie.luvieapps.model.produkMitra.DataItem;
+
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +32,7 @@ import static com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE;
 public class PromoMitraAdapter extends RecyclerView.Adapter<PromoMitraAdapter.PromoMitraViewHolder> {
 
     Context context;
-    List<DataItem> dataPromo;
+    List<id.luvie.luvieapps.model.produkMitra.DataItem> dataPromo;
 
     public PromoMitraAdapter(Context context, List<DataItem> dataPromo) {
         this.context = context;
@@ -46,11 +48,11 @@ public class PromoMitraAdapter extends RecyclerView.Adapter<PromoMitraAdapter.Pr
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull PromoMitraViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull PromoMitraViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         String link_image = dataPromo.get(position).getImg();
         int harga = Integer.parseInt(dataPromo.get(position).getHarga());
-        int hargaPromo = Integer.parseInt(dataPromo.get(position).getHargaPromo());
+        int hargaPromo = Integer.parseInt(dataPromo.get(position).getHargaJual());
 
 
         holder.txtHarga.setVisibility(View.GONE);
@@ -64,6 +66,7 @@ public class PromoMitraAdapter extends RecyclerView.Adapter<PromoMitraAdapter.Pr
         holder.txtHargaAwal.setText("Rp" + NumberFormat.getInstance().format(harga));
         holder.txtHargaAwal.setPaintFlags(holder.txtHargaAwal.getPaintFlags() |
                 Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.txtHargaAwal.setVisibility(View.GONE);
         holder.txtHargaDiskon.setText("Rp" + NumberFormat.getInstance().format(hargaPromo));
 
         PushDownAnim.setPushDownAnimTo(holder.itemView)

@@ -40,7 +40,7 @@ public class TreatmentAdapter extends RecyclerView.Adapter<TreatmentAdapter.Trea
     @Override
     public void onBindViewHolder(@NonNull @NotNull TreatmentViewHolder holder, int position) {
 
-        holder.txtTreatment.setText(dataTreatment.get(position).getTreatment());
+        holder.txtTreatment.setText(dataTreatment.get(position).getNamaProduk());
 
     }
 

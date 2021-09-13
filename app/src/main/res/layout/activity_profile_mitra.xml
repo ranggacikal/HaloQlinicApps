@@ -89,9 +89,20 @@
 
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/robotobold"
+                android:text="Dokter Kami"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginHorizontal="15dp">
 
                 <TextView
@@ -122,6 +133,22 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_list_dokter_mitra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/robotobold"
+                android:text="Non - Dokter"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list_non_dokter_mitra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp" />

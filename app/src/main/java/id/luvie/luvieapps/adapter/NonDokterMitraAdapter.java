@@ -19,35 +19,34 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import id.luvie.luvieapps.DetailDokterActivity;
 import id.luvie.luvieapps.R;
-import id.luvie.luvieapps.model.dokterMitra.DataItem;
+import id.luvie.luvieapps.model.nonDokter.DataItem;
 
-public class DokterMitraTersediaAdapter extends RecyclerView.Adapter<DokterMitraTersediaAdapter.
-        DokterMitraTersediaViewHolder> {
+public class NonDokterMitraAdapter extends RecyclerView.Adapter<NonDokterMitraAdapter.NonDokterMitraViewHolder> {
 
     Context context;
-    List<DataItem> dataDokter;
+    List<DataItem> dataNonDokter;
 
-    public DokterMitraTersediaAdapter(Context context, List<DataItem> dataDokter) {
+    public NonDokterMitraAdapter(Context context, List<DataItem> dataNonDokter) {
         this.context = context;
-        this.dataDokter = dataDokter;
+        this.dataNonDokter = dataNonDokter;
     }
 
     @NonNull
     @Override
-    public DokterMitraTersediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NonDokterMitraViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dokter_mitra,
                 parent, false);
-        return new DokterMitraTersediaViewHolder(view);
+        return new NonDokterMitraViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DokterMitraTersediaViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull NonDokterMitraViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
         final String url_image = "https://luvie.co.id/file/dokter/profile/";
 
-        String status = dataDokter.get(position).getStatus();
+        String status = dataNonDokter.get(position).getStatus();
 
         if (status.equals("1")){
             holder.txtChat.setVisibility(View.VISIBLE);
@@ -61,11 +60,11 @@ public class DokterMitraTersediaAdapter extends RecyclerView.Adapter<DokterMitra
         }
 
         Glide.with(context)
-                .load(url_image+dataDokter.get(position).getImg())
+                .load(url_image+dataNonDokter.get(position).getImg())
                 .error(R.mipmap.ic_launcher)
                 .into(holder.imgDokter);
 
-        holder.txtNama.setText(dataDokter.get(position).getNama());
+        holder.txtNama.setText(dataNonDokter.get(position).getNama());
 
         PushDownAnim.setPushDownAnimTo(holder.txtBuatJadwal)
                 .setScale( MODE_SCALE, 0.89f  )
@@ -73,7 +72,7 @@ public class DokterMitraTersediaAdapter extends RecyclerView.Adapter<DokterMitra
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DetailDokterActivity.class);
-                        intent.putExtra("id_dokter", dataDokter.get(position).getIdDokter());
+                        intent.putExtra("id_dokter", dataNonDokter.get(position).getIdDokter());
                         intent.putExtra("status", "offline");
                         context.startActivity(intent);
                     }
@@ -85,7 +84,7 @@ public class DokterMitraTersediaAdapter extends RecyclerView.Adapter<DokterMitra
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DetailDokterActivity.class);
-                        intent.putExtra("id_dokter", dataDokter.get(position).getIdDokter());
+                        intent.putExtra("id_dokter", dataNonDokter.get(position).getIdDokter());
                         intent.putExtra("status", "online");
                         context.startActivity(intent);
                     }
@@ -95,15 +94,15 @@ public class DokterMitraTersediaAdapter extends RecyclerView.Adapter<DokterMitra
 
     @Override
     public int getItemCount() {
-        return dataDokter.size();
+        return dataNonDokter.size();
     }
 
-    public class DokterMitraTersediaViewHolder extends RecyclerView.ViewHolder {
+    public class NonDokterMitraViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgDokter;
         TextView txtNama, txtBuatJadwal, txtChat;
 
-        public DokterMitraTersediaViewHolder(@NonNull View itemView) {
+        public NonDokterMitraViewHolder(@NonNull View itemView) {
             super(itemView);
             imgDokter = itemView.findViewById(R.id.img_dokter_mitra);
             txtNama = itemView.findViewById(R.id.text_nama_dokter_mitra);

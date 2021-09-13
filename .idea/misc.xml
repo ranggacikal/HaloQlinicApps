@@ -44,6 +44,7 @@
         <entry key="app/src/main/res/layout/item_mitra_tindakan.xml" value="0.19021739130434784" />
         <entry key="app/src/main/res/layout/item_obat_summary.xml" value="0.161231884057971" />
         <entry key="app/src/main/res/layout/item_opsi_bayar.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/item_produk.xml" value="0.1" />
         <entry key="app/src/main/res/layout/list_detail_pesanan.xml" value="0.404320987654321" />
       </map>
     </option>

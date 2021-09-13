@@ -4,22 +4,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class ListItem{
 
-	@SerializedName("treatment")
-	private String treatment;
+	@SerializedName("nama_produk")
+	private String namaProduk;
 
-	public void setTreatment(String treatment){
-		this.treatment = treatment;
+	public void setNamaProduk(String namaProduk){
+		this.namaProduk = namaProduk;
 	}
 
-	public String getTreatment(){
-		return treatment;
+	public String getNamaProduk(){
+		return namaProduk;
 	}
 
 	@Override
  	public String toString(){
 		return 
 			"ListItem{" + 
-			"treatment = '" + treatment + '\'' + 
+			"nama_produk = '" + namaProduk + '\'' + 
 			"}";
 		}
 }

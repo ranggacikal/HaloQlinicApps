@@ -56,6 +56,7 @@ import id.luvie.luvieapps.model.logingoogle.ResponseLoginGoogle;
 import id.luvie.luvieapps.model.loginmesibo.ResponseLoginMesibo;
 import id.luvie.luvieapps.model.lupaPassword.ResponseLupaPassword;
 import id.luvie.luvieapps.model.mitraKlinik.ResponseDataMitra;
+import id.luvie.luvieapps.model.nonDokter.ResponseNonDokter;
 import id.luvie.luvieapps.model.notifChat.ResponseNotif;
 import id.luvie.luvieapps.model.opsiBayar.ResponseOpsiBayar;
 import id.luvie.luvieapps.model.produk.ResponseDataProduk;
@@ -263,7 +264,8 @@ public interface ApiService {
                                   @Field("kurir[]") ArrayList<String> id_kurir,
                                   @Field("layanan_kurir[]") ArrayList<String> layanan_kurir,
                                   @Field("ongkir[]") ArrayList<String> ongkir,
-                                  @Field("biaya_admin") String biaya_admin);
+                                  @Field("biaya_admin") String biaya_admin,
+                                  @Field("tindakan") String tindakan);
 
     @FormUrlEncoded
     @POST("checkout_ewallet.php")
@@ -286,7 +288,8 @@ public interface ApiService {
                                           @Field("kurir[]") ArrayList<String> id_kurir,
                                           @Field("layanan_kurir[]") ArrayList<String> layanan_kurir,
                                           @Field("ongkir[]") ArrayList<String> ongkir,
-                                          @Field("biaya_admin") String biaya_admin);
+                                          @Field("biaya_admin") String biaya_admin,
+                                          @Field("tindakan") String tindakan);
 
     @FormUrlEncoded
     @POST("invoice.php")
@@ -312,7 +315,8 @@ public interface ApiService {
                                     @Field("kurir[]") ArrayList<String> kurir,
                                     @Field("layanan_kurir[]") ArrayList<String> layanan_kurir,
                                     @Field("ongkir[]") ArrayList<String> ongkir,
-                                    @Field("biaya_admin") String biaya_admin);
+                                    @Field("biaya_admin") String biaya_admin,
+                                    @Field("tindakan") String tindakan);
 
     @FormUrlEncoded
     @POST("history_transaksi.php")
@@ -536,5 +540,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("village.php")
     Call<ResponseKelurahan> dataKelurahan(@Field("subdistrict_id") String subdistrict_id);
+
+    @GET("list_non_dokter.php")
+    Call<ResponseNonDokter> dataNonDokter(@Query("kode") String kode);
 
 }

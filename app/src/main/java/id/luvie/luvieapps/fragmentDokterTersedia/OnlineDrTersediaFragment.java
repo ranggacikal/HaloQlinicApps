@@ -74,8 +74,6 @@ public class OnlineDrTersediaFragment extends Fragment {
         rvDokterTersedia = view.findViewById(R.id.rv_dokter_spesialis_online);
         progressBar = view.findViewById(R.id.progressBarOnlineTersedia);
         searchDokter = view.findViewById(R.id.cari_dokter_tersedia_online);
-
-//        list.clear();
 //        page = 1;
 
         manager = new LinearLayoutManager(getActivity());
@@ -194,5 +192,11 @@ public class OnlineDrTersediaFragment extends Fragment {
                     }
                 });
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getDokterOnline();
     }
 }

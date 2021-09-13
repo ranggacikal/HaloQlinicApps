@@ -1,4 +1,4 @@
-package id.luvie.luvieapps.model.dokterMitra;
+package id.luvie.luvieapps.model.nonDokter;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -14,7 +14,7 @@ public class DataItem{
 	private String biaya;
 
 	@SerializedName("pengalaman")
-	private String pengalaman;
+	private Object pengalaman;
 
 	@SerializedName("jumlah_jadwal")
 	private String jumlahJadwal;
@@ -49,11 +49,11 @@ public class DataItem{
 		return biaya;
 	}
 
-	public void setPengalaman(String pengalaman){
+	public void setPengalaman(Object pengalaman){
 		this.pengalaman = pengalaman;
 	}
 
-	public String getPengalaman(){
+	public Object getPengalaman(){
 		return pengalaman;
 	}
 

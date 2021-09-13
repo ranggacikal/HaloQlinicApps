@@ -24,13 +24,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import id.luvie.luvieapps.R;
-
 import id.luvie.luvieapps.SharedPreference.SharedPreferencedConfig;
 import id.luvie.luvieapps.adapter.KategoriBayarAdapter;
 import id.luvie.luvieapps.adapter.MitraCheckoutAdapter;
 import id.luvie.luvieapps.adapter.MitraTindakanAdapter;
-import id.luvie.luvieapps.adapter.ResepTindakanAdapter;
 import id.luvie.luvieapps.api.ConfigRetrofit;
 import id.luvie.luvieapps.api.apiRajaOngkir.ConfigRajaOngkir;
 import id.luvie.luvieapps.model.biayaAdmin.ResponseBiayaAdmin;
@@ -52,6 +49,7 @@ import id.luvie.luvieapps.model.resepTindakan.ResponseResepTindakan;
 import id.luvie.luvieapps.model.resepTindakan.TindakanItem;
 import id.luvie.luvieapps.model.xenditQris.ResponseQris;
 
+import com.google.android.material.math.MathUtils;
 import com.xendit.Models.Card;
 import com.xendit.Models.Token;
 import com.xendit.Models.XenditError;
@@ -74,8 +72,9 @@ public class CheckoutProdukActivity extends AppCompatActivity {
     ScrollView scrollDataPenerima, scrollPembayaran;
     RecyclerView rvPesananCheckout, rvPilihKurir, rvKategoriBayar, rvTindakanCheckout;
     LinearLayout linearKurir, linearMetodeBayarDipilih;
-    RelativeLayout relativeBiayaAdmin;
+    RelativeLayout relativeBiayaAdmin, relativeHargaTindakan;
     TextView txtOngkir, txtTotalPesanan, txtBiayaAdmin, txtTotalBayar, txtKategoriMetodeBayar, txtNamaOpsiBayar, txtGantiMetodeBayar;
+    TextView txtHargaTindakan;
     Button btnCheckout;
     ImageView imgBack, imgOpsiBayar;
 
@@ -107,6 +106,8 @@ public class CheckoutProdukActivity extends AppCompatActivity {
     int sumTotalBelanja = 0;
     int sumBiayaAdmin = 0;
     int totalSeluruh = 0;
+    int harga_tindakan = 0;
+    int tindakan;
 
     public String kategori_bayar;
 
@@ -141,6 +142,8 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         txtOngkir = findViewById(R.id.text_biaya_ongkir);
         rvKategoriBayar = findViewById(R.id.recycler_metode_pembayaran);
         txtTotalPesanan = findViewById(R.id.text_total_harga_pesanan);
+        txtHargaTindakan = findViewById(R.id.text_total_harga_tindakan);
+        relativeHargaTindakan = findViewById(R.id.relative_harga_tindakan);
         relativeBiayaAdmin = findViewById(R.id.relative_biaya_admin);
         txtBiayaAdmin = findViewById(R.id.text_biaya_admin);
         txtTotalBayar = findViewById(R.id.text_total_bayar_pembayaran);
@@ -308,7 +311,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseCheckRecipe> call, Response<ResponseCheckRecipe> response) {
                 if (response.isSuccessful()) {
 
-                    int tindakan = response.body().getTindakan();
+                    tindakan = response.body().getTindakan();
                     int produk = response.body().getProduk();
 
                     if (tindakan == 0) {
@@ -345,6 +348,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                     List<TindakanItem> dataTindakan = null;
                     ArrayList<String> dataStringTindakan = new ArrayList<>();
                     List<TindakanItem> testArray = new ArrayList<TindakanItem>();
+                    List<Integer> hargaTindakan = new ArrayList<>();
 
                     Log.d("cekDataList", "dataTebusObatSize: " + dataTebusTindakan.size());
 
@@ -353,12 +357,27 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                         for (int b = 0; b < dataTindakan.size(); b++) {
 
                             String test = dataTindakan.get(b).toString();
+                            String harga = dataTindakan.get(b).getHarga().toString();
                             Log.d("testDataProduk", "onResponse: " + test);
                             testArray.add(dataTindakan.get(b));
+                            hargaTindakan.add(Integer.parseInt(harga));
                             Log.d("testArrayData", "onResponse: " + testArray);
 
                         }
                     }
+
+                    if (hargaTindakan.size()<1){
+                        harga_tindakan = 0;
+                        relativeHargaTindakan.setVisibility(View.GONE);
+                    }else{
+                        relativeHargaTindakan.setVisibility(View.VISIBLE);
+                        for (int number : hargaTindakan){
+                            harga_tindakan += number;
+                        }
+                    }
+
+                    Log.d("cekHargaTindakan", "onResponse: "+harga_tindakan);
+                    txtHargaTindakan.setText("Rp" + NumberFormat.getInstance().format(harga_tindakan));
 
 
                     Log.d("cekDataList", "dataProduk: " + dataStringTindakan);
@@ -483,7 +502,6 @@ public class CheckoutProdukActivity extends AppCompatActivity {
         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_KODE_OPSI_BAYAR, "");
         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_NAMA_OPSI_BAYAR, "");
         preferencedConfig.savePrefString(SharedPreferencedConfig.PREFERENCE_IMAGE_OPSI_BAYAR, "");
-        startActivity(new Intent(CheckoutProdukActivity.this, KeranjangActivity.class));
         finish();
     }
 
@@ -555,7 +573,8 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
         ConfigRetrofit.service.checkoutQris(preferencedConfig.getPreferenceIdCustomer(), id_transaksi, String.valueOf(totalSeluruh),
                 namaPenerima, alamat, kelurahan, id_kecamatan, id_kota, id_provinsi, kodePos, "", "", id_member,
-                total_belanja, total_berat, kurir, layanan_kurir, ongkir, String.valueOf(sumBiayaAdmin))
+                total_belanja, total_berat, kurir, layanan_kurir, ongkir,
+                String.valueOf(sumBiayaAdmin), String.valueOf(tindakan))
                 .enqueue(new Callback<ResponseQris>() {
                     @Override
                     public void onResponse(Call<ResponseQris> call, Response<ResponseQris> response) {
@@ -715,7 +734,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
         ConfigRetrofit.service.checkoutEwallet(preferencedConfig.getPreferenceIdCustomer(), id_transaksi, String.valueOf(totalSeluruh),
                 preferencedConfig.getPreferenceKodeOpsiBayar(), namaPenerima, alamat, kelurahan, id_kecamatan, id_kota, id_provinsi,
-                kodePos, "0", "", id_member, total_belanja, total_berat, kurir, layanan_kurir, ongkir, String.valueOf(sumBiayaAdmin))
+                kodePos, "0", "", id_member, total_belanja, total_berat, kurir, layanan_kurir, ongkir, String.valueOf(sumBiayaAdmin), String.valueOf(tindakan))
                 .enqueue(new Callback<ResponseEwallet>() {
                     @Override
                     public void onResponse(Call<ResponseEwallet> call, Response<ResponseEwallet> response) {
@@ -811,7 +830,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
         ConfigRetrofit.service.checkOutOvo(preferencedConfig.getPreferenceIdCustomer(), id_transaksi, String.valueOf(totalSeluruh), preferencedConfig.getPreferenceKodeOpsiBayar(),
                 namaPenerima, alamat, kelurahan, id_kecamatan, id_kota, id_provinsi, kodePos, nomerTelepon, keterangan, id_member,
-                total_belanja, total_berat, kurir, layanan_kurir, ongkir, String.valueOf(sumBiayaAdmin)).enqueue(new Callback<ResponseOvo>() {
+                total_belanja, total_berat, kurir, layanan_kurir, ongkir, String.valueOf(sumBiayaAdmin), String.valueOf(tindakan)).enqueue(new Callback<ResponseOvo>() {
             @Override
             public void onResponse(Call<ResponseOvo> call, Response<ResponseOvo> response) {
                 if (response.isSuccessful()) {
@@ -846,13 +865,17 @@ public class CheckoutProdukActivity extends AppCompatActivity {
 
     private void loadBiayaAdmin() {
 
-        int total = sumTotalBelanja + sumOngkir;
+        int total = sumTotalBelanja + sumOngkir + harga_tindakan;
         String totalPost = String.valueOf(total);
 
+        Log.d("cekBiayaAdmin", "idOpsiBayar: "+preferencedConfig.getPreferenceIdOpsiBayar());
+        Log.d("cekBiayaAdmin", "totalPost: "+totalPost);
         ConfigRetrofit.service.biayaAdmin(preferencedConfig.getPreferenceIdOpsiBayar(), totalPost).enqueue(new Callback<ResponseBiayaAdmin>() {
             @Override
             public void onResponse(Call<ResponseBiayaAdmin> call, Response<ResponseBiayaAdmin> response) {
                 if (response.isSuccessful()) {
+
+
 
                     sumBiayaAdmin = response.body().getBiayaAdmin();
 
@@ -863,7 +886,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
                         relativeBiayaAdmin.setVisibility(View.GONE);
                     }
 
-                    totalSeluruh = sumTotalBelanja + sumBiayaAdmin + sumOngkir;
+                    totalSeluruh = sumTotalBelanja + sumBiayaAdmin + sumOngkir + harga_tindakan;
                     txtTotalBayar.setText("Rp" + NumberFormat.getInstance().format(totalSeluruh));
                 } else {
                     Toast.makeText(CheckoutProdukActivity.this, "Gagal mengambil biaya admin", Toast.LENGTH_SHORT).show();
@@ -873,6 +896,7 @@ public class CheckoutProdukActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBiayaAdmin> call, Throwable t) {
                 Toast.makeText(CheckoutProdukActivity.this, "error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("errorBiayaAdmin", "onFailure: "+t.getMessage());
             }
         });
 
