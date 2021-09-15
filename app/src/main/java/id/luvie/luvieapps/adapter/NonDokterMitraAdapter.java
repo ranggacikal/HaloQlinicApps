@@ -74,6 +74,7 @@ public class NonDokterMitraAdapter extends RecyclerView.Adapter<NonDokterMitraAd
                         Intent intent = new Intent(context, DetailDokterActivity.class);
                         intent.putExtra("id_dokter", dataNonDokter.get(position).getIdDokter());
                         intent.putExtra("status", "offline");
+                        intent.putExtra("id_kategori", dataNonDokter.get(position).getIdKategori());
                         context.startActivity(intent);
                     }
                 });
@@ -86,6 +87,7 @@ public class NonDokterMitraAdapter extends RecyclerView.Adapter<NonDokterMitraAd
                         Intent intent = new Intent(context, DetailDokterActivity.class);
                         intent.putExtra("id_dokter", dataNonDokter.get(position).getIdDokter());
                         intent.putExtra("status", "online");
+                        intent.putExtra("id_kategori", dataNonDokter.get(position).getIdKategori());
                         context.startActivity(intent);
                     }
                 });

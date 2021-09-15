@@ -7,6 +7,9 @@ public class DataItem{
 	@SerializedName("img")
 	private String img;
 
+	@SerializedName("id_kategori")
+	private String idKategori;
+
 	@SerializedName("nama")
 	private String nama;
 
@@ -31,6 +34,14 @@ public class DataItem{
 
 	public String getImg(){
 		return img;
+	}
+
+	public void setIdKategori(String idKategori){
+		this.idKategori = idKategori;
+	}
+
+	public String getIdKategori(){
+		return idKategori;
 	}
 
 	public void setNama(String nama){
@@ -86,6 +97,7 @@ public class DataItem{
 		return 
 			"DataItem{" + 
 			"img = '" + img + '\'' + 
+			",id_kategori = '" + idKategori + '\'' + 
 			",nama = '" + nama + '\'' + 
 			",biaya = '" + biaya + '\'' + 
 			",pengalaman = '" + pengalaman + '\'' + 

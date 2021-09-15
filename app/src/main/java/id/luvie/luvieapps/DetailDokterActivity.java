@@ -43,6 +43,8 @@ public class DetailDokterActivity extends AppCompatActivity {
 
     private ActivityDetailDokterBinding binding;
 
+    String id_kategori;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class DetailDokterActivity extends AppCompatActivity {
 
         id_dokter = getIntent().getStringExtra("id_dokter");
         status = getIntent().getStringExtra("status");
+        id_kategori = getIntent().getStringExtra("id_kategori");
 
         if (status!=null) {
 
@@ -137,9 +140,15 @@ public class DetailDokterActivity extends AppCompatActivity {
                             .load(url_image+img)
                             .error(R.mipmap.ic_launcher)
                             .into(binding.imgDetailDokter);
+                    if(id_kategori!=null){
+                        if(id_kategori.equals("4")){
+                            binding.textNamaDetailDokter.setText(nama_dokter);
+                        }else{
 
+                            binding.textNamaDetailDokter.setText("Dr. "+nama_dokter);
 
-                    binding.textNamaDetailDokter.setText("Dr. "+nama_dokter);
+                        }
+                    }
                     binding.textSpesialisDetailDokter.setText("Spesialis "+spesialis_dokter);
                     binding.textHargaDetailDokter.setText("Rp" + NumberFormat.getInstance().format(Integer.parseInt(harga_dokter)));
 

@@ -119,11 +119,13 @@ public class OnlineDrTersediaAdapter extends RecyclerView.Adapter<OnlineDrTersed
         return dataDokterTersedia.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void addList(List<DataItem> list_data){
         dataDokterTersedia.addAll(list_data);
         notifyDataSetChanged();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void clear(){
         dataDokterTersedia.clear();
         notifyDataSetChanged();

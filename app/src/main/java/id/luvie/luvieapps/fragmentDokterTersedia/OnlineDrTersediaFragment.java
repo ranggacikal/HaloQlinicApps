@@ -66,6 +66,7 @@ public class OnlineDrTersediaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_online_dr_tersedia, container, false);
+
     }
 
     @Override
@@ -162,6 +163,8 @@ public class OnlineDrTersediaFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         isLoading = true;
 
+        Log.d("cekPageDokterOn", "getDokterOnline: "+page);
+
         ConfigRetrofit.service.dokterOnTersedia("list", "1", String.valueOf(page))
                 .enqueue(new Callback<ResponseDokterOnTersedia>() {
                     @Override
@@ -171,7 +174,12 @@ public class OnlineDrTersediaFragment extends Fragment {
 
                             total_page = response.body().getTotalPage();
                             list = response.body().getData();
-                            Log.d("checkListDokterOnline", "onResponse: "+list.toString());
+
+                            for (int a =0; a<list.size(); a++){
+
+                                Log.d("checkListDokterOnline", "onResponse: "+list.get(a).getNama());
+
+                            }
                             if (list!=null) {
 
                                 adapter.addList(list);
@@ -192,11 +200,5 @@ public class OnlineDrTersediaFragment extends Fragment {
                     }
                 });
 
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getDokterOnline();
     }
 }
