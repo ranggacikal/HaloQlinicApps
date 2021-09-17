@@ -95,6 +95,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/robotobold"
                 android:text="Dokter Kami"
+                android:visibility="gone"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 android:textSize="17sp" />

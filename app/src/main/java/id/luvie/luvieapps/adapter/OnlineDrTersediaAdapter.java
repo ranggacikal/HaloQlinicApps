@@ -3,6 +3,7 @@ package id.luvie.luvieapps.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,6 +122,7 @@ public class OnlineDrTersediaAdapter extends RecyclerView.Adapter<OnlineDrTersed
 
     @SuppressLint("NotifyDataSetChanged")
     public void addList(List<DataItem> list_data){
+        Log.d("cekListAdapter", "addList: "+list_data);
         dataDokterTersedia.addAll(list_data);
         notifyDataSetChanged();
     }
