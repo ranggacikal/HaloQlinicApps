@@ -201,4 +201,16 @@ public class OnlineDrTersediaFragment extends Fragment {
                 });
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (list!=null){
+            list.clear();
+            adapter.clear();
+        }
+
+        getDokterOnline();
+    }
 }
