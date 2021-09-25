@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/activity_chat.xml" value="0.2546875" />
+        <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/activity_detail_dokter.xml" value="0.21203703703703702" />
+        <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/activity_tunggu_acc.xml" value="0.2546875" />
+        <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/activity_ulasan_dokter.xml" value="0.2546875" />
         <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/fragment_home.xml" value="0.20925925925925926" />
+        <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/item_history.xml" value="0.25076923076923074" />
+        <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/item_konsultasi.xml" value="0.25076923076923074" />
         <entry key="..\:/Project/Starcom/luvie/app/src/main/res/layout/item_menu_home.xml" value="0.2546875" />
         <entry key="app/src/main/res/drawable/background_gold.xml" value="0.16574074074074074" />
         <entry key="app/src/main/res/drawable/background_white.xml" value="0.16574074074074074" />

@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import id.luvie.luvieapps.R;
 
 import id.luvie.luvieapps.SharedPreference.SharedPreferencedConfig;
@@ -31,6 +33,9 @@ import com.mesibo.api.MesiboProfile;
 import com.mesibo.calls.api.MesiboCall;
 import com.mesibo.messaging.MesiboUI;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -158,7 +163,8 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
     View layout1;
     CountDownTimer cdTimer;
     boolean isChat = false;
-
+    Runnable runnableKonsultasi;
+    String url_image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,7 +185,7 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
         String token = getIntent().getStringExtra("token");
         String nama_dokter = getIntent().getStringExtra("nama_dokter");
         String img = getIntent().getStringExtra("image");
-        final String url_image = "https://luvie.co.id/file/dokter/profile/" + img;
+        url_image = "https://luvie.co.id/file/dokter/profile/" + img;
         String spesialis = getIntent().getStringExtra("spesialis");
         player_id = getIntent().getStringExtra("player_id");
 //        status_konsultasi = getIntent().getStringExtra("status_konsultasi");
@@ -213,18 +219,34 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MaterialDialog mDialog = new MaterialDialog.Builder(ChatActivity.this)
+                        .setTitle("Kembali?")
+                        .setMessage("Apakah anda yakin ingin keluar dari halaman konsultasi ini?")
+                        .setCancelable(false)
+                        .setPositiveButton("Iya", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                if (from_activity != null) {
+                                    if (from_activity.equals("invoice")) {
+                                        startActivity(new Intent(ChatActivity.this, MainActivity.class));
+                                        finish();
+                                    }
+                                } else {
+                                    finish();
+                                }
+                            }
+                        })
+                        .setNegativeButton("Tidak", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build();
 
-                if (from_activity != null) {
+                // Show Dialog
+                mDialog.show();
 
-                    if (from_activity.equals("invoice")) {
-                        startActivity(new Intent(ChatActivity.this, MainActivity.class));
-                        finish();
-                    }
-
-                } else {
-
-                    finish();
-                }
             }
         });
 
@@ -283,7 +305,15 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
                         // Show the toast and starts the countdown
                         mToastToShow.show();
                         toastCountDown.start();
-                        startActivity(new Intent(ChatActivity.this, MainActivity.class));
+                       /* startActivity(new Intent(ChatActivity.this, MainActivity.class));
+                        finish();*/
+
+                        startActivity(new Intent(ChatActivity.this,UlasanDokterActivity.class)
+                                .putExtra("id_transaksi",id_transaksi)
+                                .putExtra("nama",txtNamaDokter.getText().toString())
+                                .putExtra("spesialis",txtSpesialis.getText().toString())
+                                .putExtra("gambar",url_image)
+                        );
                         finish();
                         handler.removeCallbacks(runnable);
                         handler2.removeCallbacks(runnable2);
@@ -327,6 +357,7 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
                                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
                                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+
                                 Log.d("cekSduration", "onTick: " + TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
                                 detik = (int) TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
 
@@ -339,7 +370,12 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
                                 toast1.setGravity(Gravity.TOP | Gravity.RIGHT, 10, 0);
                                 toast1.setDuration(Toast.LENGTH_SHORT);
                                 toast1.setView(layout1);
-                                toast1.show();
+                                //toast1.show();
+
+                                if (detik == 60){
+                                    Toast.makeText(getApplicationContext(),"Waktu konsultasi anda sisa 1 menit",Toast.LENGTH_LONG).show();
+                                }
+
 //                                if (detik == 180) {
 //                                    LayoutInflater inflater = getLayoutInflater();
 //                                    toast1 = new Toast(getApplicationContext());
@@ -390,7 +426,12 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
                                     Toast.makeText(ChatActivity.this, "Konsultasi Sudah Berakhir",
                                             Toast.LENGTH_LONG).show();
 
-                                    startActivity(new Intent(ChatActivity.this, MainActivity.class));
+                                    startActivity(new Intent(ChatActivity.this,UlasanDokterActivity.class)
+                                            .putExtra("id_transaksi",id_transaksi)
+                                            .putExtra("nama",txtNamaDokter.getText().toString())
+                                            .putExtra("spesialis",txtSpesialis.getText().toString())
+                                            .putExtra("gambar",url_image)
+                                    );
                                     finish();
                                     handler.removeCallbacks(runnable);
                                     handler2.removeCallbacks(runnable2);
@@ -464,14 +505,32 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (from_activity != null) {
-
-            if (from_activity.equals("invoice")) {
-                startActivity(new Intent(ChatActivity.this, MainActivity.class));
-                finish();
-            }
-
-        }
+        MaterialDialog mDialog = new MaterialDialog.Builder(ChatActivity.this)
+                .setTitle("Kembali?")
+                .setMessage("Apakah anda yakin ingin keluar dari halaman konsultasi ini?")
+                .setCancelable(false)
+                .setPositiveButton("Iya", new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        if (from_activity != null) {
+                            if (from_activity.equals("invoice")) {
+                                startActivity(new Intent(ChatActivity.this, MainActivity.class));
+                                finish();
+                            }
+                        } else {
+                            finish();
+                        }
+                    }
+                })
+                .setNegativeButton("Tidak", new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .build();
+        // Show Dialog
+        mDialog.show();
     }
 
     private void mesiboInit(DemoUser user, DemoUser remoteUser) {
@@ -557,6 +616,95 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
         }
 
     }
+
+
+    void countDown(String tanggal_selesai){
+        Handler handler = new Handler();
+        runnableKonsultasi = new Runnable() {
+            @Override
+            public void run() {
+                handler.postDelayed(this,1000);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+                    Date selesai = simpleDateFormat.parse(tanggal_selesai);
+                    // Date mulai = simpleDateFormat.parse(tanggal_mulai);
+                    Date current_date = new Date();
+                    if (!current_date.after(selesai)){
+                        long diff = selesai.getTime() - current_date.getTime();
+                        long Days = diff / (24 * 60 * 60 * 1000);
+                        long Hours = diff / (60 * 60 * 1000) % 24;
+                        long Minutes = diff / (60 * 1000) % 60;
+                        long Seconds = diff / 1000 % 60;
+
+                        String sDuration =  String.format("%02d", Minutes)+" : "+String.format("%02d", Seconds);
+
+
+                        LayoutInflater inflater = getLayoutInflater();
+                        toast1 = new Toast(getApplicationContext());
+                        layout1 = inflater.inflate(R.layout.custom_toast, findViewById(R.id.linear_custom_toast));
+                        TextView txtToast = layout1.findViewById(R.id.text_toast_waktu);
+                        txtToast.setText(sDuration);
+                        toast1.setGravity(Gravity.TOP | Gravity.RIGHT, 10, 0);
+                        toast1.setDuration(Toast.LENGTH_SHORT);
+                        toast1.setView(layout1);
+                        toast1.show();
+                    }else {
+                        handler.removeCallbacks(runnable);
+                        toast1.cancel();
+
+                        if(isChat==false) {
+
+                            MesiboCall.Call mCall2 = MesiboCall.getInstance().getActiveCall();
+                            if (mCall2 == null) {
+                                //There is no active call
+                                //We can make an outgoing call
+
+                                //Create a CallProperties object
+                                MesiboCall.CallProperties cp = MesiboCall.getInstance().createCallProperties(true);
+
+                                // Call Factory method to create a call object
+
+                                mCall2 = MesiboCall.getInstance().call(cp);
+
+                                mCall2.hangup();
+
+                                if (mCall2 == null) {
+                                    //Error
+                                }
+                            }
+                            Toast.makeText(ChatActivity.this, "Konsultasi Sudah Berakhir",
+                                    Toast.LENGTH_LONG).show();
+
+
+                            handler.removeCallbacks(runnable);
+                            handler2.removeCallbacks(runnable2);
+
+                        }else{
+//                            int tutup = MesiboCall.MESIBOCALL_HANGUP_REASON_USER;
+                            Toast.makeText(ChatActivity.this, "Konsultasi Sudah Berakhir",
+                                    Toast.LENGTH_LONG).show();
+                            handler.removeCallbacks(runnable);
+                            handler2.removeCallbacks(runnable2);
+                        }
+                        startActivity(new Intent(ChatActivity.this,UlasanDokterActivity.class)
+                                .putExtra("id_transaksi",id_transaksi)
+                                .putExtra("nama",txtNamaDokter.getText().toString())
+                                .putExtra("spesialis",txtSpesialis.getText().toString())
+                                .putExtra("gambar",url_image)
+                        );
+                        finish();
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        handler.postDelayed(runnableKonsultasi,0);
+    }
+
+
 
 
 }

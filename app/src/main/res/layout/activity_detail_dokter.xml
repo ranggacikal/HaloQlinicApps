@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="270dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/ic_dokter_red" />
 
             <ImageView
                 android:id="@+id/img_back_detail_dokter"
