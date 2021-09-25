@@ -232,6 +232,13 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
 
         }
 
+//        Mesibo.setAppInForeground(this, 0, true);
+//        Mesibo.ReadDbSession mReadSession = new Mesibo.ReadDbSession("Putri Fidya", 0, null, this);
+//        mReadSession.enableReadReceipt(true);
+////        mReadSession.enableMissedCalls(mShowMissedCalls);
+//        mReadSession.read(100);
+//        Log.d("mReadSessionData", "toString: "+mReadSession.toString());
+
     }
 
     private void cekStatus(){
@@ -526,7 +533,8 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
     @Override
     public boolean Mesibo_onMessage(Mesibo.MessageParams messageParams, byte[] bytes) {
         try {
-
+            String data = messageParams.toString();
+            Log.d("dataMessage", "Mesibo_onMessage: "+bytes.toString());
 
         } catch (Exception e) {
         }

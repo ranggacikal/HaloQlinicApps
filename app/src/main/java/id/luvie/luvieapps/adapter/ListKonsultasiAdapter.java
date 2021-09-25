@@ -63,6 +63,9 @@ public class ListKonsultasiAdapter extends RecyclerView.Adapter<ListKonsultasiAd
 
                 Intent intent = new Intent(context, SummaryActivity.class);
                 intent.putExtra("id_transaksi", dataKonsultasi.get(position).getIdTransaksi());
+                intent.putExtra("token", dataKonsultasi.get(position).getToken());
+                intent.putExtra("nama_dokter", dataKonsultasi.get(position).getNama());
+                intent.putExtra("jadwal", dataKonsultasi.get(position).getJadwal());
                 context.startActivity(intent);
 
             }

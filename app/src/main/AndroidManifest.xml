@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-<!--    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>-->
 
     <application
         android:allowBackup="true"
@@ -20,6 +19,9 @@
         android:theme="@style/Theme.HaloQlinicApps"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon,android:theme">
+        <activity
+            android:name=".LihatHistoryKonsultasiActivity"
+            android:exported="true" />
         <activity
             android:name=".SummaryActivity"
             android:exported="true" />

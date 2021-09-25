@@ -166,6 +166,7 @@ public class HomeFragment extends Fragment {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getActivity(), JadwalKonsultasiActivity.class));
                     }
                 });
@@ -188,7 +189,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-        loadMenu();
+//        loadMenu();
         loadDokterOnline();
         loadMitraKlinik();
         loadArtikelHome();
@@ -197,22 +198,22 @@ public class HomeFragment extends Fragment {
         return rootview;
     }
 
-    private void loadMenu(){
-        String host = "https://luvie.co.id/android/customer/menu.php";
-        AndroidNetworking.get(host).setPriority(Priority.HIGH)
-                .build().getAsObject(MenuHome.class, new ParsedRequestListener<MenuHome>() {
-            @Override
-            public void onResponse(MenuHome response) {
-                MenuHomeAdapter adapter = new MenuHomeAdapter(getActivity(),response.getItems());
-                rv_menu.setAdapter(adapter);
-            }
-
-            @Override
-            public void onError(ANError anError) {
-                Toast.makeText(getActivity(), "Error: "+anError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void loadMenu(){
+//        String host = "https://luvie.co.id/android/customer/menu.php";
+//        AndroidNetworking.get(host).setPriority(Priority.HIGH)
+//                .build().getAsObject(MenuHome.class, new ParsedRequestListener<MenuHome>() {
+//            @Override
+//            public void onResponse(MenuHome response) {
+//                MenuHomeAdapter adapter = new MenuHomeAdapter(getActivity(),response.getItems());
+//                rv_menu.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onError(ANError anError) {
+//                Toast.makeText(getActivity(), "Error: "+anError.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void loadArtikelHome() {
 
